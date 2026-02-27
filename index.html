@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMA — Sistema de Gestión</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ -->
+<!--  PANTALLA DE AUTENTICACIÓN                     -->
+<!-- ══════════════════════════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-mark">F</div>
+      <div class="auth-logo-name">FORMA</div>
+      <div class="auth-logo-tag">Sistema de Gestión</div>
+    </div>
+    
+    <div class="auth-tab">
+      <div class="auth-tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Iniciar sesión</div>
+      <div class="auth-tab-btn" id="tab-registro" onclick="switchAuthTab('registro')">Registrarse</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="auth-login">
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" id="au-email" placeholder="tu@email.com" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="auth-field">
+        <label>Contraseña</label>
+        <input type="password" id="au-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="auth-btn" onclick="doLogin()">Entrar</button>
+      <div id="auth-login-msg" style="display:none" class="auth-msg"></div>
+    </div>
+
+    <!-- REGISTRO -->
+    <div id="auth-registro" style="display:none">
+      <div class="auth-field">
+        <label>Nombre completo</label>
+        <input id="au-rnom" placeholder="Tu nombre">
+      </div>
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" id="au-remail" placeholder="tu@email.com">
+      </div>
+      <div class="auth-field">
+        <label>Contraseña</label>
+        <input type="password" id="au-rpass" placeholder="Mínimo 6 caracteres">
+      </div>
+      <div class="auth-field">
+        <label>Repetir contraseña</label>
+        <input type="password" id="au-rpass2" placeholder="Repetir">
+      </div>
+      <button class="auth-btn" onclick="doRegistro()">Solicitar acceso</button>
+      <div id="auth-reg-msg" style="display:none" class="auth-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!--  APLICACIÓN PRINCIPAL                           -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="app">
+  
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="logo-mark">F</div>
+      <div class="logo-name">FORMA</div>
+      <div class="logo-tag">Gestión Integral</div>
+    </div>
+    
+    <nav class="sb-nav">
+      <div class="sb-section">Principal</div>
+      <div class="sb-item" id="nav-dashboard" onclick="go('dashboard')">
+        <i class="fa fa-chart-bar"></i><span>Dashboard</span>
+      </div>
+      
+      <div class="sb-section">Comercial</div>
+      <div class="sb-item" id="nav-leads" onclick="go('leads')">
+        <i class="fa fa-funnel-dollar"></i><span>Leads</span>
+      </div>
+      <div class="sb-item" id="nav-ventas" onclick="go('ventas')">
+        <i class="fa fa-address-book"></i><span>Ventas</span>
+      </div>
+      
+      <div class="sb-section">Operaciones</div>
+      <div class="sb-item" id="nav-gestion" onclick="go('gestion')">
+        <i class="fa fa-project-diagram"></i><span>Gestión</span>
+      </div>
+      <div class="sb-item" id="nav-diseno" onclick="go('diseno')">
+        <i class="fa fa-pen-nib"></i><span>Diseño</span>
+      </div>
+      
+      <div class="sb-section">Finanzas</div>
+      <div class="sb-item" id="nav-presupuestos" onclick="go('presupuestos')">
+        <i class="fa fa-file-invoice-dollar"></i><span>Presupuestos</span>
+      </div>
+      <div class="sb-item" id="nav-contable" onclick="go('contable')">
+        <i class="fa fa-coins"></i><span>Contable</span>
+      </div>
+      
+      <div class="sb-section" id="sb-sec-admin" style="display:none">Administración</div>
+      <div class="sb-item" id="nav-administracion" onclick="go('administracion')''" style="display:none">
+        <i class="fa fa-briefcase"></i><span>Gastos & RRHH</span>
+      </div>
+      <div class="sb-item" id="nav-financiero" onclick="go('financiero')''" style="display:none">
+        <i class="fa fa-chart-line"></i><span>Análisis Financiero</span>
+      </div>
+      <div class="sb-item" id="nav-usuarios" onclick="go('usuarios')''" style="display:none">
+        <i class="fa fa-users-cog"></i><span>Usuarios</span>
+      </div>
+    </nav>
+    
+    <div class="sb-user" style="cursor:pointer" onclick="doLogout()" title="Cerrar sesión">
+      <div class="sb-avatar" id="sb-avatar" style="background:var(--accent)">A</div>
+      <div style="flex:1;min-width:0">
+        <div class="sb-uname" id="sb-uname">Admin Sistema</div>
+        <div class="sb-urole" id="sb-urole">Acceso total</div>
+      </div>
+      <i class="fa fa-sign-out-alt" style="color:rgba(255,255,255,.3);font-size:12px"></i>
+    </div>
+  </aside>
+
+  <!-- ÁREA PRINCIPAL -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="sw">
+          <i class="fa fa-search si"></i>
+          <input type="text" id="search-q" placeholder="Buscar..." oninput="buscar(this.value)">
+        </div>
+      </div>
+      <div id="topbar-actions" style="display:flex;gap:8px"></div>
+    </div>
+    
+    <div class="content" id="content"></div>
+  </main>
+  
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!--  SCRIPTS                                        -->
+<!-- ══════════════════════════════════════════════ -->
+<script src="js/db.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
