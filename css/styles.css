@@ -1,3 +1,4 @@
+
 /* ══════════════════════════════════════════════
    FORMA — Sistema de Gestión
    Estilos profesionales separados
@@ -67,13 +68,21 @@ input, textarea, select {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface2);
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--ink4);
-  border-radius: 5px;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink3);
 }
 
 /* ── PRINT STYLES ── */
@@ -1547,3 +1556,4 @@ tbody tr {
   font-size: 11px;
   font-weight: 600;
 }
+  

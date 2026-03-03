@@ -3,128 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FORMA — Sistema de Gestión</title>
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  
-  <!-- Estilos -->
+  <title>FORMA</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════ -->
-<!--  PANTALLA DE AUTENTICACIÓN                     -->
-<!-- ══════════════════════════════════════════════ -->
-<div id="auth-screen">
+<!-- PANTALLA DE AUTENTICACIÓN -->
+<div id="auth-screen" style="display:none">
   <div class="auth-box">
     <div class="auth-logo">
       <div class="auth-logo-mark">F</div>
       <div class="auth-logo-name">FORMA</div>
       <div class="auth-logo-tag">Sistema de Gestión</div>
     </div>
-    
     <div class="auth-tab">
-      <div class="auth-tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Iniciar sesión</div>
-      <div class="auth-tab-btn" id="tab-registro" onclick="switchAuthTab('registro')">Registrarse</div>
+      <div class="auth-tab-btn active" id="tab-login" onclick="window.switchAuthTab&&switchAuthTab('login')">Iniciar sesión</div>
+      <div class="auth-tab-btn" id="tab-registro" onclick="window.switchAuthTab&&switchAuthTab('registro')">Registrarse</div>
     </div>
-
-    <!-- LOGIN -->
     <div id="auth-login">
-      <div class="auth-field">
-        <label>Email</label>
-        <input type="email" id="au-email" placeholder="tu@email.com" onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <div class="auth-field">
-        <label>Contraseña</label>
-        <input type="password" id="au-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <button class="auth-btn" onclick="doLogin()">Entrar</button>
+      <div class="auth-field"><label>Email</label><input type="email" id="au-email" placeholder="tu@email.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="auth-field"><label>Contraseña</label><input type="password" id="au-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="auth-btn" onclick="window.doLogin&&doLogin()">Entrar</button>
       <div id="auth-login-msg" style="display:none" class="auth-msg"></div>
     </div>
-
-    <!-- REGISTRO -->
     <div id="auth-registro" style="display:none">
-      <div class="auth-field">
-        <label>Nombre completo</label>
-        <input id="au-rnom" placeholder="Tu nombre">
-      </div>
-      <div class="auth-field">
-        <label>Email</label>
-        <input type="email" id="au-remail" placeholder="tu@email.com">
-      </div>
-      <div class="auth-field">
-        <label>Contraseña</label>
-        <input type="password" id="au-rpass" placeholder="Mínimo 6 caracteres">
-      </div>
-      <div class="auth-field">
-        <label>Repetir contraseña</label>
-        <input type="password" id="au-rpass2" placeholder="Repetir">
-      </div>
-      <button class="auth-btn" onclick="doRegistro()">Solicitar acceso</button>
+      <div class="auth-field"><label>Nombre completo</label><input id="au-rnom" placeholder="Tu nombre"></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="au-remail" placeholder="tu@email.com"></div>
+      <div class="auth-field"><label>Contraseña</label><input type="password" id="au-rpass" placeholder="Mínimo 6 caracteres"></div>
+      <div class="auth-field"><label>Repetir contraseña</label><input type="password" id="au-rpass2" placeholder="Repetir"></div>
+      <button class="auth-btn" onclick="window.doRegistro&&doRegistro()">Solicitar acceso</button>
       <div id="auth-reg-msg" style="display:none" class="auth-msg"></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!--  APLICACIÓN PRINCIPAL                           -->
-<!-- ══════════════════════════════════════════════ -->
+<!-- APLICACIÓN PRINCIPAL -->
 <div class="app">
-  
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-logo">
       <div class="logo-mark">F</div>
       <div class="logo-name">FORMA</div>
       <div class="logo-tag">Gestión Integral</div>
     </div>
-    
     <nav class="sb-nav">
       <div class="sb-section">Principal</div>
-      <div class="sb-item" id="nav-dashboard" onclick="go('dashboard')">
-        <i class="fa fa-chart-bar"></i><span>Dashboard</span>
-      </div>
-      
+      <div class="sb-item" id="nav-dashboard" onclick="go('dashboard')"><i class="fa fa-chart-bar"></i><span>Dashboard</span></div>
       <div class="sb-section">Comercial</div>
-      <div class="sb-item" id="nav-leads" onclick="go('leads')">
-        <i class="fa fa-funnel-dollar"></i><span>Leads</span>
-      </div>
-      <div class="sb-item" id="nav-ventas" onclick="go('ventas')">
-        <i class="fa fa-address-book"></i><span>Ventas</span>
-      </div>
-      
+      <div class="sb-item" id="nav-leads" onclick="go('leads')"><i class="fa fa-funnel-dollar"></i><span>Leads</span></div>
+      <div class="sb-item" id="nav-ventas" onclick="go('ventas')"><i class="fa fa-address-book"></i><span>Ventas</span></div>
+      <div class="sb-item" id="nav-agente" onclick="go('agente')"><i class="fa fa-phone"></i><span>Agente Ventas</span></div>
       <div class="sb-section">Operaciones</div>
-      <div class="sb-item" id="nav-gestion" onclick="go('gestion')">
-        <i class="fa fa-project-diagram"></i><span>Gestión</span>
-      </div>
-      <div class="sb-item" id="nav-diseno" onclick="go('diseno')">
-        <i class="fa fa-pen-nib"></i><span>Diseño</span>
-      </div>
-      
+      <div class="sb-item" id="nav-gestion" onclick="go('gestion')" style="position:relative"><i class="fa fa-project-diagram"></i><span>Gestión</span><span id="badge-gestion" style="display:none;position:absolute;top:6px;right:6px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid var(--sidebar-bg,#1a1a2e)"></span></div>
+      <div class="sb-item" id="nav-diseno" onclick="go('diseno')"><i class="fa fa-pen-nib"></i><span>Diseño</span></div>
       <div class="sb-section">Finanzas</div>
-      <div class="sb-item" id="nav-presupuestos" onclick="go('presupuestos')">
-        <i class="fa fa-file-invoice-dollar"></i><span>Presupuestos</span>
-      </div>
-      <div class="sb-item" id="nav-contable" onclick="go('contable')">
-        <i class="fa fa-coins"></i><span>Contable</span>
-      </div>
-      
-      <div class="sb-section" id="sb-sec-admin" style="display:none">Administración</div>
-      <div class="sb-item" id="nav-administracion" onclick="go('administracion')''" style="display:none">
-        <i class="fa fa-briefcase"></i><span>Gastos & RRHH</span>
-      </div>
-      <div class="sb-item" id="nav-financiero" onclick="go('financiero')''" style="display:none">
-        <i class="fa fa-chart-line"></i><span>Análisis Financiero</span>
-      </div>
-      <div class="sb-item" id="nav-usuarios" onclick="go('usuarios')''" style="display:none">
-        <i class="fa fa-users-cog"></i><span>Usuarios</span>
-      </div>
+      <div class="sb-item" id="nav-presupuestos" onclick="go('presupuestos')"><i class="fa fa-file-invoice-dollar"></i><span>Presupuestos</span></div>
+      <div class="sb-item" id="nav-contable" onclick="go('contable')"><i class="fa fa-coins"></i><span>Contable</span></div>
+      <div class="sb-item" id="nav-financiero" onclick="go('financiero')" style="display:none"><i class="fa fa-chart-line"></i><span>Análisis Financiero</span></div>
+      <div class="sb-item" id="nav-usuarios" onclick="go('usuarios')" style="display:none"><i class="fa fa-users-cog"></i><span>Usuarios</span></div>
     </nav>
-    
     <div class="sb-user" style="cursor:pointer" onclick="doLogout()" title="Cerrar sesión">
       <div class="sb-avatar" id="sb-avatar" style="background:var(--accent)">A</div>
       <div style="flex:1;min-width:0">
@@ -134,32 +72,1281 @@
       <i class="fa fa-sign-out-alt" style="color:rgba(255,255,255,.3);font-size:12px"></i>
     </div>
   </aside>
-
-  <!-- ÁREA PRINCIPAL -->
   <main class="main">
     <div class="topbar">
       <div class="topbar-left">
         <div class="topbar-title" id="topbar-title">Dashboard</div>
-        <div class="sw">
-          <i class="fa fa-search si"></i>
-          <input type="text" id="search-q" placeholder="Buscar..." oninput="buscar(this.value)">
-        </div>
+        <div class="sw"><i class="fa fa-search si"></i><input type="text" id="search-q" placeholder="Buscar..." oninput="buscar(this.value)"></div>
       </div>
       <div id="topbar-actions" style="display:flex;gap:8px"></div>
     </div>
-    
     <div class="content" id="content"></div>
   </main>
-  
 </div>
 
-<!-- ══════════════════════════════════════════════ -->
-<!--  SCRIPTS                                        -->
-<!-- ══════════════════════════════════════════════ -->
-<script src="js/db.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/navigation.js"></script>
-<script src="js/app.js"></script>
 
+<!-- MODALES (contenedores - el JS inyecta el contenido) -->
+<!-- Modal Lead -->
+<!-- Modal Nuevo / Editar Contacto CRM -->
+<div id="m-lead" class="overlay">
+  <div class="modal modal-lg" style="max-width:760px;width:95vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="m-lead-title">Nuevo Contacto</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Completá los datos del contacto</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-lead')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px;max-height:74vh;overflow-y:auto">
+
+      <!-- Datos personales -->
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">
+        <i class="fa fa-user" style="margin-right:5px"></i>Datos de contacto
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Nombre completo *</label>
+        <input id="l-nom" placeholder="Nombre y apellido">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>Teléfono</label><input id="l-tel" placeholder="+54 9 388..."></div>
+        <div class="field"><label>Email</label><input type="email" id="l-email" placeholder="email@ejemplo.com"></div>
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Dirección</label>
+        <input id="l-loc" placeholder="Ciudad, Provincia">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>Empresa</label><input id="l-emp" placeholder="Nombre de la empresa"></div>
+        <div class="field"><label>Puesto</label><input id="l-cargo" placeholder="Cargo o rol"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px">
+        <div class="field"><label>Origen</label>
+          <select id="l-origen">
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Referido">Referido</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Web">Web</option>
+            <option value="Llamada">Llamada</option>
+          </select>
+        </div>
+        <div class="field"><label>Categoría</label>
+          <select id="l-cat">
+            <option value="Particular">Particular</option>
+            <option value="Empresa">Empresa</option>
+            <option value="Profesional">Profesional</option>
+            <option value="Proveedores">Proveedores</option>
+            <option value="Institución">Institución</option>
+          </select>
+        </div>
+        <div class="field"><label>Estado</label>
+          <select id="l-status">
+            <option value="Pendiente">Pendiente</option>
+            <option value="Contactado">Contactado</option>
+            <option value="Visita Agendada">Visita Agendada ⭐</option>
+            <option value="En seguimiento">En seguimiento</option>
+            <option value="Activo">Activo</option>
+            <option value="Cerrado">Cerrado</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Datos bancarios -->
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">
+        <i class="fa fa-university" style="margin-right:5px"></i>Datos bancarios <span style="font-size:9px;font-weight:400;text-transform:none">(opcional — para proveedores)</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>CUIT/CUIL</label><input id="l-cuit" placeholder="20-00000000-0"></div>
+        <div class="field"><label>CBU</label><input id="l-cbu" placeholder="0110..."></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+        <div class="field"><label>Alias CBU</label><input id="l-alias" placeholder="NOMBRE.APELLIDO"></div>
+        <div class="field"><label>Banco</label><input id="l-banco" placeholder="Banco Nación..."></div>
+      </div>
+
+      <!-- Notas -->
+      <div class="field">
+        <label>Notas</label>
+        <textarea id="l-notas" rows="3" placeholder="Observaciones, intereses, detalles importantes..."></textarea>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <div id="lead-delete-btn" style="display:none">
+        <button class="btn btn-danger" onclick="eliminarContacto()"><i class="fa fa-trash"></i> Eliminar</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-lead')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarLead()">
+          <i class="fa fa-save"></i> <span id="lead-btn-label">Guardar Contacto</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detalle (Lead/Proyecto) -->
+<div id="m-detalle" class="overlay">
+  <div class="modal modal-lg">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="det-title"></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:2px" id="det-sub"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-secondary btn-sm" id="det-edit-btn"><i class="fa fa-edit"></i> Editar</button>
+        <div class="modal-close" onclick="cerrar('m-detalle')"><i class="fa fa-times"></i></div>
+      </div>
+    </div>
+    <div class="modal-bd" id="det-body"></div>
+  </div>
+</div>
+
+<!-- Modal Importar Contactos CRM -->
+<div id="m-importar" class="overlay">
+  <div class="modal" style="max-width:600px;width:93vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title">Importar Contactos</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Importá desde CSV o archivo de texto</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-importar')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:24px">
+      <input type="hidden" id="crm-imp-step" value="1">
+
+      <!-- Paso 1: Subir archivo -->
+      <div id="crm-imp-step1">
+        <!-- Zona drag & drop -->
+        <div id="crm-imp-dropzone"
+          style="border:2px dashed var(--border);border-radius:var(--r-lg);padding:46px 24px;text-align:center;background:var(--surface);cursor:pointer;transition:border-color .2s;margin-bottom:20px"
+          onclick="document.getElementById('crm-imp-file-input').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+          ondragleave="this.style.borderColor='var(--border)'"
+          ondrop="event.preventDefault();this.style.borderColor='var(--border)';crmImportarCSV(event.dataTransfer.files)">
+          <i class="fa fa-file-import" style="font-size:38px;color:var(--ink4);display:block;margin-bottom:14px"></i>
+          <div style="font-size:15px;font-weight:600;color:var(--ink2);margin-bottom:8px">Arrastrá tu archivo aquí</div>
+          <div style="font-size:12px;color:var(--ink4);margin-bottom:16px">o hacé click para seleccionar</div>
+          <div style="font-size:11px;color:var(--ink4);margin-bottom:16px">Formatos: .txt, .csv (separado por tabulaciones)</div>
+          <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();document.getElementById('crm-imp-file-input').click()">
+            <i class="fa fa-folder-open"></i> Seleccionar Archivo
+          </button>
+          <input type="file" id="crm-imp-file-input" accept=".txt,.csv,.tsv"
+            style="display:none" onchange="crmImportarCSV(this.files)">
+        </div>
+
+        <!-- Instrucciones -->
+        <div style="background:var(--surface2);border-radius:var(--r);padding:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:10px">
+            <i class="fa fa-info-circle" style="color:var(--accent)"></i> Formato esperado
+          </div>
+          <div style="font-size:12px;color:var(--ink3);line-height:1.8">
+            • Columna 1: Cualquier dato (se ignora)<br>
+            • Columna 2: <strong>Teléfono</strong><br>
+            • Columna 3: <strong>Nombre</strong> (puede incluir puesto, ej: "Juan — Arquitecto")<br>
+            • Primera fila: Encabezado (se omite automáticamente)<br>
+            • El sistema detecta automáticamente empresa, puesto y categoría
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2: Resultado (se muestra tras importar) -->
+      <div id="crm-imp-step2" style="display:none;text-align:center;padding:20px 0">
+        <i class="fa fa-check-circle" style="font-size:48px;color:var(--green);display:block;margin-bottom:16px"></i>
+        <div style="font-size:18px;font-weight:700;color:var(--ink1);margin-bottom:8px">¡Importación exitosa!</div>
+        <div id="crm-imp-resultado" style="font-size:14px;color:var(--ink3)"></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-importar')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Timeline -->
+<div id="m-timeline" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title">Registrar actividad</div>
+      <div class="modal-close" onclick="cerrar('m-timeline')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div class="field"><label>Tipo</label>
+        <select id="tl-tipo"><option value="llamada">Llamada</option><option value="reunion">Reunión</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="nota">Nota</option></select></div>
+      <div class="field"><label>Fecha</label><input type="date" id="tl-fecha"></div>
+      <div class="field"><label>Nota</label><textarea id="tl-nota" rows="3" placeholder="¿Qué se habló?"></textarea></div>
+      <div class="field"><label>Próxima acción</label><input id="tl-prox" placeholder="Ej: Llamar el lunes"></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-timeline')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarTL()"><i class="fa fa-check"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Proyecto -->
+<!-- Modal Nuevo / Editar Proyecto -->
+<div id="m-proyecto" class="overlay">
+  <div class="modal modal-lg" style="max-width:760px;width:95vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="m-proy-title">Nuevo Proyecto</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Completá los campos para registrar el proyecto</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-proyecto')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px;max-height:72vh;overflow-y:auto">
+      <!-- Nombre -->
+      <div class="field" style="margin-bottom:14px">
+        <label>Nombre del proyecto *</label>
+        <input id="p-nom" placeholder="Ej: Oficina Tech Solutions">
+      </div>
+      <!-- Cliente / Empresa -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>Cliente *</label><input id="p-cli" placeholder="Nombre del cliente"></div>
+        <div class="field"><label>Empresa <span style="font-size:10px;color:var(--ink3)">(opcional)</span></label><input id="p-emp" placeholder="Nombre de la empresa"></div>
+      </div>
+      <!-- CUIT / Tel -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>CUIT</label><input id="p-cuit" placeholder="30-00000000-0"></div>
+        <div class="field"><label>Teléfono</label><input id="p-tel" placeholder="+54 9 388..."></div>
+      </div>
+      <!-- Email -->
+      <div class="field" style="margin-bottom:14px">
+        <label>Email</label><input type="email" id="p-email" placeholder="email@empresa.com">
+      </div>
+      <!-- Categoría / Tipo / Área / Estado -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>Categoría</label>
+          <select id="p-cat">
+            <option value="Oficina">Oficina</option>
+            <option value="Hogar">Hogar</option>
+            <option value="Comercio">Comercio</option>
+            <option value="Gastronómico">Gastronómico</option>
+          </select>
+        </div>
+        <div class="field"><label>Tipo de Proyecto</label>
+          <select id="p-tipo">
+            <option value="Diseño integral">Diseño integral</option>
+            <option value="Equipamiento">Equipamiento</option>
+            <option value="Renovación">Renovación</option>
+            <option value="Consultoría">Consultoría</option>
+          </select>
+        </div>
+        <div class="field"><label>Área</label>
+          <select id="p-area">
+            <option value="gestion">Gestión</option>
+            <option value="diseño">Diseño</option>
+            <option value="arquitectura">Arquitectura</option>
+          </select>
+        </div>
+        <div class="field"><label>Estado</label>
+          <select id="p-status">
+            <option value="relevamiento">Relevamiento</option>
+            <option value="presupuestar">Presupuestar ⚡ (crea ppto.)</option>
+            <option value="En proceso">En proceso</option>
+            <option value="completado">Completado</option>
+            <option value="cancelado">Cancelado 🗑️ (elimina proyecto)</option>
+          </select>
+        </div>
+      </div>
+      <!-- Fecha -->
+      <div class="field" style="margin-bottom:14px">
+        <label>Fecha límite</label>
+        <input type="date" id="p-fecha">
+      </div>
+      <!-- Descripción -->
+      <div class="field" style="margin-bottom:14px">
+        <label>Brief / Descripción</label>
+        <textarea id="p-desc" rows="3" placeholder="Descripción del proyecto..."></textarea>
+      </div>
+      <!-- Relevamiento -->
+      <div class="field" style="margin-bottom:0">
+        <label>Relevamiento <span style="font-size:10px;color:var(--ink3)">(notas técnicas)</span></label>
+        <textarea id="p-relev" rows="3" placeholder="Datos del relevamiento: medidas, materiales, observaciones..."></textarea>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <div id="proy-delete-btn" style="display:none">
+        <button class="btn btn-danger" onclick="eliminarProyectoCascada(editProjId)">
+          <i class="fa fa-trash"></i> Eliminar Proyecto
+        </button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-proyecto')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarProyecto()">
+          <i class="fa fa-save"></i> <span id="proy-btn-label">Guardar Proyecto</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Archivos del Proyecto -->
+<div id="m-proy-archivos" class="overlay">
+  <div class="modal" style="max-width:580px;width:92vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title">Archivos del Proyecto</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="proy-arch-sub">—</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-proy-archivos')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px">
+      <!-- Zona drag & drop -->
+      <div id="proy-dropzone"
+        style="border:2px dashed var(--border);border-radius:var(--r-lg);padding:38px 24px;text-align:center;background:var(--surface);cursor:pointer;transition:border-color .2s;margin-bottom:20px"
+        onclick="document.getElementById('proy-file-input').click()"
+        ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+        ondragleave="this.style.borderColor='var(--border)'"
+        ondrop="proyDrop(event)">
+        <i class="fa fa-cloud-upload-alt" style="font-size:36px;color:var(--ink4);margin-bottom:12px;display:block"></i>
+        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">Arrastrá archivos aquí o hacé click</div>
+        <div style="font-size:11px;color:var(--ink4)">PDF, JPG, PNG, DWG, DXF, XLS, XLSX, DOC, DOCX · Máx. 50MB</div>
+        <button class="btn btn-secondary btn-sm" style="margin-top:14px"
+          onclick="event.stopPropagation();document.getElementById('proy-file-input').click()">
+          <i class="fa fa-folder-open"></i> Seleccionar Archivos
+        </button>
+        <input type="file" id="proy-file-input"
+          accept=".pdf,.jpg,.jpeg,.png,.dwg,.dxf,.xls,.xlsx,.doc,.docx"
+          multiple style="display:none"
+          onchange="proyAgregarArchivos(this.files)">
+      </div>
+      <!-- Contador + lista -->
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:10px" id="proy-arch-count">Archivos adjuntos (0)</div>
+      <div id="proy-arch-lista"
+        style="max-height:220px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+      </div>
+      <!-- Banner 60 días -->
+      <div style="margin-top:16px;padding:10px 14px;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--r);display:flex;gap:10px;align-items:flex-start">
+        <i class="fa fa-exclamation-triangle" style="color:#856404;margin-top:2px;flex-shrink:0"></i>
+        <span style="font-size:11px;color:#856404">Recordatorio: Los archivos se eliminan automáticamente del servidor a los 60 días para optimizar el espacio de almacenamiento.</span>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-proy-archivos')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Diseño -->
+<!-- Modal Nueva / Editar Solicitud de Diseño -->
+<div id="m-diseno" class="overlay">
+  <div class="modal" style="max-width:700px;width:95vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="m-dis-title">Nueva Solicitud de Diseño</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Completá los campos para registrar la solicitud</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-diseno')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px;max-height:72vh;overflow-y:auto">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field"><label>Proyecto *</label><select id="d-proy"></select></div>
+        <div class="field"><label>Tipo de Diseño *</label>
+          <select id="d-tipo">
+            <option value="Logo">Logo</option>
+            <option value="Branding">Branding</option>
+            <option value="Planos">Planos</option>
+            <option value="3D">Renders 3D</option>
+            <option value="Presentación">Presentación</option>
+            <option value="Señalética">Señalética</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="field"><label>Prioridad</label>
+          <select id="d-prioridad">
+            <option value="Media" selected>Media</option>
+            <option value="Alta">Alta</option>
+            <option value="Baja">Baja</option>
+          </select>
+        </div>
+        <div class="field"><label>Fecha de entrega *</label><input type="date" id="d-fecha"></div>
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Responsable</label>
+        <input id="d-responsable" placeholder="Equipo de Diseño" value="Equipo de Diseño">
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Brief — Resumen *</label>
+        <textarea id="d-brief" rows="3" placeholder="Resumen breve del trabajo a realizar..."></textarea>
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Descripción completa</label>
+        <textarea id="d-descripcion" rows="4" placeholder="Detalles completos del proyecto de diseño..."></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="field">
+          <label>Requerimientos <span style="font-size:10px;color:var(--ink3)">(separados por coma)</span></label>
+          <textarea id="d-requerimientos" rows="2" placeholder="Ej: Logo en formato vectorial, Versión B/N, Manual de marca"></textarea>
+        </div>
+        <div class="field">
+          <label>Entregables <span style="font-size:10px;color:var(--ink3)">(separados por coma)</span></label>
+          <textarea id="d-entregables" rows="2" placeholder="Ej: Archivos AI, PDF alta res, PNG transparente"></textarea>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Referencias visuales</label>
+        <textarea id="d-referencias" rows="2" placeholder="Links, descripciones de estilos, moodboard..."></textarea>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <div id="dis-delete-btn" style="display:none">
+        <button class="btn btn-danger" onclick="eliminarSolicitud()"><i class="fa fa-trash"></i> Eliminar</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-diseno')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarDiseno()"><i class="fa fa-save"></i> <span id="dis-btn-label">Crear Solicitud</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detalle Solicitud -->
+<div id="m-dis-detalle" class="overlay">
+  <div class="modal" style="max-width:800px;width:95vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="m-dis-det-title">Solicitud de Diseño</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="m-dis-det-sub">—</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-dis-detalle')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" id="dis-detalle-body" style="padding:0;max-height:78vh;overflow-y:auto"></div>
+    <div class="modal-ft">
+      <div style="display:flex;gap:8px;width:100%;justify-content:space-between;align-items:center">
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="editarSolicitudDesde()"><i class="fa fa-edit"></i> Editar</button>
+          <button class="btn btn-secondary btn-sm" onclick="abrirCambiarEstado()"><i class="fa fa-check-circle"></i> Cambiar estado</button>
+          <button class="btn btn-secondary btn-sm" onclick="abrirSubirArchivos()"><i class="fa fa-upload"></i> Subir archivos</button>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="cerrar('m-dis-detalle')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cambiar Estado -->
+<div id="m-dis-estado" class="overlay">
+  <div class="modal" style="max-width:420px;width:92vw">
+    <div class="modal-hd">
+      <div class="modal-title">Cambiar Estado</div>
+      <div class="modal-close" onclick="cerrar('m-dis-estado')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px">
+      <div style="margin-bottom:14px">
+        <div style="font-size:14px;font-weight:700" id="dis-est-nombre">—</div>
+        <div style="font-size:12px;color:var(--ink3);margin-top:4px">Estado actual: <span id="dis-est-actual" class="badge b-gray" style="font-size:11px">—</span></div>
+      </div>
+      <div class="field">
+        <label>Nuevo Estado</label>
+        <select id="dis-nuevo-estado">
+          <option value="pendiente">Pendiente</option>
+          <option value="En proceso">En proceso</option>
+          <option value="completado">Completado</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-dis-estado')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarEstadoSolicitud()"><i class="fa fa-save"></i> Guardar Cambio</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Subir Archivos -->
+<div id="m-dis-archivos" class="overlay">
+  <div class="modal" style="max-width:560px;width:92vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title">Subir Archivos</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="dis-arch-sub">—</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-dis-archivos')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px">
+      <!-- Zona drag & drop -->
+      <div id="dis-dropzone"
+        style="border:2px dashed var(--border);border-radius:var(--r-lg);padding:40px 24px;text-align:center;background:var(--surface);cursor:pointer;transition:border-color .2s;margin-bottom:20px"
+        onclick="document.getElementById('dis-file-input').click()"
+        ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+        ondragleave="this.style.borderColor='var(--border)'"
+        ondrop="disDrop(event)">
+        <i class="fa fa-cloud-upload-alt" style="font-size:36px;color:var(--ink4);margin-bottom:12px;display:block"></i>
+        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">Arrastrá archivos aquí o hacé click para seleccionar</div>
+        <div style="font-size:11px;color:var(--ink4)">PDF, JPG, PNG, AI, PSD, DWG, SVG · Máx. 50MB por archivo</div>
+        <button class="btn btn-secondary btn-sm" style="margin-top:14px" onclick="event.stopPropagation();document.getElementById('dis-file-input').click()">
+          <i class="fa fa-folder-open"></i> Seleccionar Archivos
+        </button>
+        <input type="file" id="dis-file-input" accept=".pdf,.jpg,.jpeg,.png,.ai,.psd,.dwg,.svg" multiple style="display:none" onchange="disAgregarArchivos(this.files)">
+      </div>
+
+      <!-- Lista archivos -->
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:10px" id="dis-arch-count">Archivos adjuntos (0)</div>
+      <div id="dis-arch-lista" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:0"></div>
+
+      <!-- Banner 60 días -->
+      <div style="margin-top:16px;padding:10px 14px;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--r);display:flex;gap:10px;align-items:flex-start">
+        <i class="fa fa-exclamation-triangle" style="color:#856404;margin-top:2px;flex-shrink:0"></i>
+        <span style="font-size:11px;color:#856404">Recordatorio: Los archivos se eliminan automáticamente del servidor a los 60 días para optimizar el espacio de almacenamiento.</span>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-dis-archivos')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Oportunidad de Ventas -->
+<div id="m-oportunidad" class="overlay">
+  <div class="modal modal-lg" style="max-width:820px;width:96vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="opp-title">Nueva Oportunidad</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Seguimiento de oportunidad de venta</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-oportunidad')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:0;max-height:80vh;overflow:hidden;display:flex">
+
+      <!-- Columna izquierda: datos -->
+      <div style="flex:1;padding:20px;overflow-y:auto;border-right:1px solid var(--border)">
+
+        <!-- Etapa -->
+        <div class="field" style="margin-bottom:16px">
+          <label>Etapa del pipeline</label>
+          <select id="opp-etapa" style="font-weight:700">
+            <option value="prospecto">🔍 Prospecto</option>
+            <option value="contactado">📞 Contactado</option>
+            <option value="presentacion">📨 Presentación enviada</option>
+            <option value="visita">📅 Visita agendada</option>
+            <option value="relevamiento">📐 Relevamiento</option>
+            <option value="propuesta">📋 Propuesta enviada</option>
+            <option value="cerrado">🏆 Cerrado ✓</option>
+            <option value="perdido">❌ Perdido</option>
+          </select>
+        </div>
+
+        <!-- Nombre y empresa -->
+        <div class="field" style="margin-bottom:14px">
+          <label>Nombre de la oportunidad *</label>
+          <input id="opp-nombre" placeholder="Ej: Equipamiento oficina Tech Solutions">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="field"><label>Empresa</label><input id="opp-empresa" placeholder="Nombre de la empresa"></div>
+          <div class="field"><label>Contacto</label><input id="opp-contacto" placeholder="Nombre del contacto"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="field"><label>Teléfono / WhatsApp</label><input id="opp-tel" placeholder="+54 9 388..."></div>
+          <div class="field"><label>Email</label><input type="email" id="opp-email" placeholder="email@empresa.com"></div>
+        </div>
+
+        <!-- Valor y próxima acción -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="field">
+            <label>Valor estimado ($)</label>
+            <input type="number" id="opp-valor" placeholder="0" min="0">
+          </div>
+          <div class="field">
+            <label>Próxima acción</label>
+            <input type="date" id="opp-prox-accion">
+          </div>
+        </div>
+
+        <!-- Notas -->
+        <div class="field" style="margin-bottom:14px">
+          <label>Notas</label>
+          <textarea id="opp-notas" rows="3" placeholder="Brief, intereses, detalles del proyecto..."></textarea>
+        </div>
+
+        <!-- Accesos rápidos -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:var(--surface2);border-radius:var(--r);margin-bottom:0">
+          <div style="font-size:11px;font-weight:700;color:var(--ink3);width:100%;margin-bottom:4px">ACCIONES RÁPIDAS</div>
+          <button class="btn btn-secondary btn-sm" onclick="if(document.getElementById('opp-tel').value){window.open('https://wa.me/'+document.getElementById('opp-tel').value.replace(/\\D/g,''))}else{alert('Cargá el teléfono primero')}">
+            <i class="fa fa-whatsapp" style="color:#25d366"></i> Abrir WhatsApp
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="transferirAGestion(editOppId)" id="opp-btn-gestion" style="color:var(--accent)">
+            <i class="fa fa-arrow-right"></i> Transferir a Gestión
+          </button>
+        </div>
+      </div>
+
+      <!-- Columna derecha: actividades -->
+      <div id="opp-col-actividades" style="width:320px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:var(--ink2)">
+          <i class="fa fa-history" style="margin-right:6px;color:var(--accent)"></i>ACTIVIDADES
+        </div>
+
+        <!-- Nueva actividad -->
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+            <select id="opp-act-tipo" style="font-size:12px;padding:6px 8px">
+              <option value="llamada">📞 Llamada</option>
+              <option value="whatsapp">💬 WhatsApp</option>
+              <option value="reunion">🤝 Reunión</option>
+              <option value="email">📧 Email</option>
+              <option value="visita">📍 Visita</option>
+              <option value="nota">📝 Nota</option>
+            </select>
+            <input type="date" id="opp-act-fecha" style="font-size:12px">
+          </div>
+          <textarea id="opp-act-nota" rows="2" placeholder="¿Qué pasó? ¿Qué se acordó?..." style="font-size:12px;width:100%;resize:none"></textarea>
+          <button class="btn btn-primary btn-sm" onclick="guardarActividadOpp()" style="width:100%;margin-top:6px">
+            <i class="fa fa-plus"></i> Registrar actividad
+          </button>
+        </div>
+
+        <!-- Lista de actividades -->
+        <div id="opp-actividades-body" style="flex:1;overflow-y:auto;padding:8px 16px">
+          <div style="padding:12px;text-align:center;color:var(--ink4);font-size:12px">Sin actividades aún</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-ft">
+      <div id="opp-delete-btn" style="display:none">
+        <button class="btn btn-danger" onclick="eliminarOportunidad(editOppId)"><i class="fa fa-trash"></i> Eliminar</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-oportunidad')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarOportunidad()"><i class="fa fa-save"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Presupuesto -->
+
+<!-- Modal Detalle Presupuesto (tabs: Presentación / Análisis / Pagos) -->
+<div id="m-ppto-detalle" class="overlay">
+  <div class="modal" style="max-width:1300px;width:98vw;max-height:96vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
+    <div id="ppto-detalle-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column"></div>
+  </div>
+</div>
+
+<div id="m-presupuesto" class="overlay">
+  <div class="modal" style="max-width:1400px;width:98vw;max-height:96vh;overflow:hidden;display:flex;flex-direction:column">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="m-ppto-title">Presupuesto</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:2px" id="m-ppto-num"></div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-presupuesto')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:0;overflow-y:auto;max-height:82vh;flex:1">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;padding:18px 24px;border-bottom:1px solid var(--border)">
+        <div class="field"><label>Proyecto</label><select id="pp-proyecto" onchange="autoFillClientePpto()"></select></div>
+        <div class="field"><label>Cliente</label><input id="pp-cliente" placeholder="Nombre del cliente"></div>
+        <div class="field"><label>CUIT</label><input id="pp-cuit" placeholder="30-00000000-0"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="pp-fecha"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:12px 20px;border-bottom:1px solid var(--border)">
+        <div class="field"><label>Tipo Factura</label>
+          <select id="pp-factura"><option value="A">Factura A</option><option value="B">Factura B</option><option value="C">Factura C</option></select></div>
+        <div class="field"><label>Estado</label>
+          <select id="pp-status"><option value="borrador">Borrador</option><option value="enviado">Enviado</option><option value="aprobado">Aprobado</option><option value="rechazado">Rechazado</option></select></div>
+        <div class="field"><label>Descuento global %</label><input type="number" id="pp-dto" value="0" min="0" max="100" oninput="recalcPpto()"></div>
+      </div>
+      <!-- Items -->
+      <div style="padding:12px 20px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+
+          <button class="btn btn-primary btn-sm" onclick="agregarItem()"><i class="fa fa-plus"></i> Ítem</button>
+        </div>
+        <div class="tbl-wrap" style="border:none;overflow-x:auto">
+          <table style="min-width:900px">
+            <thead><tr style="background:#1c1c1a;color:#fff">
+              <th style="width:32px;padding:10px 8px;font-size:11px">#</th>
+              <th style="padding:10px 8px;font-size:12px;min-width:200px">Descripción</th>
+              <th style="padding:10px 8px;font-size:12px;min-width:120px;text-align:right">Costo unit.</th>
+              <th style="padding:10px 8px;font-size:12px;text-align:center" title="El flete incluye IVA 10.5% (transporte de carga)">Flete% <i class="fa fa-info-circle" style="font-size:10px;color:var(--amber);opacity:.7"></i></th>
+              <th style="padding:10px 8px;font-size:12px;text-align:center">Margen%</th>
+              <th style="padding:10px 8px;font-size:12px;text-align:center">Cant.</th>
+              <th style="padding:10px 8px;font-size:11px;text-align:right">C+F+S</th>
+              <th style="padding:10px 8px;font-size:11px;text-align:right">P.Neto</th>
+              <th style="padding:10px 8px;font-size:12px;text-align:center">IVA%</th>
+              <th style="padding:10px 8px;font-size:12px;text-align:center">IIBB%</th>
+              <th style="padding:10px 8px;font-size:11px;text-align:right">P.Final</th>
+              <th style="padding:10px 8px;font-size:12px;text-align:right">Total línea</th>
+              <th style="width:36px"></th>
+            </tr></thead>
+            <tbody id="ppto-items-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Resumen -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--border)">
+        <div style="padding:16px 20px;border-right:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Estructura de costos</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+            <span style="color:var(--ink3)">Costo productos</span><span id="r-compra" style="font-weight:600;text-align:right">$0</span>
+            <span style="color:var(--ink3)">Flete</span><span id="r-flete" style="font-weight:600;text-align:right">$0</span>
+            <span style="color:var(--ink3)">Seguro (0.9%)</span><span id="r-seguro" style="font-weight:600;text-align:right">$0</span>
+            <span style="color:var(--ink3)">Ganancia</span><span id="r-margen" style="font-weight:600;text-align:right;color:var(--green)">$0</span>
+            <span style="color:var(--ink3)">IVA compras</span><span id="r-iva-compras" style="font-weight:600;text-align:right">$0</span>
+          </div>
+        </div>
+        <div style="padding:16px 20px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Totales para el cliente</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+            <span style="color:var(--ink3)">Subtotal neto</span><span id="r-subtotal" style="font-weight:600;text-align:right">$0</span>
+            <span style="color:var(--ink3)">IVA ventas</span><span id="r-iva-ventas" style="font-weight:600;text-align:right">$0</span>
+            <span style="color:var(--ink3)">IIBB</span><span id="r-iibb" style="font-weight:600;text-align:right">$0</span>
+            <span style="color:var(--ink3)">IVA a pagar ARCA</span><span id="r-iva-pagar" style="font-weight:600;text-align:right;color:var(--amber)">$0</span>
+            <span style="color:var(--ink3)">Descuento</span><span id="r-dto" style="font-weight:600;text-align:right;color:var(--red)">$0</span>
+            <span style="font-weight:700;font-size:14px">TOTAL FINAL</span><span id="r-total" style="font-weight:800;font-size:16px;text-align:right;color:var(--green)">$0</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px 20px;background:var(--surface2)">
+        <div style="text-align:center"><div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Margen ganancia</div><div id="r-ganancia-pct" style="font-size:20px;font-weight:800;color:var(--green)">0%</div><div id="r-ganancia-val" style="font-size:11px;color:var(--green)">$0</div></div>
+        <div style="text-align:center"><div style="font-size:10px;color:var(--ink3);text-transform:uppercase">ROI</div><div id="r-roi" style="font-size:20px;font-weight:800;color:var(--accent)">0%</div><div id="r-roi-val" style="font-size:11px;color:var(--accent)">$0</div></div>
+        <div style="text-align:center"><div style="font-size:10px;color:var(--ink3);text-transform:uppercase">IVA a pagar ARCA</div><div id="r-iva-arca" style="font-size:20px;font-weight:800;color:var(--amber)">$0</div><div id="r-iva-arca-val" style="font-size:11px;color:var(--amber)">$0</div></div>
+      </div>
+      <div style="padding:14px 20px">
+        <div class="field"><label>Notas del presupuesto</label><textarea id="pp-notas" rows="2" placeholder="Condiciones, validez, notas..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button id="ppto-delete-btn" class="btn btn-danger" onclick="eliminarPpto()" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="if(editPptoId){pptoVistaTab='presentacion';abrirDetallePpto(editPptoId)}" title="Ver cómo lo ve el cliente"><i class="fa fa-eye"></i> Vista cliente</button>
+        <button class="btn btn-secondary" onclick="cerrar('m-presupuesto')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarPpto()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cobro/Pago -->
+<div id="m-cobropago" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-cp-title">Registrar cobro</div>
+      <div class="modal-close" onclick="cerrar('m-cobropago')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div class="field"><label>Concepto *</label><input id="cp-concepto" placeholder="Ej: Anticipo 50%, Saldo final..."></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Monto *</label><input type="number" id="cp-monto" placeholder="0"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="cp-fecha"></div>
+      </div>
+      <div class="field"><label>Medio de pago</label>
+        <select id="cp-medio"><option value="transferencia">Transferencia</option><option value="cheque">Cheque</option><option value="efectivo">Efectivo</option><option value="tarjeta">Tarjeta</option></select></div>
+      <div class="field"><label>Notas</label><textarea id="cp-notas" rows="2" placeholder="Observaciones..."></textarea></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-cobropago')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarCobro()"><i class="fa fa-check"></i> Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Por Cobrar (popup dashboard) -->
+<div id="m-porcobrar" class="overlay">
+  <div class="modal modal-lg">
+    <div class="modal-hd">
+      <div class="modal-title">Detalle — Por cobrar</div>
+      <div class="modal-close" onclick="cerrar('m-porcobrar')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" id="popup-porcobrar-body"></div>
+  </div>
+</div>
+
+<!-- Modal Gasto -->
+<div id="m-gasto" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-gasto-title">Gasto</div>
+      <div class="modal-close" onclick="cerrar('m-gasto')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div class="field"><label>Concepto *</label><input id="g-concepto" placeholder="Descripción del gasto"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Categoría</label>
+          <select id="g-cat"><option value="salario">👤 Salario</option><option value="alquiler">🏢 Alquiler</option><option value="servicios">⚡ Servicios</option><option value="telefonia">📱 Telefonía</option><option value="materiales">📦 Materiales</option><option value="proveedor">🚚 Proveedor</option><option value="impuestos">🏛️ Impuestos</option><option value="bancario">🏦 Bancario</option><option value="marketing">📣 Marketing</option><option value="otros">📌 Otros</option></select></div>
+        <div class="field"><label>Tipo</label>
+          <select id="g-tipo"><option value="fijo">Fijo mensual</option><option value="variable">Variable</option><option value="extraordinario">Extraordinario</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Monto *</label><input type="number" id="g-monto" placeholder="0"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="g-fecha"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Responsable</label><input id="g-resp" placeholder="Quién lo autorizó"></div>
+        <div class="field"><label>Medio de pago</label>
+          <select id="g-medio"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="tarjeta">Tarjeta</option><option value="cheque">Cheque</option></select></div>
+      </div>
+      <div class="field"><label>Responsable</label><input id="g-responsable" placeholder="Quién genera el gasto"></div>
+      <div class="field"><label>Notas</label><textarea id="g-notas" rows="2" placeholder="Observaciones..."></textarea></div>
+    </div>
+    <div class="modal-ft">
+      <button id="g-delete-btn" class="btn btn-danger" onclick="eliminarGasto()" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-gasto')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarGasto()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Usuario -->
+<div id="m-usuario" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-usr-title">Editar usuario</div>
+      <div class="modal-close" onclick="cerrar('m-usuario')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface2);border-radius:var(--r-lg);margin-bottom:18px">
+        <div id="m-usr-avatar" class="usr-avatar" style="background:var(--accent)">A</div>
+        <div><div id="m-usr-name" style="font-weight:700;font-size:15px"></div><div id="m-usr-email" style="font-size:12px;color:var(--ink3)"></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Estado</label>
+          <select id="m-usr-status"><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select></div>
+        <div class="field"><label>Nota interna</label><input id="m-usr-nota" placeholder="Nota sobre este usuario"></div>
+      </div>
+      <div class="field">
+        <label>Módulos con acceso</label>
+        <div id="m-usr-modulos" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-danger" onclick="eliminarUsuario()"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-usuario')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarUsuario()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Vista Cliente (impresión de presupuesto) -->
+<div id="m-vista-cliente" class="overlay">
+  <div class="modal" style="max-width:820px;width:95vw">
+    <div class="modal-hd">
+      <div class="modal-title">Vista para cliente</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-primary btn-sm" onclick="window.print()"><i class="fa fa-print"></i> Imprimir / PDF</button>
+        <div class="modal-close" onclick="cerrar('m-vista-cliente')"><i class="fa fa-times"></i></div>
+      </div>
+    </div>
+    <div class="modal-bd" id="vista-cliente-body" style="padding:32px"></div>
+  </div>
+</div>
+
+<!-- Modal Pegar Extracto Bancario -->
+<div id="m-extracto" class="overlay">
+  <div class="modal modal-lg" style="max-width:700px;width:96vw">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title">Importar extracto bancario</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">PDF de Banco Macro o texto copiado del homebanking</div>
+      </div>
+      <div class="modal-close" onclick="cerrar('m-extracto')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd" style="padding:20px">
+
+      <!-- Tabs PDF / Texto -->
+      <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:18px">
+        <button id="ext-tab-pdf"  onclick="extTab('pdf')"
+          style="flex:1;padding:9px;font-size:13px;font-weight:600;border:none;cursor:pointer;background:var(--accent);color:#fff;transition:.15s">
+          <i class="fa fa-file-pdf"></i> Subir PDF
+        </button>
+        <button id="ext-tab-txt" onclick="extTab('txt')"
+          style="flex:1;padding:9px;font-size:13px;font-weight:600;border:none;cursor:pointer;background:var(--surface);color:var(--ink2);transition:.15s">
+          <i class="fa fa-paste"></i> Pegar texto
+        </button>
+      </div>
+
+      <!-- Panel PDF -->
+      <div id="ext-panel-pdf">
+        <!-- Dropzone PDF -->
+        <div id="ext-pdf-drop"
+          style="border:2px dashed var(--border);border-radius:var(--r-lg);padding:36px 24px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:16px"
+          onclick="document.getElementById('ext-pdf-file').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+          ondragleave="this.style.borderColor='var(--border)'"
+          ondrop="event.preventDefault();this.style.borderColor='var(--border)';importarPDFExtracto(event.dataTransfer.files[0])">
+          <i class="fa fa-file-pdf" style="font-size:36px;color:var(--red);display:block;margin-bottom:12px"></i>
+          <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">Arrastrá el PDF del extracto aquí</div>
+          <div style="font-size:12px;color:var(--ink4);margin-bottom:14px">o hacé click para seleccionar</div>
+          <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();document.getElementById('ext-pdf-file').click()">
+            <i class="fa fa-folder-open"></i> Seleccionar PDF
+          </button>
+          <input type="file" id="ext-pdf-file" accept=".pdf" style="display:none"
+            onchange="importarPDFExtracto(this.files[0])">
+        </div>
+        <!-- Estado progreso -->
+        <div id="ext-pdf-status" style="display:none;padding:12px 16px;border-radius:var(--r);font-size:13px;background:var(--surface2)">
+          <i class="fa fa-spinner fa-spin"></i> <span id="ext-pdf-msg">Procesando...</span>
+        </div>
+        <!-- Preview resultado -->
+        <div id="ext-pdf-preview" style="display:none">
+          <div style="background:var(--green-lt);color:var(--green);border-radius:var(--r);padding:10px 14px;font-size:13px;margin-bottom:10px">
+            <i class="fa fa-check-circle"></i> <span id="ext-pdf-resumen"></span>
+          </div>
+          <div style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r)">
+            <table style="width:100%;font-size:11px;border-collapse:collapse">
+              <thead style="background:var(--surface);position:sticky;top:0">
+                <tr>
+                  <th style="padding:6px 8px;text-align:left;color:var(--ink3)">Fecha</th>
+                  <th style="padding:6px 8px;text-align:left;color:var(--ink3)">Concepto</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">Débito</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">Crédito</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">Saldo</th>
+                </tr>
+              </thead>
+              <tbody id="ext-pdf-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Texto -->
+      <div id="ext-panel-txt" style="display:none">
+        <div style="background:var(--accent-lt);border-radius:var(--r);padding:11px 14px;margin-bottom:14px;font-size:12px;color:var(--accent)">
+          <strong>¿Cómo hacerlo?</strong> Abrí el homebanking → visualizá el extracto → Ctrl+A → Ctrl+C → pegalo abajo → Importar
+        </div>
+        <div class="field" style="margin-bottom:14px">
+          <label>Cuenta bancaria *</label>
+          <select id="extracto-cuenta">
+            <option value="">— Seleccioná la cuenta —</option>
+            <optgroup label="MORADESIGN S.R.L">
+              <option value="0956091974-2">CC USD · 0956091974-2</option>
+              <option value="0956091975-5">CC ARS · 0956091975-5</option>
+              <option value="0942161811-5">CC ARS · 0942161811-5</option>
+            </optgroup>
+            <optgroup label="CECILIA MORALES">
+              <option value="0940324325-6">CA ARS · 0940324325-6</option>
+              <option value="0940762212-7">CC ARS · 0940762212-7</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field">
+          <label>Texto del extracto</label>
+          <textarea id="extracto-texto" rows="10" placeholder="Pegá aquí el texto del extracto bancario..."
+            style="font-family:monospace;font-size:12px;resize:vertical"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary" onclick="cerrar('m-extracto')">Cancelar</button>
+      <button id="ext-btn-importar" class="btn btn-primary" onclick="confirmarImportarExtracto()">
+        <i class="fa fa-file-import"></i> Importar movimientos
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cheque -->
+<div id="m-cheque" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-cheque-title">Cheque</div>
+      <div class="modal-close" onclick="cerrar('m-cheque')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Número *</label><input id="ch-numero" placeholder="N° de cheque"></div>
+        <div class="field"><label>Tipo</label>
+          <select id="ch-tipo"><option value="recibido">Recibido</option><option value="emitido">Emitido</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Banco *</label><input id="ch-banco" placeholder="Nombre del banco"></div>
+        <div class="field"><label>Titular</label><input id="ch-titular" placeholder="Titular del cheque"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Monto *</label><input type="number" id="ch-monto" placeholder="0"></div>
+        <div class="field"><label>Fecha emisión</label><input type="date" id="ch-emision"></div>
+        <div class="field"><label>Fecha cobro</label><input type="date" id="ch-cobro"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Estado</label>
+          <select id="ch-estado">
+            <option value="pendiente">Pendiente</option>
+            <option value="cobrado">Cobrado</option>
+            <option value="depositado">Depositado</option>
+            <option value="rechazado">Rechazado</option>
+            <option value="cancelado">Cancelado</option>
+          </select></div>
+        <div class="field"><label>Beneficiario</label><input id="ch-beneficiario" placeholder="A la orden de..."></div>
+      </div>
+      <div class="field"><label>Notas</label><textarea id="ch-notas" rows="2" placeholder="Observaciones..."></textarea></div>
+    </div>
+    <div class="modal-ft">
+      <button id="ch-delete-btn" class="btn btn-danger" onclick="eliminarCheque()" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-cheque')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarCheque()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cobro (contable) -->
+<div id="m-cobro" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-cobro-title">Nuevo cobro</div>
+      <div class="modal-close" onclick="cerrar('m-cobro')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Cliente *</label><input id="cobro-cliente" placeholder="Nombre del cliente"></div>
+        <div class="field"><label>Concepto</label><input id="cobro-concepto" placeholder="Descripción del cobro"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Monto base *</label><input type="number" id="cobro-monto" placeholder="0"></div>
+        <div class="field"><label>IVA (21%)</label><input type="number" id="cobro-iva" placeholder="0"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="cobro-fecha"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Medio de pago</label>
+          <select id="cobro-medio">
+            <option value="transferencia">Transferencia</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="cheque">Cheque</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="mercadopago">MercadoPago</option>
+          </select>
+        </div>
+        <div class="field"><label>Tipo</label>
+          <select id="cobro-tipo">
+            <option value="total">Total</option>
+            <option value="parcial">Parcial</option>
+          </select>
+        </div>
+        <div class="field"><label>Estado</label>
+          <select id="cobro-estado">
+            <option value="pendiente">Pendiente</option>
+            <option value="cobrado">Cobrado</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Cuenta bancaria</label><input id="cobro-cuenta" placeholder="Cuenta donde se acredita"></div>
+    </div>
+    <div class="modal-ft">
+      <button id="cobro-delete-btn" class="btn btn-danger" onclick="eliminarCobro(editCobroId)" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-cobro')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarCobroNuevo()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Pago -->
+<div id="m-pago" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-pago-title">Nuevo pago</div>
+      <div class="modal-close" onclick="cerrar('m-pago')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Proveedor *</label><input id="pago-proveedor" placeholder="Nombre del proveedor"></div>
+        <div class="field"><label>Concepto</label><input id="pago-concepto" placeholder="Descripción del pago"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Monto base *</label><input type="number" id="pago-monto" placeholder="0"></div>
+        <div class="field"><label>IVA</label><input type="number" id="pago-iva" placeholder="0"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="pago-fecha"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Medio de pago</label>
+          <select id="pago-medio">
+            <option value="transferencia">Transferencia</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="cheque">Cheque</option>
+            <option value="tarjeta">Tarjeta</option>
+          </select>
+        </div>
+        <div class="field"><label>N° Comprobante / Factura</label><input id="pago-comprobante" placeholder="Ej: FA-0001-00001234"></div>
+      </div>
+      <div class="field"><label>Cuenta bancaria debitada</label><input id="pago-cuenta" placeholder="Cuenta desde donde se paga"></div>
+    </div>
+    <div class="modal-ft">
+      <button id="pago-delete-btn" class="btn btn-danger" onclick="eliminarPago(editPagoId)" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-pago')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarPago()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Empleado -->
+<div id="m-empleado" class="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-empleado-title">Nuevo empleado</div>
+      <div class="modal-close" onclick="cerrar('m-empleado')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Nombre completo *</label><input id="emp-nombre" placeholder="Nombre y apellido"></div>
+        <div class="field"><label>Puesto</label><input id="emp-puesto" placeholder="Cargo o posición"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Departamento</label><input id="emp-departamento" placeholder="Área de trabajo"></div>
+        <div class="field"><label>Fecha de ingreso</label><input type="date" id="emp-ingreso"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Salario mensual</label><input type="number" id="emp-salario" placeholder="0"></div>
+        <div class="field"><label>Email</label><input type="email" id="emp-email" placeholder="email@empresa.com"></div>
+        <div class="field"><label>Teléfono</label><input id="emp-telefono" placeholder="+54 9 ..."></div>
+      </div>
+      <div class="field"><label>Estado</label>
+        <select id="emp-estado">
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button id="emp-delete-btn" class="btn btn-danger" onclick="eliminarEmpleado(editEmpleadoId)" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-empleado')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarEmpleado()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Sueldo -->
+<div id="m-sueldo" class="overlay">
+  <div class="modal modal-lg">
+    <div class="modal-hd">
+      <div class="modal-title" id="m-sueldo-title">Nueva liquidación</div>
+      <div class="modal-close" onclick="cerrar('m-sueldo')"><i class="fa fa-times"></i></div>
+    </div>
+    <div class="modal-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Empleado *</label><select id="sue-empleado"><option value="">— Seleccionar —</option></select></div>
+        <div class="field"><label>Período</label><input id="sue-periodo" placeholder="Ej: Marzo 2026"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Básico *</label><input type="number" id="sue-basico" placeholder="0" oninput="calcularSueldo()"></div>
+        <div class="field"><label>Bonos</label><input type="number" id="sue-bonos" placeholder="0" oninput="calcularSueldo()"></div>
+        <div class="field"><label>Deducciones</label><input type="number" id="sue-deducciones" placeholder="0" oninput="calcularSueldo()"></div>
+        <div class="field"><label>Aportes (17% auto)</label><input type="number" id="sue-aportes" placeholder="Auto 17%" oninput="calcularSueldo()"></div>
+      </div>
+      <div style="background:var(--accent-lt);border-radius:var(--r);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:700;color:var(--accent)">Sueldo neto calculado</span>
+        <span id="sue-neto" style="font-size:22px;font-weight:800;color:var(--accent)">$0</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="field"><label>Tipo</label>
+          <select id="sue-tipo">
+            <option value="sueldo">Sueldo</option>
+            <option value="adelanto">Adelanto</option>
+            <option value="aguinaldo">Aguinaldo</option>
+          </select>
+        </div>
+        <div class="field"><label>Estado de pago</label>
+          <select id="sue-pagado">
+            <option value="false">Pendiente</option>
+            <option value="true">Pagado</option>
+          </select>
+        </div>
+        <div class="field"><label>Fecha de pago</label><input type="date" id="sue-fecha"></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button id="sue-delete-btn" class="btn btn-danger" onclick="eliminarSueldo(editSueldoId)" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="cerrar('m-sueldo')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarSueldo()"><i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal registrar llamada -->
+  <div id="m-llamada" class="overlay">
+    <div class="modal" style="max-width:480px;width:96vw">
+      <div class="modal-hd">
+        <div>
+          <div class="modal-title">Registrar llamada</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Cargá el resultado de la llamada</div>
+        </div>
+        <div class="modal-close" onclick="cerrar('m-llamada')"><i class="fa fa-times"></i></div>
+      </div>
+      <div class="modal-bd" style="padding:20px">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div class="field">
+            <label>Nombre del contacto</label>
+            <input type="text" id="ll-contacto" placeholder="Ej: Dr. García">
+          </div>
+          <div class="field">
+            <label>Empresa / Consultorio</label>
+            <input type="text" id="ll-empresa" placeholder="Opcional">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:14px">
+          <label>Rubro *</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+            ${RUBROS.map(r => `
+              <label style="cursor:pointer">
+                <input type="radio" name="ll-rubro" value="${r.id}" style="display:none">
+                <span class="rubro-pill" data-rubro="${r.id}" onclick="selRubro('${r.id}')"
+                  style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--surface2);cursor:pointer;transition:.15s">
+                  ${r.icon} ${r.label}
+                </span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:14px">
+          <label>Resultado *</label>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+            ${RESULTADOS.map(r => `
+              <label style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);border:1.5px solid var(--border);background:var(--surface2);transition:.15s" 
+                id="res-label-${r.id}" onclick="selResultado('${r.id}')">
+                <i class="fa ${r.icon}" style="color:${r.color};width:16px;text-align:center"></i>
+                <span style="font-size:13px;font-weight:500">${r.label}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:0">
+          <label>Notas <span style="color:var(--ink4);font-weight:400">(opcional)</span></label>
+          <textarea id="ll-notas" rows="2" placeholder="Observaciones, mejor horario para volver a llamar, etc." style="resize:none"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-ft">
+        <button class="btn btn-secondary" onclick="cerrar('m-llamada')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarLlamada()"><i class="fa fa-save"></i> Guardar llamada</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal Retención AFIP -->
+<div id="m-retencion" class="overlay" onclick="if(event.target===this)cerrar('m-retencion')">
+  <div class="modal" style="max-width:520px">
+    <div id="m-retencion-body"></div>
+  </div>
+</div>
+
+  <script src="js/core.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/ventas.js"></script>
+  <script src="js/leads.js"></script>
+  <script src="js/gestion.js"></script>
+  <script src="js/diseno.js"></script>
+  <script src="js/presupuestos.js"></script>
+  <script src="js/contable.js"></script>
+  <script src="js/financiero.js"></script>
+  <script src="js/usuarios.js"></script>
+  <script src="js/agente.js"></script>
+  <script src="js/extra.js"></script>
+  <script src="js/api.js"></script>
 </body>
 </html>
