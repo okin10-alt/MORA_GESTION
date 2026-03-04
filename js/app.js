@@ -5300,6 +5300,9 @@ function usuarios() {
       <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink2)">
         Usuarios activos (${activos.length})
       </div>
+      <button class="btn btn-primary btn-sm" onclick="nuevoUsuario()">
+        <i class="fa fa-plus"></i> Nuevo usuario
+      </button>
     </div>
     ${activos.map(u => usrCard(u)).join('')}
 
@@ -5332,6 +5335,48 @@ function usrCard(u) {
   </div>`;
 }
 
+function nuevoUsuario() {
+  editUsrId = null; // modo creación
+  document.getElementById('m-usr-title').textContent = 'Nuevo usuario';
+  document.getElementById('m-usr-avatar').textContent = '+';
+  document.getElementById('m-usr-avatar').style.background = '#2952d9';
+
+  // Mostrar campos de creación, ocultar info de solo lectura
+  document.getElementById('m-usr-name').textContent = '';
+  document.getElementById('m-usr-email').textContent = '';
+  document.getElementById('m-usr-status').value = 'activo';
+  document.getElementById('m-usr-nota').value = '';
+
+  // Inyectar campos editables debajo del avatar
+  const infoEl = document.getElementById('m-usr-info');
+  if (infoEl) {
+    infoEl.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px">
+        <input id="new-usr-nombre" class="input" placeholder="Nombre completo" style="width:100%">
+        <input id="new-usr-email" class="input" type="email" placeholder="Email" style="width:100%">
+        <input id="new-usr-pass" class="input" type="password" placeholder="Contraseña" style="width:100%">
+      </div>`;
+  }
+
+  // Render módulos (todos desactivados por defecto excepto dashboard)
+  const grid = document.getElementById('m-usr-modulos');
+  grid.innerHTML = MODULOS_ALL.map(m => `
+    <div class="mod-toggle ${m.id === 'dashboard' ? 'on' : 'off'}" id="tog-${m.id}"
+      onclick="toggleModulo('${m.id}')">
+      <i class="fa ${m.icon}" style="display:block;margin-bottom:4px;font-size:14px"></i>
+      ${m.label}
+    </div>`).join('');
+  grid.innerHTML += `<div class="mod-toggle off" id="tog-usuarios"
+    onclick="toggleModulo('usuarios')">
+    <i class="fa fa-users-cog" style="display:block;margin-bottom:4px;font-size:14px"></i>Admin
+  </div>`;
+
+  // Ocultar botón eliminar en modo creación
+  const btnElim = document.querySelector('#m-usuario .btn-danger');
+  if (btnElim) btnElim.style.display = 'none';
+  abrir('m-usuario');
+}
+
 function editarUsuario(id) {
   editUsrId = id;
   const u = DB.usuarios.find(x => x.id === id);
@@ -5346,6 +5391,14 @@ function editarUsuario(id) {
   document.getElementById('m-usr-email').textContent = u.email;
   document.getElementById('m-usr-status').value = u.status;
   document.getElementById('m-usr-nota').value = u.nota || '';
+
+  // Restaurar info normal (en caso de que venga de modo creación)
+  const infoEl = document.getElementById('m-usr-info');
+  if (infoEl) {
+    infoEl.innerHTML = `
+      <div id="m-usr-name" class="usr-name">${u.nombre}</div>
+      <div id="m-usr-email" class="usr-meta">${u.email}</div>`;
+  }
 
   // Render módulos toggleables
   const grid = document.getElementById('m-usr-modulos');
@@ -5364,6 +5417,9 @@ function editarUsuario(id) {
     <i class="fa fa-users-cog" style="display:block;margin-bottom:4px;font-size:14px"></i>Admin
   </div>`;
 
+  // Mostrar botón eliminar en modo edición
+  const btnElim = document.querySelector('#m-usuario .btn-danger');
+  if (btnElim) btnElim.style.display = '';
   abrir('m-usuario');
 }
 
@@ -5375,16 +5431,50 @@ function toggleModulo(modId) {
 }
 
 function guardarUsuario() {
+  // Recoger módulos seleccionados (común a crear y editar)
+  const todosLosIds = [...MODULOS_ALL.map(m => m.id), 'usuarios'];
+  const modulos = todosLosIds.filter(id => {
+    const el = document.getElementById('tog-' + id);
+    return el && el.classList.contains('on');
+  });
+
+  if (editUsrId === null) {
+    // MODO CREACIÓN: crear usuario nuevo desde admin
+    const nombre = (document.getElementById('new-usr-nombre')?.value || '').trim();
+    const email  = (document.getElementById('new-usr-email')?.value || '').trim();
+    const pass   = (document.getElementById('new-usr-pass')?.value || '').trim();
+    if (!nombre) { alert('Ingresá el nombre del usuario.'); return; }
+    if (!email)  { alert('Ingresá el email.'); return; }
+    if (!pass)   { alert('Ingresá una contraseña.'); return; }
+    if (DB.usuarios.some(x => x.email === email)) {
+      alert('Ya existe un usuario con ese email.'); return;
+    }
+    const nuevoUsr = {
+      id: 'u-' + Date.now(),
+      nombre,
+      email,
+      passHash: btoa(pass),
+      status: document.getElementById('m-usr-status').value || 'activo',
+      rol: modulos.includes('usuarios') ? 'admin' : 'usuario',
+      nota: document.getElementById('m-usr-nota').value.trim(),
+      modulos: modulos.includes('dashboard') ? modulos : ['dashboard', ...modulos],
+      creadoEn: hoy()
+    };
+    DB.usuarios.push(nuevoUsr);
+    guardar();
+    actualizarBadgeUsuariosPendientes();
+    cerrar('m-usuario');
+    toastOk('Usuario creado correctamente');
+    go('usuarios');
+    return;
+  }
+
+  // MODO EDICIÓN: actualizar usuario existente
   const u = DB.usuarios.find(x => x.id === editUsrId);
   if (!u) return;
   u.status = document.getElementById('m-usr-status').value;
   u.nota = document.getElementById('m-usr-nota').value.trim();
-  // Recoger módulos seleccionados
-  const todosLosIds = [...MODULOS_ALL.map(m => m.id), 'usuarios'];
-  u.modulos = todosLosIds.filter(id => {
-    const el = document.getElementById('tog-' + id);
-    return el && el.classList.contains('on');
-  });
+  u.modulos = modulos;
   // dashboard siempre incluido si está activo
   if (u.status === 'activo' && !u.modulos.includes('dashboard')) u.modulos.unshift('dashboard');
   guardar();
