@@ -1911,8 +1911,9 @@ function eliminarProyectoCascada(id) {
 function enviarADiseno(id) {
   const p = DB.proyectos.find(x => x.id === id);
   if (!p) return;
-  const existe = DB.solicitudes.some(s => s.proyId === id);
-  if (existe) { alert('Ya existe una solicitud de diseño para este proyecto.'); return; }
+  // Solo bloquear si hay una solicitud ACTIVA (no completada) para este proyecto
+  const existe = DB.solicitudes.some(s => s.proyId === id && s.status !== 'completado');
+  if (existe) { alert('Ya existe una solicitud de diseño activa para este proyecto.\nFinalizá o archivá la solicitud actual antes de crear una nueva.'); return; }
   const sol = {
     id: 'sol-' + Date.now(),
     proyId: id,
