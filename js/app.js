@@ -2944,7 +2944,6 @@ function renderDetallePpto() {
     { id:'cliente',      label:'📋 Datos del Cliente' },
     { id:'presentacion', label:'📄 Presentación' },
     { id:'analisis',     label:'📊 Cotizador' },
-    { id:'pagos',        label:`💰 Pagos (${(p.pagosParciales||[]).length})` },
   ];
 
   const tabsHTML = tabs.map(t =>
@@ -3088,8 +3087,8 @@ function renderItemsEditorCliente(p) {
       const c = calcItemNew(item);
       html += '<div style="display:grid;grid-template-columns:1fr 60px 120px 90px 70px 40px;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface)">' +
         '<input value="' + esc(item.desc||'') + '" placeholder="Descripción del ítem" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value;renderDetallePpto()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" placeholder="P. unitario" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value;renderDetallePpto()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value" onblur="renderDetallePpto()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" placeholder="P. unitario" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value" onblur="renderDetallePpto()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
         '<div style="font-size:12px;font-weight:700;color:var(--green);text-align:right;padding-right:4px">' + pesos(c.totalFinal) + '</div>' +
         '<div style="display:flex;flex-direction:column;align-items:center;gap:2px">' +
           '<button onclick="moverItemDetalle(' + idx + ',-1)" style="background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px 4px;font-size:11px"><i class="fa fa-chevron-up"></i></button>' +
@@ -3244,10 +3243,10 @@ function renderVistaAnalisis(p) {
         '<input value="' + esc(item.desc||'') + '" oninput="pptoAnalisisItems.find((x,i)=>i===' + idx + '&&(x.desc=this.value))" style="width:100%;border:none;background:transparent;font-size:13px;padding:0">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center">' +
-        '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value;renderDetallePpto()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value" onblur="renderDetallePpto()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right">' +
-        '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value;renderDetallePpto()" style="width:90px;text-align:right;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value" onblur="renderDetallePpto()" style="width:90px;text-align:right;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px">' + pesos(c.totalCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#eef3fb">' +
