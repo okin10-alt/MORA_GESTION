@@ -5388,14 +5388,16 @@ function guardarUsuario() {
   // dashboard siempre incluido si está activo
   if (u.status === 'activo' && !u.modulos.includes('dashboard')) u.modulos.unshift('dashboard');
   guardar();
+  actualizarBadgeUsuariosPendientes(); // actualizar badge tras cambiar estado
   cerrar('m-usuario');
   go('usuarios');
 }
 
 function eliminarUsuario() {
   if (editUsrId === CURRENT_USER?.id) { alert('No podés eliminar tu propia cuenta.'); return; }
-  if (!confirm('¿Eliminar este usuario permanente  guardar();
-  actualizarBadgeUsuariosPendientes(); // actualizar badge tras cambiar estado
+  if (!confirm('¿Eliminar este usuario permanentemente?')) return;
+  DB.usuarios = DB.usuarios.filter(x => x.id !== editUsrId);
+  guardar();
   cerrar('m-usuario');
   go('usuarios');
 }
