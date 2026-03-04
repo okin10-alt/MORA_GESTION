@@ -3467,6 +3467,24 @@ function cambiarEstadoPpto(id, nuevoEstado) {
 function guardarTodosPpto() {
   if (!pptoDetalle) return;
 
+  // 0. Leer campos del DOM (pestaña cliente) por si oninput no se disparó
+  const _v = id => { const el = document.getElementById(id); return el ? el.value : null; };
+  if (_v('pd-cliente') !== null)    pptoDetalle.cliente    = _v('pd-cliente');
+  if (_v('pd-cuit') !== null)       pptoDetalle.cuit       = _v('pd-cuit');
+  if (_v('pd-fecha') !== null && _v('pd-fecha'))
+    pptoDetalle.fecha = _v('pd-fecha').split('-').reverse().join('/');
+  if (_v('pd-vencimiento') !== null && _v('pd-vencimiento'))
+    pptoDetalle.vencimiento = _v('pd-vencimiento').split('-').reverse().join('/');
+  if (_v('pd-status') !== null)     pptoDetalle.status     = _v('pd-status');
+  if (_v('pd-factura') !== null)    pptoDetalle.factura    = _v('pd-factura');
+  if (_v('pd-dto') !== null)        pptoDetalle.dto        = _v('pd-dto');
+  if (_v('pd-notas') !== null)      pptoDetalle.notas      = _v('pd-notas');
+  if (_v('pd-proyecto') !== null)   {
+    pptoDetalle.proyId = _v('pd-proyecto');
+    const pr = DB.proyectos.find(x => x.id === pptoDetalle.proyId);
+    pptoDetalle.proyNom = pr ? pr.nom : '';
+  }
+
   // 1. Recalcular totales
   let tFinal=0, tCompra=0, tFlete=0, tIvaC=0, tMargen=0;
   pptoAnalisisItems.filter(i=>i.tipo==='item').forEach(i => {
@@ -3477,7 +3495,8 @@ function guardarTodosPpto() {
     tIvaC    += c.ivaCompra;
     tMargen  += c.margen;
   });
-  // 2. Sincronizar items editados a pptoDetalle (una sola vez, después del recalc)
+
+  // 2. Sincronizar items editados a pptoDetalle
   pptoDetalle.items = JSON.parse(JSON.stringify(pptoAnalisisItems));
 
   const dto = parseFloat(pptoDetalle.dto||0)/100;
@@ -3492,16 +3511,25 @@ function guardarTodosPpto() {
   else DB.presupuestos.push(pptoDetalle);
 
   guardar();
-  renderDetallePpto();
+  presupuestos(); // refrescar lista de presupuestos en segundo plano
 
-  // Feedback visual
-  setTimeout(() => {
-    const el = document.getElementById('ppto-detalle-body');
-    if (el) {
-      el.style.outline = '2px solid var(--green)';
-      setTimeout(() => el.style.outline = '', 700);
-    }
-  }, 50);
+  // 4. Feedback visible: toast + cerrar modal
+  toastOk('¡Presupuesto guardado!');
+  cerrar('m-ppto-detalle');
+}
+
+function toastOk(msg) {
+  let t = document.getElementById('_toast_ok');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = '_toast_ok';
+    t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a7a4a;color:#fff;padding:12px 28px;border-radius:30px;font-size:14px;font-weight:700;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:opacity .3s';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2200);
 }
 
 
