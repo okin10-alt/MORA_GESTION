@@ -588,7 +588,8 @@ window.go = function(m) {
     case 'presupuestos': presupuestos(); break;
     case 'contable': contable(); break;
     case 'financiero': financiero(); break;
-    case 'usuarios': usuarios(); break;
+    case 'usuarios': usuarios(); break;  
+        case 'manual': renderManual(); break;
     default: c('<div class="empty"><i class="fa fa-info-circle"></i><p>Módulo no implementado</p></div>');
   }
 };
