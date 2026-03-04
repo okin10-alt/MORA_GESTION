@@ -169,12 +169,11 @@ function pesos(n) {
 // ══════════════════════════════════════════════
 // INICIALIZACIÓN AL CARGAR
 // ══════════════════════════════════════════════
-// DOMContentLoaded manejado por api.js (iniciarApp)
-// document.addEventListener('DOMContentLoaded', function() {
-//   cargarDB();
-//   verificarAuth();
-//   setTimeout(actualizarBadgeGestion, 500);
-// });
+document.addEventListener('DOMContentLoaded', function() {
+  cargarDB();
+  verificarAuth();
+  setTimeout(actualizarBadgeGestion, 500);
+});
 
 /* ══════════════════════════════════════════════
    FORMA — Sistema de Autenticación
@@ -184,10 +183,21 @@ function pesos(n) {
 // VERIFICAR AUTENTICACIÓN
 // ══════════════════════════════════════════════
 function verificarAuth() {
-  // AUTH DESACTIVADO TEMPORALMENTE - acceso directo
-  CURRENT_USER = { id:'admin', nombre:'Admin Sistema', email:'admin@forma.com', rol:'admin', 
-    modulos:['dashboard','leads','ventas','gestion','diseno','presupuestos','contable','financiero','usuarios'] };
-  mostrarApp();
+  const authData = localStorage.getItem(AUTH_KEY);
+  if (authData) {
+    try {
+      const { userId } = JSON.parse(authData);
+      const user = DB.usuarios && DB.usuarios.find(u => u.id === userId);
+      if (user && user.status === 'activo') {
+        CURRENT_USER = user;
+        mostrarApp();
+        return;
+      }
+    } catch (e) {
+      console.error('Error al verificar auth:', e);
+    }
+  }
+  mostrarAuth();
 }
 
 function mostrarAuth() {
@@ -201,8 +211,10 @@ function mostrarAuth() {
 // MOSTRAR APLICACIÓN
 // ══════════════════════════════════════════════
 function mostrarApp() {
-  document.getElementById('auth-screen').classList.add('hidden');
-  document.querySelector('.app').style.display = 'flex';
+  const authEl = document.getElementById('auth-screen');
+  if (authEl) { authEl.style.display = 'none'; authEl.classList.add('hidden'); }
+  const appEl = document.querySelector('.app');
+  if (appEl) appEl.style.display = 'flex';
   
   // Actualizar info del usuario en sidebar
   actualizarSidebarUser();

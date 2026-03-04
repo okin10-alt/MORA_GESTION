@@ -1335,14 +1335,67 @@
   </div>
 </div>
 
-  <script src="js/app.js?v=2"></script>
-  <script src="js/api.js?v=2"></script>
+  <script src="js/app.js?v=3"></script>
+  <script src="js/api.js?v=3"></script>
   <script>
-    // Fix de auth: este listener se ejecuta último y garantiza que
-    // se muestre el login si no hay sesión válida, sin importar
-    // si api.js tuvo un bypass temporal activo.
+    // ═══════════════════════════════════════════════════
+    // FORMA — Auth Fix Definitivo
+    // Sobreescribe cualquier bypass que haya en app.js
+    // y garantiza DB cargada + login real funcionando.
+    // ═══════════════════════════════════════════════════
+    
+    // Redefine verificarAuth con la lógica real (sobreescribe bypass de app.js)
+    window.verificarAuth = function() {
+      if (typeof cargarDB === 'function') cargarDB();
+      var authRaw = localStorage.getItem('forma_auth');
+      if (authRaw) {
+        try {
+          var userId = JSON.parse(authRaw).userId;
+          var user = (typeof DB !== 'undefined' && DB.usuarios || []).find(function(u){ return u.id === userId; });
+          if (user && user.status === 'activo') {
+            window.CURRENT_USER = user;
+            var authEl = document.getElementById('auth-screen');
+            var appEl = document.querySelector('.app');
+            if (authEl) { authEl.style.display = 'none'; authEl.classList.add('hidden'); }
+            if (appEl) appEl.style.display = 'flex';
+            if (typeof actualizarSidebarUser === 'function') actualizarSidebarUser();
+            if (typeof actualizarModulosVisibles === 'function') actualizarModulosVisibles();
+            if (typeof go === 'function') go('dashboard');
+            return;
+          }
+        } catch(e) { console.error('Auth error:', e); }
+      }
+      // Sin sesión: mostrar login
+      var authEl = document.getElementById('auth-screen');
+      var appEl = document.querySelector('.app');
+      if (authEl) { authEl.style.display = 'flex'; authEl.classList.remove('hidden'); }
+      if (appEl) appEl.style.display = 'none';
+    };
+
+    // También redefine doLogin para usar la lógica de localStorage
+    window.doLogin = function() {
+      var email = (document.getElementById('au-email') || {}).value ? document.getElementById('au-email').value.trim() : '';
+      var pass = (document.getElementById('au-pass') || {}).value || '';
+      var msgEl = document.getElementById('auth-login-msg');
+      function msg(t, tipo) { if(msgEl){msgEl.textContent=t;msgEl.className='auth-msg '+tipo;msgEl.style.display='block';} }
+      if (!email || !pass) { msg('Completá todos los campos','err'); return; }
+      if (typeof cargarDB === 'function') cargarDB();
+      if (typeof DB === 'undefined' || !DB.usuarios) { msg('Error al cargar datos. Recargá la página.','err'); return; }
+      var user = DB.usuarios.find(function(u){ return u.email.toLowerCase() === email.toLowerCase(); });
+      if (!user) { msg('Usuario no encontrado','err'); return; }
+      var ok = false;
+      try { ok = atob(user.passHash) === pass; } catch(e) { ok = user.passHash === pass; }
+      if (!ok) { msg('Contraseña incorrecta','err'); return; }
+      if (user.status !== 'activo') { msg('Usuario inactivo. Contactá al administrador.','err'); return; }
+      localStorage.setItem('forma_auth', JSON.stringify({ userId: user.id }));
+      window.CURRENT_USER = user;
+      msg('¡Bienvenido/a, ' + user.nombre + '!', 'ok');
+      setTimeout(function(){ window.verificarAuth(); }, 800);
+    };
+
+    // Ejecutar al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
-      if (typeof verificarAuth === 'function') verificarAuth();
+      window.verificarAuth();
     });
   </script>
 </body>
