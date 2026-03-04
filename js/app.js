@@ -3551,9 +3551,13 @@ function guardarTodosPpto() {
 function calcItemNew(item) {
   const cantidad = parseInt(item.cant) || 1;
   const precioUnitario = parseFloat(item.costo) || 0;
-  const porcIva = parseFloat(item.iva) !== undefined ? parseFloat(item.iva) : 0.21;
-  const porcFlete = parseFloat(item.flete) || 0;
-  const porcMargen = parseFloat(item.margen) || 0;
+  // Normalizar porcentajes: si vienen como enteros (ej: 21, 35, 8) convertir a decimal
+  const rawIva    = parseFloat(item.iva)    || 0;
+  const rawFlete  = parseFloat(item.flete)  || 0;
+  const rawMargen = parseFloat(item.margen) || 0;
+  const porcIva    = rawIva    > 1 ? rawIva    / 100 : rawIva;
+  const porcFlete  = rawFlete  > 1 ? rawFlete  / 100 : rawFlete;
+  const porcMargen = rawMargen > 1 ? rawMargen / 100 : rawMargen;
 
   // 1. COMPRA
   const totalCompra = precioUnitario * cantidad;
