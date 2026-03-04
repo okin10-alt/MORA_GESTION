@@ -293,6 +293,8 @@ function switchAuthTab(tab) {
 // LOGIN
 // ══════════════════════════════════════════════
 function doLogin() {
+  // Asegurar DB cargada antes de buscar usuarios
+  if (typeof DB === 'undefined' || !DB.usuarios) cargarDB();
   const email = document.getElementById('au-email').value.trim();
   const pass = document.getElementById('au-pass').value;
   const msgEl = document.getElementById('auth-login-msg');
