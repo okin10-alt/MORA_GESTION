@@ -2664,13 +2664,13 @@ function renderPptoItems() {
     return `<tr style="vertical-align:middle">
       <td style="padding:10px 8px;color:var(--ink3);font-size:12px;text-align:center">${idx+1}</td>
       <td style="padding:10px 8px"><input value="${item.desc||''}" onchange="pptoItems[${idx}].desc=this.value" style="${inp};width:100%;min-width:180px"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.costo||''}" placeholder="0" oninput="pptoItems[${idx}].costo=this.value===''?'':+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:110px;text-align:right"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.flete||''}" placeholder="20" oninput="pptoItems[${idx}].flete=this.value===''?'':+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.margen||''}" placeholder="35" oninput="pptoItems[${idx}].margen=this.value===''?'':+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.cant||''}" placeholder="1" min="1" oninput="pptoItems[${idx}].cant=this.value===''?'':+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:58px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.costo||''}" placeholder="0" oninput="pptoItems[${idx}].costo=_n(this.value);recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:110px;text-align:right"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.flete||''}" placeholder="20" oninput="pptoItems[${idx}].flete=_n(this.value);recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.margen||''}" placeholder="35" oninput="pptoItems[${idx}].margen=_n(this.value);recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.cant||''}" placeholder="1" min="1" oninput="pptoItems[${idx}].cant=_n(this.value);recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:58px;text-align:center"></td>
       <td style="padding:10px 8px;text-align:right;font-size:13px;color:var(--ink3)">${pesos(c.subtotalFlete||0)}</td>
       <td style="padding:10px 8px;text-align:right;font-size:13px">${pesos(c.precioVentaNeto||0)}</td>
-      <td style="padding:10px 8px"><input type="number" value="${item.iva!==''&&item.iva!=null?item.iva:''}" placeholder="21" step="0.5" oninput="pptoItems[${idx}].iva=this.value===''?'':+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.iva!==''&&item.iva!=null?item.iva:''}" placeholder="21" step="0.5" oninput="pptoItems[${idx}].iva=_n(this.value);recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
       <td style="padding:10px 8px;font-size:13px;text-align:center;color:var(--ink3)">3.5%</td>
       <td style="padding:10px 8px;text-align:right;font-size:13px;font-weight:600;color:var(--accent)">${pesos(c.precioFinalUnit||0)}</td>
       <td style="padding:10px 8px;text-align:right;font-size:14px;font-weight:700;color:var(--green)">${pesos(c.totalLinea||0)}</td>
@@ -3029,8 +3029,8 @@ function renderItemsEditorCliente(p) {
       const c = calcItemNew(item);
       html += '<div style="display:grid;grid-template-columns:1fr 60px 120px 90px 70px 40px;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface)">' +
         '<input value="' + esc(item.desc||'') + '" placeholder="Descripción del ítem" oninput="pptoAnalisisItems[' + ri + '].desc=this.value" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<input type="number" value="' + (item.cant||'') + '" min="1" step="1" placeholder="1" oninput="pptoAnalisisItems[' + ri + '].cant=this.value===''?'':+this.value;recalcDetalle()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<input type="number" value="' + (item.costo||'') + '" min="0" step="100" placeholder="0" oninput="pptoAnalisisItems[' + ri + '].costo=this.value===''?'':+this.value;recalcDetalle()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input type="number" value="' + (item.cant||'') + '" min="1" step="1" placeholder="1" oninput="pptoAnalisisItems[' + ri + '].cant=_n(this.value);recalcDetalle()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input type="number" value="' + (item.costo||'') + '" min="0" step="100" placeholder="0" oninput="pptoAnalisisItems[' + ri + '].costo=_n(this.value);recalcDetalle()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
         '<div style="font-size:12px;font-weight:700;color:var(--green);text-align:right;padding-right:4px" id="ri-total-' + ri + '">' + pesos(c.totalFinal) + '</div>' +
         '<div style="display:flex;flex-direction:column;align-items:center;gap:2px">' +
           '<button onclick="moverItemDetalle(' + ri + ',-1)" style="background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px 4px;font-size:11px"><i class="fa fa-chevron-up"></i></button>' +
@@ -3186,24 +3186,24 @@ function renderVistaAnalisis(p) {
         '<input value="' + esc(item.desc||'') + '" oninput="pptoAnalisisItems[' + ri + '].desc=this.value" style="width:100%;border:none;background:transparent;font-size:13px;padding:0">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center">' +
-        '<input type="number" value="' + (item.cant||'') + '" min="1" step="1" placeholder="1" oninput="pptoAnalisisItems[' + ri + '].cant=this.value===''?'':+this.value;recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.cant||'') + '" min="1" step="1" placeholder="1" oninput="pptoAnalisisItems[' + ri + '].cant=_n(this.value);recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right">' +
-        '<input type="number" value="' + (item.costo||'') + '" min="0" step="100" placeholder="0" oninput="pptoAnalisisItems[' + ri + '].costo=this.value===''?'':+this.value;recalcDetalle()" style="width:90px;text-align:right;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.costo||'') + '" min="0" step="100" placeholder="0" oninput="pptoAnalisisItems[' + ri + '].costo=_n(this.value);recalcDetalle()" style="width:90px;text-align:right;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px" id="ri-compra-' + ri + '">' + pesos(c.totalCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#eef3fb">' +
-        '<input type="number" value="' + (item.iva||'') + '" min="0" max="105" placeholder="21" oninput="pptoAnalisisItems[' + ri + '].iva=this.value===''?'':+this.value;recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.iva||'') + '" min="0" max="105" placeholder="21" oninput="pptoAnalisisItems[' + ri + '].iva=_n(this.value);recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px" id="ri-ivac-' + ri + '">' + pesos(c.ivaCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#fef6e4">' +
-        '<input type="number" value="' + (item.flete||'') + '" min="0" max="100" placeholder="20" oninput="pptoAnalisisItems[' + ri + '].flete=this.value===''?'':+this.value;recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.flete||'') + '" min="0" max="100" placeholder="20" oninput="pptoAnalisisItems[' + ri + '].flete=_n(this.value);recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px" id="ri-flete-' + ri + '">' + pesos(c.flete) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px" id="ri-segc-' + ri + '">' + pesos(c.seguroCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px" id="ri-ivaf-' + ri + '">' + pesos(c.ivaFlete) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#edfaf1">' +
-        '<input type="number" value="' + (item.margen||'') + '" min="0" max="1000" placeholder="35" oninput="pptoAnalisisItems[' + ri + '].margen=this.value===''?'':+this.value;recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.margen||'') + '" min="0" max="1000" placeholder="35" oninput="pptoAnalisisItems[' + ri + '].margen=_n(this.value);recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:13px;font-weight:700;color:#1a7a4a" id="ri-margen-' + ri + '">' + pesos(c.margen) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:12px;font-weight:700;color:#2952d9" id="ri-total-' + ri + '">' + pesos(c.totalFinal) + '</td>' +
@@ -3492,6 +3492,9 @@ function guardarTodosPpto() {
 
 
 
+
+// Helper: convierte input a número o mantiene vacío
+function _n(v){return v===''||v==null?'':+v}
 // ── calcItemNew: fórmulas exactas del mapa ──
 function calcItemNew(item) {
   // Si el campo es '' o null, usar default para el cálculo (pero mostrarlo vacío en el input)
