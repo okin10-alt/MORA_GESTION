@@ -1338,43 +1338,64 @@
   <script src="js/app.js?v=2"></script>
   <script src="js/api.js?v=2"></script>
   <script>
-    // Arranque y autenticación definitivos.
-    // Sobreescribe verificarAuth del app.js (que podría tener bypass)
-    // con la lógica real que verifica localStorage.
-    window.addEventListener('load', function() {
-      // Garantizar DB disponible
+    // ═══════════════════════════════════════════════════
+    // FORMA — Auth Fix Definitivo
+    // Sobreescribe cualquier bypass que haya en app.js
+    // y garantiza DB cargada + login real funcionando.
+    // ═══════════════════════════════════════════════════
+    
+    // Redefine verificarAuth con la lógica real (sobreescribe bypass de app.js)
+    window.verificarAuth = function() {
       if (typeof cargarDB === 'function') cargarDB();
-
-      // Lógica real de auth
       var authRaw = localStorage.getItem('forma_auth');
-      var autenticado = false;
       if (authRaw) {
         try {
           var userId = JSON.parse(authRaw).userId;
           var user = (typeof DB !== 'undefined' && DB.usuarios || []).find(function(u){ return u.id === userId; });
           if (user && user.status === 'activo') {
             window.CURRENT_USER = user;
-            autenticado = true;
+            var authEl = document.getElementById('auth-screen');
+            var appEl = document.querySelector('.app');
+            if (authEl) { authEl.style.display = 'none'; authEl.classList.add('hidden'); }
+            if (appEl) appEl.style.display = 'flex';
+            if (typeof actualizarSidebarUser === 'function') actualizarSidebarUser();
+            if (typeof actualizarModulosVisibles === 'function') actualizarModulosVisibles();
+            if (typeof go === 'function') go('dashboard');
+            return;
           }
-        } catch(e) {}
+        } catch(e) { console.error('Auth error:', e); }
       }
+      // Sin sesión: mostrar login
+      var authEl = document.getElementById('auth-screen');
+      var appEl = document.querySelector('.app');
+      if (authEl) { authEl.style.display = 'flex'; authEl.classList.remove('hidden'); }
+      if (appEl) appEl.style.display = 'none';
+    };
 
-      if (autenticado) {
-        // Mostrar app
-        var authEl = document.getElementById('auth-screen');
-        var appEl = document.querySelector('.app');
-        if (authEl) { authEl.style.display = 'none'; authEl.classList.add('hidden'); }
-        if (appEl) appEl.style.display = 'flex';
-        if (typeof actualizarSidebarUser === 'function') actualizarSidebarUser();
-        if (typeof actualizarModulosVisibles === 'function') actualizarModulosVisibles();
-        if (typeof go === 'function') go('dashboard');
-      } else {
-        // Mostrar login
-        var authEl2 = document.getElementById('auth-screen');
-        var appEl2 = document.querySelector('.app');
-        if (authEl2) { authEl2.style.display = 'flex'; authEl2.classList.remove('hidden'); }
-        if (appEl2) appEl2.style.display = 'none';
-      }
+    // También redefine doLogin para usar la lógica de localStorage
+    window.doLogin = function() {
+      var email = (document.getElementById('au-email') || {}).value ? document.getElementById('au-email').value.trim() : '';
+      var pass = (document.getElementById('au-pass') || {}).value || '';
+      var msgEl = document.getElementById('auth-login-msg');
+      function msg(t, tipo) { if(msgEl){msgEl.textContent=t;msgEl.className='auth-msg '+tipo;msgEl.style.display='block';} }
+      if (!email || !pass) { msg('Completá todos los campos','err'); return; }
+      if (typeof cargarDB === 'function') cargarDB();
+      if (typeof DB === 'undefined' || !DB.usuarios) { msg('Error al cargar datos. Recargá la página.','err'); return; }
+      var user = DB.usuarios.find(function(u){ return u.email.toLowerCase() === email.toLowerCase(); });
+      if (!user) { msg('Usuario no encontrado','err'); return; }
+      var ok = false;
+      try { ok = atob(user.passHash) === pass; } catch(e) { ok = user.passHash === pass; }
+      if (!ok) { msg('Contraseña incorrecta','err'); return; }
+      if (user.status !== 'activo') { msg('Usuario inactivo. Contactá al administrador.','err'); return; }
+      localStorage.setItem('forma_auth', JSON.stringify({ userId: user.id }));
+      window.CURRENT_USER = user;
+      msg('¡Bienvenido/a, ' + user.nombre + '!', 'ok');
+      setTimeout(function(){ window.verificarAuth(); }, 800);
+    };
+
+    // Ejecutar al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      window.verificarAuth();
     });
   </script>
 </body>
