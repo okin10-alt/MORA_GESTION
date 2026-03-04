@@ -4,6 +4,9 @@
 Options -Indexes
 ServerSignature Off
 
+# ── Charset UTF-8 ─────────────────────────────────────────
+AddDefaultCharset UTF-8
+
 # ── Seguridad básica ───────────────────────────────────────
 <FilesMatch "\.(sql|log|env|json|md)$">
   Order allow,deny
