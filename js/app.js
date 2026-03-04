@@ -2573,45 +2573,32 @@ function nuevoPpto() {
 }
 
 function nuevoPptoParaProy(proyId) {
-  // Navegar al módulo presupuestos primero, luego abrir modal con proyecto referenciado
   cerrar('m-detalle');
   go('presupuestos');
-  setTimeout(() => {
-    nuevoPpto();
-    const sel = document.getElementById('pp-proyecto');
-    if (sel) {
-      sel.value = proyId;
-      autoFillClientePpto();
-    }
-  }, 80);
+  if (!DB.pptoCounter) DB.pptoCounter = 3829;
+  DB.pptoCounter++;
+  const hoy = new Date().toLocaleDateString('es-AR');
+  const nuevoId = nid();
+  const proy = DB.proyectos.find(x => x.id === proyId);
+  const data = {
+    id: nuevoId,
+    numero: 'N° ' + String(DB.pptoCounter).padStart(4,'0'),
+    proyId: proyId || null,
+    proyNom: proy ? proy.nom : '',
+    cliente: proy ? (proy.cli || '') : '',
+    cuit: '', fecha: hoy, status: 'borrador',
+    factura: 'Presupuesto', dto: '0',
+    notas: '', items: [],
+    totalFinal: 0, gananciaPct: 0,
+    pagosParciales: []
+  };
+  DB.presupuestos.push(data);
+  guardar();
+  abrirDetallePpto(nuevoId);
 }
 
 function editarPpto(id) {
-  const p = DB.presupuestos.find(x => x.id === id);
-  if (!p) return;
-  editPptoId = id;
-  pptoItems = JSON.parse(JSON.stringify(p.items || []));
-  document.getElementById('m-ppto-title').textContent = 'Editar Presupuesto';
-  document.getElementById('m-ppto-num').textContent = p.numero || '';
-  // Cargar select de proyectos
-  _cargarSelectProyectosPpto(p.proyId || null);
-  // Campos
-  document.getElementById('pp-cliente').value = p.cliente || '';
-  document.getElementById('pp-cuit').value = p.cuit || '';
-  // Fecha: convertir DD/MM/YYYY a YYYY-MM-DD para el input date
-  if (p.fecha) {
-    const partes = p.fecha.split('/');
-    document.getElementById('pp-fecha').value = partes.length === 3
-      ? `${partes[2]}-${partes[1].padStart(2,'0')}-${partes[0].padStart(2,'0')}`
-      : p.fecha;
-  }
-  document.getElementById('pp-status').value = p.status || 'borrador';
-  document.getElementById('pp-dto').value = p.dto || '0';
-  document.getElementById('pp-notas').value = p.notas || '';
-  document.getElementById('ppto-delete-btn').style.display = 'inline-flex';
-  renderPptoItems();
-  recalcPpto();
-  abrir('m-presupuesto');
+  abrirDetallePpto(id);
 }
 
 function _cargarSelectProyectosPpto(selectedId) {
@@ -2960,7 +2947,7 @@ function renderDetallePpto() {
   if (pptoVistaTab === 'cliente')      bodyHTML = renderVistaCliente(p);
   else if (pptoVistaTab === 'presentacion') bodyHTML = renderVistaFactura(p);
   else if (pptoVistaTab === 'analisis')     bodyHTML = renderVistaAnalisis(p);
-  else bodyHTML = renderVistaPagos(p, montoPagado, saldoPend, pctPago);
+  else { pptoVistaTab = 'cliente'; bodyHTML = renderVistaCliente(p); }
 
   const el = document.getElementById('ppto-detalle-body');
   if (!el) return;
@@ -3250,17 +3237,17 @@ function renderVistaAnalisis(p) {
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px">' + pesos(c.totalCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#eef3fb">' +
-        '<input type="number" value="' + (item.iva||21) + '" min="0" max="105" oninput="pptoAnalisisItems[' + idx + '].iva=+this.value;renderDetallePpto()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.iva||21) + '" min="0" max="105" oninput="pptoAnalisisItems[' + idx + '].iva=+this.value" onblur="renderDetallePpto()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px">' + pesos(c.ivaCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#fef6e4">' +
-        '<input type="number" value="' + (item.flete||20) + '" min="0" max="100" oninput="pptoAnalisisItems[' + idx + '].flete=+this.value;renderDetallePpto()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.flete||20) + '" min="0" max="100" oninput="pptoAnalisisItems[' + idx + '].flete=+this.value" onblur="renderDetallePpto()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px">' + pesos(c.flete) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px">' + pesos(c.seguroCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px">' + pesos(c.ivaFlete) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#edfaf1">' +
-        '<input type="number" value="' + (item.margen||35) + '" min="0" max="1000" oninput="pptoAnalisisItems[' + idx + '].margen=+this.value;renderDetallePpto()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.margen||35) + '" min="0" max="1000" oninput="pptoAnalisisItems[' + idx + '].margen=+this.value" onblur="renderDetallePpto()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:13px;font-weight:700;color:#1a7a4a">' + pesos(c.margen) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:12px;font-weight:700;color:#2952d9">' + pesos(c.totalFinal) + '</td>' +
