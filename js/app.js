@@ -119,8 +119,10 @@ function cargarDB() {
     DB = initDB();
   }
 
-  // Asegurar arrays existen
-  ['leads', 'proyectos', 'solicitudes', 'timeline', 'transferencias', 'presupuestos', 'cobros', 'pagos', 'usuarios', 'gastos', 'movBancarios', 'cheques'].forEach(k => {
+  // Asegurar arrays existen (todos los usados en los módulos)
+  ['leads', 'proyectos', 'solicitudes', 'timeline', 'transferencias', 'presupuestos',
+   'cobros', 'pagos', 'usuarios', 'gastos', 'movBancarios', 'cheques',
+   'oportunidades', 'llamadas', 'empleados', 'sueldos', 'retenciones', 'contactos'].forEach(k => {
     if (!Array.isArray(DB[k])) DB[k] = [];
   });
 
@@ -221,6 +223,11 @@ function mostrarApp() {
   
   // Mostrar/ocultar módulos según permisos
   actualizarModulosVisibles();
+
+  // Mostrar badge si hay usuarios pendientes (solo para admin)
+  if (CURRENT_USER && CURRENT_USER.rol === 'admin') {
+    actualizarBadgeUsuariosPendientes();
+  }
   
   // Ir al dashboard
   if (typeof go === 'function') {
@@ -340,35 +347,36 @@ function doLogin() {
 // REGISTRO
 // ══════════════════════════════════════════════
 function doRegistro() {
+  // Siempre recargar DB antes de verificar duplicados
+  cargarDB();
+
   const nombre = document.getElementById('au-rnom').value.trim();
-  const email = document.getElementById('au-remail').value.trim();
-  const pass = document.getElementById('au-rpass').value;
-  const pass2 = document.getElementById('au-rpass2').value;
-  const msgEl = document.getElementById('auth-reg-msg');
-  
-  // Validaciones
+  const email  = document.getElementById('au-remail').value.trim();
+  const pass   = document.getElementById('au-rpass').value;
+  const pass2  = document.getElementById('au-rpass2').value;
+  const msgEl  = document.getElementById('auth-reg-msg');
+
+  // Validaciones básicas
   if (!nombre || !email || !pass || !pass2) {
     mostrarMensaje(msgEl, 'Completá todos los campos', 'err');
     return;
   }
-  
   if (pass.length < 6) {
     mostrarMensaje(msgEl, 'La contraseña debe tener mínimo 6 caracteres', 'err');
     return;
   }
-  
   if (pass !== pass2) {
     mostrarMensaje(msgEl, 'Las contraseñas no coinciden', 'err');
     return;
   }
-  
-  // Verificar si el email ya existe
+
+  // Verificar si el email ya existe (con DB fresca)
   if (DB.usuarios.find(u => u.email.toLowerCase() === email.toLowerCase())) {
     mostrarMensaje(msgEl, 'Este email ya está registrado', 'err');
     return;
   }
-  
-  // Crear nuevo usuario
+
+  // Crear nuevo usuario pendiente
   const nuevoUsuario = {
     id: uid(),
     nombre: nombre,
@@ -380,22 +388,39 @@ function doRegistro() {
     modulos: ['dashboard'],
     creadoEn: new Date().toLocaleDateString('es-AR')
   };
-  
+
   DB.usuarios.push(nuevoUsuario);
   guardar();
-  
-  mostrarMensaje(msgEl, '✅ Solicitud enviada. Un administrador debe activar tu cuenta.', 'ok');
-  
+
+  mostrarMensaje(msgEl, '✅ Solicitud enviada. Un administrador activará tu cuenta pronto.', 'ok');
+
+  // Mostrar badge de pendiente en sidebar (si el admin está logueado en otra pestaña, verá el badge al recargar)
+  actualizarBadgeUsuariosPendientes();
+
   // Limpiar formulario
-  document.getElementById('au-rnom').value = '';
-  document.getElementById('au-remail').value = '';
-  document.getElementById('au-rpass').value = '';
-  document.getElementById('au-rpass2').value = '';
-  
-  // Cambiar a tab login después de 2 segundos
-  setTimeout(() => {
-    switchAuthTab('login');
-  }, 2500);
+  ['au-rnom','au-remail','au-rpass','au-rpass2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  // Cambiar a tab login después de 2.5 segundos
+  setTimeout(() => { switchAuthTab('login'); }, 2500);
+}
+
+// Actualiza el badge de usuarios pendientes en el nav (visible para admin)
+function actualizarBadgeUsuariosPendientes() {
+  const pendientes = (DB.usuarios || []).filter(u => u.status === 'pendiente').length;
+  const navEl = document.getElementById('nav-usuarios');
+  if (!navEl) return;
+  let badge = document.getElementById('badge-usuarios');
+  if (!badge) {
+    badge = document.createElement('span');
+    badge.id = 'badge-usuarios';
+    badge.style.cssText = 'display:none;position:absolute;top:6px;right:6px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid var(--sidebar-bg,#1a1a2e)';
+    navEl.style.position = 'relative';
+    navEl.appendChild(badge);
+  }
+  badge.style.display = pendientes > 0 ? 'block' : 'none';
 }
 
 // ══════════════════════════════════════════════
@@ -5257,6 +5282,7 @@ function usuarios() {
     c('<div class="empty"><i class="fa fa-lock"></i><p>Acceso denegado.</p></div>');
     return;
   }
+  actualizarBadgeUsuariosPendientes(); // actualizar badge al entrar al módulo
   const pendientes = DB.usuarios.filter(u => u.status === 'pendiente');
   const activos = DB.usuarios.filter(u => u.status === 'activo');
   const inactivos = DB.usuarios.filter(u => u.status === 'inactivo');
@@ -5368,11 +5394,14 @@ function guardarUsuario() {
 
 function eliminarUsuario() {
   if (editUsrId === CURRENT_USER?.id) { alert('No podés eliminar tu propia cuenta.'); return; }
-  if (!confirm('¿Eliminar este usuario permanentemente?')) return;
-  DB.usuarios = DB.usuarios.filter(x => x.id !== editUsrId);
-  guardar();
+  if (!confirm('¿Eliminar este usuario permanente  guardar();
+  actualizarBadgeUsuariosPendientes(); // actualizar badge tras cambiar estado
   cerrar('m-usuario');
   go('usuarios');
+}
+
+// ═══════════════════════════════════════════════
+// HELPERS VISUALESos');
 }
 
 // ═══════════════════════════════════════════════
