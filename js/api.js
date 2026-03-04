@@ -189,5 +189,11 @@ async function doLogout() {
 
 // ── Arrancar cuando el DOM esté listo ─────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  iniciarApp();
+  // Auth desactivado temporalmente
+  CURRENT_USER = { id:'usr-admin-001', nombre:'Administrador', email:'admin@forma.app', rol:'admin',
+    modulos:['dashboard','leads','ventas','gestion','diseno','presupuestos','contable','financiero','usuarios'] };
+  cargarDB();
+  mostrarApp();
+  actualizarSidebarUser();
+  go('dashboard');
 });
