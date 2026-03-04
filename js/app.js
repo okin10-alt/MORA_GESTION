@@ -1735,9 +1735,12 @@ function marcarTransferidosVistos() {
 function proyCard(p) {
   const ppts = DB.presupuestos.filter(x => x.proyId === p.id);
   const sols = DB.solicitudes.filter(s => s.proyId === p.id);
-  const enDiseno = sols.length > 0 || p.area === 'diseño';
+  const solsActivas = sols.filter(s => s.status !== 'completado');
+  const solsCompletadas = sols.filter(s => s.status === 'completado');
+  const enDiseno = solsActivas.length > 0 || p.area === 'diseño';
+  const disenioCompletado = solsActivas.length === 0 && solsCompletadas.length > 0;
   const tieneArchivos = (p.files||[]).length > 0;
-    const diseniosOk = (p.diseniosCompletados||[]).length > 0;
+  const diseniosOk = (p.diseniosCompletados||[]).length > 0 || disenioCompletado;
   const fechaDisp = p.fecha ? p.fecha.split('-').reverse().join('/') : '';
 
   return `
@@ -1752,13 +1755,13 @@ function proyCard(p) {
         ${p.cat||p.tipo ? `<div class="card-row"><i class="fa fa-tag"></i>${[p.cat,p.tipo].filter(Boolean).join(' · ')}</div>` : ''}
         ${fechaDisp ? `<div class="card-row"><i class="fa fa-calendar"></i>Límite: ${fechaDisp}</div>` : ''}
         ${ppts.length ? `<div class="card-row"><i class="fa fa-file-invoice-dollar"></i>${ppts.length} presupuesto${ppts.length>1?'s':''}</div>` : ''}
-        ${enDiseno ? `<div class="card-row" style="color:#9333ea;font-weight:600"><i class="fa fa-paint-brush"></i>En Diseño</div>` : ''}
+        ${enDiseno ? `<div class="card-row" style="color:#9333ea;font-weight:600"><i class="fa fa-paint-brush"></i>En Diseño (${solsActivas.length} activo${solsActivas.length>1?'s':''})</div>` : ''}
       </div>
     </div>
     ${diseniosOk ? `
-    <div style="background:var(--green-lt);border-top:1px solid var(--green);padding:7px 16px;font-size:11px;color:var(--green);display:flex;align-items:center;gap:6px">
-      <i class="fa fa-check-circle"></i>
-      <span>${(p.diseniosCompletados||[]).length} diseño${(p.diseniosCompletados||[]).length>1?'s':''} completado${(p.diseniosCompletados||[]).length>1?'s':''}</span>
+    <div style="background:#dcfce7;border-top:2px solid #16a34a;padding:8px 16px;font-size:12px;color:#15803d;display:flex;align-items:center;gap:8px;font-weight:600">
+      <i class="fa fa-check-circle" style="font-size:14px"></i>
+      <span>Diseño completado · ${solsCompletadas.length || (p.diseniosCompletados||[]).length} entrega${(solsCompletadas.length || (p.diseniosCompletados||[]).length)>1?'s':''}</span>
     </div>` : ''}
     ${tieneArchivos ? `
     <div style="background:#fff3cd;border-top:1px solid #ffc107;padding:7px 16px;font-size:11px;color:#856404;display:flex;align-items:center;gap:6px">
@@ -2632,70 +2635,12 @@ function autoFillClientePpto() {
   if (contacto && contacto.cuit) document.getElementById('pp-cuit').value = contacto.cuit;
 }
 
-function guardarPpto() {
-  const numero = document.getElementById('m-ppto-num').textContent.replace('N° ','').trim();
-  const proyId  = document.getElementById('pp-proyecto').value;
-  const proy    = DB.proyectos.find(x => x.id === proyId);
-  const fechaRaw = document.getElementById('pp-fecha').value;
-  const fecha = fechaRaw
-    ? fechaRaw.split('-').reverse().join('/')
-    : new Date().toLocaleDateString('es-AR');
+// guardarPpto — modal viejo eliminado, usar guardarTodosPpto()
+function guardarPpto() { guardarTodosPpto(); }
 
-  // Calcular totales
-  let totalCompra=0, totalFlete=0, totalMargen=0, totalIvaV=0, totalIibb=0, totalFinal=0;
-  pptoItems.filter(i=>i.tipo==='item').forEach(item => {
-    const c = calcItem(item);
-    totalCompra += c.totalCompra || 0;
-    totalFlete  += c.subtotalFlete || 0;
-    totalMargen += c.margen || 0;
-    totalIvaV   += c.ivaVentasTotal || 0;
-    totalIibb   += c.iibbTotal || 0;
-    totalFinal  += c.totalFinal || 0;
-  });
-  const dto = parseFloat(document.getElementById('pp-dto').value) || 0;
-  const descuento = totalFinal * (dto / 100);
-  totalFinal = totalFinal - descuento;
-  const gananciaPct = totalCompra > 0 ? ((totalMargen / totalCompra) * 100) : 0;
-
-  const data = {
-    id:        editPptoId || nid(),
-    numero:    numero,
-    proyId:    proyId || null,
-    proyNom:   proy ? proy.nom : '',
-    cliente:   v('pp-cliente'),
-    cuit:      v('pp-cuit'),
-    fecha:     fecha,
-    status:    document.getElementById('pp-status').value,
-    factura:   document.getElementById('pp-factura').value,
-    dto:       String(dto),
-    notas:     v('pp-notas'),
-    items:     JSON.parse(JSON.stringify(pptoItems)),
-    totalFinal:  totalFinal,
-    gananciaPct: gananciaPct,
-    pagosParciales: editPptoId
-      ? (DB.presupuestos.find(x=>x.id===editPptoId)?.pagosParciales || [])
-      : []
-  };
-
-  const pid = editPptoId || data.id;
-  if (editPptoId) {
-    const idx = DB.presupuestos.findIndex(x => x.id === editPptoId);
-    if (idx !== -1) DB.presupuestos[idx] = data;
-  } else {
-    DB.presupuestos.push(data);
-  }
-  guardar();
-  cerrar('m-presupuesto');
-  go('presupuestos');
-}
-
+// eliminarPpto — modal viejo eliminado
 function eliminarPpto() {
-  if (!editPptoId) return;
-  if (!confirm('¿Eliminar este presupuesto? Esta acción no se puede deshacer.')) return;
-  DB.presupuestos = DB.presupuestos.filter(x => x.id !== editPptoId);
-  guardar();
-  cerrar('m-presupuesto');
-  go(modulo);
+  if (pptoDetalle) eliminarPptoId(pptoDetalle.id);
 }
 
 function renderPptoItems() {
@@ -2719,13 +2664,13 @@ function renderPptoItems() {
     return `<tr style="vertical-align:middle">
       <td style="padding:10px 8px;color:var(--ink3);font-size:12px;text-align:center">${idx+1}</td>
       <td style="padding:10px 8px"><input value="${item.desc||''}" onchange="pptoItems[${idx}].desc=this.value" style="${inp};width:100%;min-width:180px"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.costo||0}" oninput="pptoItems[${idx}].costo=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:110px;text-align:right"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.flete||20}" oninput="pptoItems[${idx}].flete=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.margen||35}" oninput="pptoItems[${idx}].margen=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.cant||1}" min="1" oninput="pptoItems[${idx}].cant=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:58px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.costo||''}" placeholder="0" oninput="pptoItems[${idx}].costo=+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:110px;text-align:right"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.flete||''}" placeholder="20" oninput="pptoItems[${idx}].flete=+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.margen||''}" placeholder="35" oninput="pptoItems[${idx}].margen=+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.cant||''}" placeholder="1" min="1" oninput="pptoItems[${idx}].cant=+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:58px;text-align:center"></td>
       <td style="padding:10px 8px;text-align:right;font-size:13px;color:var(--ink3)">${pesos(c.subtotalFlete||0)}</td>
       <td style="padding:10px 8px;text-align:right;font-size:13px">${pesos(c.precioVentaNeto||0)}</td>
-      <td style="padding:10px 8px"><input type="number" value="${item.iva!=null?item.iva:21}" step="0.5" oninput="pptoItems[${idx}].iva=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.iva!==''&&item.iva!=null?item.iva:''}" placeholder="21" step="0.5" oninput="pptoItems[${idx}].iva=+this.value;recalcPpto()" onblur="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
       <td style="padding:10px 8px;font-size:13px;text-align:center;color:var(--ink3)">3.5%</td>
       <td style="padding:10px 8px;text-align:right;font-size:13px;font-weight:600;color:var(--accent)">${pesos(c.precioFinalUnit||0)}</td>
       <td style="padding:10px 8px;text-align:right;font-size:14px;font-weight:700;color:var(--green)">${pesos(c.totalLinea||0)}</td>
@@ -2737,7 +2682,7 @@ function renderPptoItems() {
 }
 
 function agregarItem() {
-  pptoItems.push({ tipo:'item', desc:'', costo:0, flete:20, margen:35, cant:1, iva:21 });
+  pptoItems.push({ tipo:'item', desc:'', costo:'', flete:'', margen:'', cant:'', iva:'' });
   renderPptoItems();
   recalcPpto();
 }
@@ -3110,7 +3055,7 @@ function renderItemsEditorCliente(p) {
 }
 
 function agregarItemDetalle() {
-  pptoAnalisisItems.push({ id: nid(), tipo:'item', desc:'', cant:1, costo:0, iva:21, flete:20, margen:35 });
+  pptoAnalisisItems.push({ id: nid(), tipo:'item', desc:'', cant:'', costo:'', iva:'', flete:'', margen:'' });
   renderDetallePpto();
 }
 
@@ -3507,11 +3452,10 @@ function guardarTodosPpto() {
   // 1. Sincronizar items editados
   pptoDetalle.items = JSON.parse(JSON.stringify(pptoAnalisisItems));
 
-  // 2. Recalcular totales
+  // 2. Recalcular totales — NO sobreescribir los campos del item (porcentajes)
   let tFinal=0, tCompra=0, tFlete=0, tIvaC=0, tMargen=0;
   pptoAnalisisItems.filter(i=>i.tipo==='item').forEach(i => {
     const c = calcItemNew(i);
-    Object.assign(i, c);
     tFinal   += c.totalFinal;
     tCompra  += c.totalCompra;
     tFlete   += c.subtotalFlete;
