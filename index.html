@@ -10,42 +10,42 @@
 </head>
 <body>
 
-<!-- PANTALLA DE AUTENTICACIÓN -->
+<!-- PANTALLA DE AUTENTICACIÃN -->
 <div id="auth-screen" class="hidden">
   <div class="auth-box">
     <div class="auth-logo">
       <div class="auth-logo-mark">F</div>
       <div class="auth-logo-name">FORMA</div>
-      <div class="auth-logo-tag">Sistema de Gestión</div>
+      <div class="auth-logo-tag">Sistema de GestiÃ³n</div>
     </div>
     <div class="auth-tab">
-      <div class="auth-tab-btn active" id="tab-login" onclick="window.switchAuthTab&&switchAuthTab('login')">Iniciar sesión</div>
+      <div class="auth-tab-btn active" id="tab-login" onclick="window.switchAuthTab&&switchAuthTab('login')">Iniciar sesiÃ³n</div>
       <div class="auth-tab-btn" id="tab-registro" onclick="window.switchAuthTab&&switchAuthTab('registro')">Registrarse</div>
     </div>
     <div id="auth-login">
       <div class="auth-field"><label>Email</label><input type="email" id="au-email" placeholder="tu@email.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <div class="auth-field"><label>Contraseña</label><input type="password" id="au-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="auth-field"><label>ContraseÃ±a</label><input type="password" id="au-pass" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" onkeydown="if(event.key==='Enter')doLogin()"></div>
       <button class="auth-btn" onclick="window.doLogin&&doLogin()">Entrar</button>
       <div id="auth-login-msg" style="display:none" class="auth-msg"></div>
     </div>
     <div id="auth-registro" style="display:none">
       <div class="auth-field"><label>Nombre completo</label><input id="au-rnom" placeholder="Tu nombre"></div>
       <div class="auth-field"><label>Email</label><input type="email" id="au-remail" placeholder="tu@email.com"></div>
-      <div class="auth-field"><label>Contraseña</label><input type="password" id="au-rpass" placeholder="Mínimo 6 caracteres"></div>
-      <div class="auth-field"><label>Repetir contraseña</label><input type="password" id="au-rpass2" placeholder="Repetir"></div>
+      <div class="auth-field"><label>ContraseÃ±a</label><input type="password" id="au-rpass" placeholder="MÃ­nimo 6 caracteres"></div>
+      <div class="auth-field"><label>Repetir contraseÃ±a</label><input type="password" id="au-rpass2" placeholder="Repetir"></div>
       <button class="auth-btn" onclick="window.doRegistro&&doRegistro()">Solicitar acceso</button>
       <div id="auth-reg-msg" style="display:none" class="auth-msg"></div>
     </div>
   </div>
 </div>
 
-<!-- APLICACIÓN PRINCIPAL -->
+<!-- APLICACIÃN PRINCIPAL -->
 <div class="app">
   <aside class="sidebar">
     <div class="sb-logo">
       <div class="logo-mark">F</div>
       <div class="logo-name">FORMA</div>
-      <div class="logo-tag">Gestión Integral</div>
+      <div class="logo-tag">GestiÃ³n Integral</div>
     </div>
     <nav class="sb-nav">
       <div class="sb-section">Principal</div>
@@ -54,16 +54,17 @@
       <div class="sb-item" id="nav-leads" onclick="go('leads')"><i class="fa fa-funnel-dollar"></i><span>Leads</span></div>
       <div class="sb-item" id="nav-ventas" onclick="go('ventas')"><i class="fa fa-address-book"></i><span>Ventas</span></div>
       <div class="sb-item" id="nav-agente" onclick="go('agente')"><i class="fa fa-phone"></i><span>Agente Ventas</span></div>
+      <div class="sb-item" id="nav-manual" onclick="go('manual')"><i class="fa fa-book"></i><span>Manual de Usuario</span></div>
       <div class="sb-section">Operaciones</div>
-      <div class="sb-item" id="nav-gestion" onclick="go('gestion')" style="position:relative"><i class="fa fa-project-diagram"></i><span>Gestión</span><span id="badge-gestion" style="display:none;position:absolute;top:6px;right:6px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid var(--sidebar-bg,#1a1a2e)"></span></div>
-      <div class="sb-item" id="nav-diseno" onclick="go('diseno')"><i class="fa fa-pen-nib"></i><span>Diseño</span></div>
+      <div class="sb-item" id="nav-gestion" onclick="go('gestion')" style="position:relative"><i class="fa fa-project-diagram"></i><span>GestiÃ³n</span><span id="badge-gestion" style="display:none;position:absolute;top:6px;right:6px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid var(--sidebar-bg,#1a1a2e)"></span></div>
+      <div class="sb-item" id="nav-diseno" onclick="go('diseno')"><i class="fa fa-pen-nib"></i><span>DiseÃ±o</span></div>
       <div class="sb-section">Finanzas</div>
       <div class="sb-item" id="nav-presupuestos" onclick="go('presupuestos')"><i class="fa fa-file-invoice-dollar"></i><span>Presupuestos</span></div>
       <div class="sb-item" id="nav-contable" onclick="go('contable')"><i class="fa fa-coins"></i><span>Contable</span></div>
-      <div class="sb-item" id="nav-financiero" onclick="go('financiero')" style="display:none"><i class="fa fa-chart-line"></i><span>Análisis Financiero</span></div>
+      <div class="sb-item" id="nav-financiero" onclick="go('financiero')" style="display:none"><i class="fa fa-chart-line"></i><span>AnÃ¡lisis Financiero</span></div>
       <div class="sb-item" id="nav-usuarios" onclick="go('usuarios')" style="display:none"><i class="fa fa-users-cog"></i><span>Usuarios</span></div>
     </nav>
-    <div class="sb-user" style="cursor:pointer" onclick="doLogout()" title="Cerrar sesión">
+    <div class="sb-user" style="cursor:pointer" onclick="doLogout()" title="Cerrar sesiÃ³n">
       <div class="sb-avatar" id="sb-avatar" style="background:var(--accent)">A</div>
       <div style="flex:1;min-width:0">
         <div class="sb-uname" id="sb-uname">Admin Sistema</div>
@@ -93,7 +94,7 @@
     <div class="modal-hd">
       <div>
         <div class="modal-title" id="m-lead-title">Nuevo Contacto</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Completá los datos del contacto</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">CompletÃ¡ los datos del contacto</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-lead')"><i class="fa fa-times"></i></div>
     </div>
@@ -108,11 +109,11 @@
         <input id="l-nom" placeholder="Nombre y apellido">
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-        <div class="field"><label>Teléfono</label><input id="l-tel" placeholder="+54 9 388..."></div>
+        <div class="field"><label>TelÃ©fono</label><input id="l-tel" placeholder="+54 9 388..."></div>
         <div class="field"><label>Email</label><input type="email" id="l-email" placeholder="email@ejemplo.com"></div>
       </div>
       <div class="field" style="margin-bottom:14px">
-        <label>Dirección</label>
+        <label>DirecciÃ³n</label>
         <input id="l-loc" placeholder="Ciudad, Provincia">
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
@@ -129,20 +130,20 @@
             <option value="Llamada">Llamada</option>
           </select>
         </div>
-        <div class="field"><label>Categoría</label>
+        <div class="field"><label>CategorÃ­a</label>
           <select id="l-cat">
             <option value="Particular">Particular</option>
             <option value="Empresa">Empresa</option>
             <option value="Profesional">Profesional</option>
             <option value="Proveedores">Proveedores</option>
-            <option value="Institución">Institución</option>
+            <option value="InstituciÃ³n">InstituciÃ³n</option>
           </select>
         </div>
         <div class="field"><label>Estado</label>
           <select id="l-status">
             <option value="Pendiente">Pendiente</option>
             <option value="Contactado">Contactado</option>
-            <option value="Visita Agendada">Visita Agendada ⭐</option>
+            <option value="Visita Agendada">Visita Agendada â­</option>
             <option value="En seguimiento">En seguimiento</option>
             <option value="Activo">Activo</option>
             <option value="Cerrado">Cerrado</option>
@@ -152,7 +153,7 @@
 
       <!-- Datos bancarios -->
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">
-        <i class="fa fa-university" style="margin-right:5px"></i>Datos bancarios <span style="font-size:9px;font-weight:400;text-transform:none">(opcional — para proveedores)</span>
+        <i class="fa fa-university" style="margin-right:5px"></i>Datos bancarios <span style="font-size:9px;font-weight:400;text-transform:none">(opcional â para proveedores)</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
         <div class="field"><label>CUIT/CUIL</label><input id="l-cuit" placeholder="20-00000000-0"></div>
@@ -160,7 +161,7 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
         <div class="field"><label>Alias CBU</label><input id="l-alias" placeholder="NOMBRE.APELLIDO"></div>
-        <div class="field"><label>Banco</label><input id="l-banco" placeholder="Banco Nación..."></div>
+        <div class="field"><label>Banco</label><input id="l-banco" placeholder="Banco NaciÃ³n..."></div>
       </div>
 
       <!-- Notas -->
@@ -206,7 +207,7 @@
     <div class="modal-hd">
       <div>
         <div class="modal-title">Importar Contactos</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Importá desde CSV o archivo de texto</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">ImportÃ¡ desde CSV o archivo de texto</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-importar')"><i class="fa fa-times"></i></div>
     </div>
@@ -223,8 +224,8 @@
           ondragleave="this.style.borderColor='var(--border)'"
           ondrop="event.preventDefault();this.style.borderColor='var(--border)';crmImportarCSV(event.dataTransfer.files)">
           <i class="fa fa-file-import" style="font-size:38px;color:var(--ink4);display:block;margin-bottom:14px"></i>
-          <div style="font-size:15px;font-weight:600;color:var(--ink2);margin-bottom:8px">Arrastrá tu archivo aquí</div>
-          <div style="font-size:12px;color:var(--ink4);margin-bottom:16px">o hacé click para seleccionar</div>
+          <div style="font-size:15px;font-weight:600;color:var(--ink2);margin-bottom:8px">ArrastrÃ¡ tu archivo aquÃ­</div>
+          <div style="font-size:12px;color:var(--ink4);margin-bottom:16px">o hacÃ© click para seleccionar</div>
           <div style="font-size:11px;color:var(--ink4);margin-bottom:16px">Formatos: .txt, .csv (separado por tabulaciones)</div>
           <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();document.getElementById('crm-imp-file-input').click()">
             <i class="fa fa-folder-open"></i> Seleccionar Archivo
@@ -239,11 +240,11 @@
             <i class="fa fa-info-circle" style="color:var(--accent)"></i> Formato esperado
           </div>
           <div style="font-size:12px;color:var(--ink3);line-height:1.8">
-            • Columna 1: Cualquier dato (se ignora)<br>
-            • Columna 2: <strong>Teléfono</strong><br>
-            • Columna 3: <strong>Nombre</strong> (puede incluir puesto, ej: "Juan — Arquitecto")<br>
-            • Primera fila: Encabezado (se omite automáticamente)<br>
-            • El sistema detecta automáticamente empresa, puesto y categoría
+            â¢ Columna 1: Cualquier dato (se ignora)<br>
+            â¢ Columna 2: <strong>TelÃ©fono</strong><br>
+            â¢ Columna 3: <strong>Nombre</strong> (puede incluir puesto, ej: "Juan â Arquitecto")<br>
+            â¢ Primera fila: Encabezado (se omite automÃ¡ticamente)<br>
+            â¢ El sistema detecta automÃ¡ticamente empresa, puesto y categorÃ­a
           </div>
         </div>
       </div>
@@ -251,7 +252,7 @@
       <!-- Paso 2: Resultado (se muestra tras importar) -->
       <div id="crm-imp-step2" style="display:none;text-align:center;padding:20px 0">
         <i class="fa fa-check-circle" style="font-size:48px;color:var(--green);display:block;margin-bottom:16px"></i>
-        <div style="font-size:18px;font-weight:700;color:var(--ink1);margin-bottom:8px">¡Importación exitosa!</div>
+        <div style="font-size:18px;font-weight:700;color:var(--ink1);margin-bottom:8px">Â¡ImportaciÃ³n exitosa!</div>
         <div id="crm-imp-resultado" style="font-size:14px;color:var(--ink3)"></div>
       </div>
     </div>
@@ -270,10 +271,10 @@
     </div>
     <div class="modal-bd">
       <div class="field"><label>Tipo</label>
-        <select id="tl-tipo"><option value="llamada">Llamada</option><option value="reunion">Reunión</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="nota">Nota</option></select></div>
+        <select id="tl-tipo"><option value="llamada">Llamada</option><option value="reunion">ReuniÃ³n</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="nota">Nota</option></select></div>
       <div class="field"><label>Fecha</label><input type="date" id="tl-fecha"></div>
-      <div class="field"><label>Nota</label><textarea id="tl-nota" rows="3" placeholder="¿Qué se habló?"></textarea></div>
-      <div class="field"><label>Próxima acción</label><input id="tl-prox" placeholder="Ej: Llamar el lunes"></div>
+      <div class="field"><label>Nota</label><textarea id="tl-nota" rows="3" placeholder="Â¿QuÃ© se hablÃ³?"></textarea></div>
+      <div class="field"><label>PrÃ³xima acciÃ³n</label><input id="tl-prox" placeholder="Ej: Llamar el lunes"></div>
     </div>
     <div class="modal-ft">
       <button class="btn btn-secondary" onclick="cerrar('m-timeline')">Cancelar</button>
@@ -289,7 +290,7 @@
     <div class="modal-hd">
       <div>
         <div class="modal-title" id="m-proy-title">Nuevo Proyecto</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Completá los campos para registrar el proyecto</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">CompletÃ¡ los campos para registrar el proyecto</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-proyecto')"><i class="fa fa-times"></i></div>
     </div>
@@ -307,60 +308,60 @@
       <!-- CUIT / Tel -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
         <div class="field"><label>CUIT</label><input id="p-cuit" placeholder="30-00000000-0"></div>
-        <div class="field"><label>Teléfono</label><input id="p-tel" placeholder="+54 9 388..."></div>
+        <div class="field"><label>TelÃ©fono</label><input id="p-tel" placeholder="+54 9 388..."></div>
       </div>
       <!-- Email -->
       <div class="field" style="margin-bottom:14px">
         <label>Email</label><input type="email" id="p-email" placeholder="email@empresa.com">
       </div>
-      <!-- Categoría / Tipo / Área / Estado -->
+      <!-- CategorÃ­a / Tipo / Ãrea / Estado -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-        <div class="field"><label>Categoría</label>
+        <div class="field"><label>CategorÃ­a</label>
           <select id="p-cat">
             <option value="Oficina">Oficina</option>
             <option value="Hogar">Hogar</option>
             <option value="Comercio">Comercio</option>
-            <option value="Gastronómico">Gastronómico</option>
+            <option value="GastronÃ³mico">GastronÃ³mico</option>
           </select>
         </div>
         <div class="field"><label>Tipo de Proyecto</label>
           <select id="p-tipo">
-            <option value="Diseño integral">Diseño integral</option>
+            <option value="DiseÃ±o integral">DiseÃ±o integral</option>
             <option value="Equipamiento">Equipamiento</option>
-            <option value="Renovación">Renovación</option>
-            <option value="Consultoría">Consultoría</option>
+            <option value="RenovaciÃ³n">RenovaciÃ³n</option>
+            <option value="ConsultorÃ­a">ConsultorÃ­a</option>
           </select>
         </div>
-        <div class="field"><label>Área</label>
+        <div class="field"><label>Ãrea</label>
           <select id="p-area">
-            <option value="gestion">Gestión</option>
-            <option value="diseño">Diseño</option>
+            <option value="gestion">GestiÃ³n</option>
+            <option value="diseÃ±o">DiseÃ±o</option>
             <option value="arquitectura">Arquitectura</option>
           </select>
         </div>
         <div class="field"><label>Estado</label>
           <select id="p-status">
             <option value="relevamiento">Relevamiento</option>
-            <option value="presupuestar">Presupuestar ⚡ (crea ppto.)</option>
+            <option value="presupuestar">Presupuestar â¡ (crea ppto.)</option>
             <option value="En proceso">En proceso</option>
             <option value="completado">Completado</option>
-            <option value="cancelado">Cancelado 🗑️ (elimina proyecto)</option>
+            <option value="cancelado">Cancelado ðï¸ (elimina proyecto)</option>
           </select>
         </div>
       </div>
       <!-- Fecha -->
       <div class="field" style="margin-bottom:14px">
-        <label>Fecha límite</label>
+        <label>Fecha lÃ­mite</label>
         <input type="date" id="p-fecha">
       </div>
-      <!-- Descripción -->
+      <!-- DescripciÃ³n -->
       <div class="field" style="margin-bottom:14px">
-        <label>Brief / Descripción</label>
-        <textarea id="p-desc" rows="3" placeholder="Descripción del proyecto..."></textarea>
+        <label>Brief / DescripciÃ³n</label>
+        <textarea id="p-desc" rows="3" placeholder="DescripciÃ³n del proyecto..."></textarea>
       </div>
       <!-- Relevamiento -->
       <div class="field" style="margin-bottom:0">
-        <label>Relevamiento <span style="font-size:10px;color:var(--ink3)">(notas técnicas)</span></label>
+        <label>Relevamiento <span style="font-size:10px;color:var(--ink3)">(notas tÃ©cnicas)</span></label>
         <textarea id="p-relev" rows="3" placeholder="Datos del relevamiento: medidas, materiales, observaciones..."></textarea>
       </div>
     </div>
@@ -386,7 +387,7 @@
     <div class="modal-hd">
       <div>
         <div class="modal-title">Archivos del Proyecto</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="proy-arch-sub">—</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="proy-arch-sub">â</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-proy-archivos')"><i class="fa fa-times"></i></div>
     </div>
@@ -399,8 +400,8 @@
         ondragleave="this.style.borderColor='var(--border)'"
         ondrop="proyDrop(event)">
         <i class="fa fa-cloud-upload-alt" style="font-size:36px;color:var(--ink4);margin-bottom:12px;display:block"></i>
-        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">Arrastrá archivos aquí o hacé click</div>
-        <div style="font-size:11px;color:var(--ink4)">PDF, JPG, PNG, DWG, DXF, XLS, XLSX, DOC, DOCX · Máx. 50MB</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">ArrastrÃ¡ archivos aquÃ­ o hacÃ© click</div>
+        <div style="font-size:11px;color:var(--ink4)">PDF, JPG, PNG, DWG, DXF, XLS, XLSX, DOC, DOCX Â· MÃ¡x. 50MB</div>
         <button class="btn btn-secondary btn-sm" style="margin-top:14px"
           onclick="event.stopPropagation();document.getElementById('proy-file-input').click()">
           <i class="fa fa-folder-open"></i> Seleccionar Archivos
@@ -415,10 +416,10 @@
       <div id="proy-arch-lista"
         style="max-height:220px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
       </div>
-      <!-- Banner 60 días -->
+      <!-- Banner 60 dÃ­as -->
       <div style="margin-top:16px;padding:10px 14px;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--r);display:flex;gap:10px;align-items:flex-start">
         <i class="fa fa-exclamation-triangle" style="color:#856404;margin-top:2px;flex-shrink:0"></i>
-        <span style="font-size:11px;color:#856404">Recordatorio: Los archivos se eliminan automáticamente del servidor a los 60 días para optimizar el espacio de almacenamiento.</span>
+        <span style="font-size:11px;color:#856404">Recordatorio: Los archivos se eliminan automÃ¡ticamente del servidor a los 60 dÃ­as para optimizar el espacio de almacenamiento.</span>
       </div>
     </div>
     <div class="modal-ft">
@@ -427,28 +428,28 @@
   </div>
 </div>
 
-<!-- Modal Diseño -->
-<!-- Modal Nueva / Editar Solicitud de Diseño -->
+<!-- Modal DiseÃ±o -->
+<!-- Modal Nueva / Editar Solicitud de DiseÃ±o -->
 <div id="m-diseno" class="overlay">
   <div class="modal" style="max-width:700px;width:95vw">
     <div class="modal-hd">
       <div>
-        <div class="modal-title" id="m-dis-title">Nueva Solicitud de Diseño</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Completá los campos para registrar la solicitud</div>
+        <div class="modal-title" id="m-dis-title">Nueva Solicitud de DiseÃ±o</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">CompletÃ¡ los campos para registrar la solicitud</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-diseno')"><i class="fa fa-times"></i></div>
     </div>
     <div class="modal-bd" style="padding:20px;max-height:72vh;overflow-y:auto">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
         <div class="field"><label>Proyecto *</label><select id="d-proy"></select></div>
-        <div class="field"><label>Tipo de Diseño *</label>
+        <div class="field"><label>Tipo de DiseÃ±o *</label>
           <select id="d-tipo">
             <option value="Logo">Logo</option>
             <option value="Branding">Branding</option>
             <option value="Planos">Planos</option>
             <option value="3D">Renders 3D</option>
-            <option value="Presentación">Presentación</option>
-            <option value="Señalética">Señalética</option>
+            <option value="PresentaciÃ³n">PresentaciÃ³n</option>
+            <option value="SeÃ±alÃ©tica">SeÃ±alÃ©tica</option>
             <option value="Otro">Otro</option>
           </select>
         </div>
@@ -463,20 +464,20 @@
       </div>
       <div class="field" style="margin-bottom:14px">
         <label>Responsable</label>
-        <input id="d-responsable" placeholder="Equipo de Diseño" value="Equipo de Diseño">
+        <input id="d-responsable" placeholder="Equipo de DiseÃ±o" value="Equipo de DiseÃ±o">
       </div>
       <div class="field" style="margin-bottom:14px">
-        <label>Brief — Resumen *</label>
+        <label>Brief â Resumen *</label>
         <textarea id="d-brief" rows="3" placeholder="Resumen breve del trabajo a realizar..."></textarea>
       </div>
       <div class="field" style="margin-bottom:14px">
-        <label>Descripción completa</label>
-        <textarea id="d-descripcion" rows="4" placeholder="Detalles completos del proyecto de diseño..."></textarea>
+        <label>DescripciÃ³n completa</label>
+        <textarea id="d-descripcion" rows="4" placeholder="Detalles completos del proyecto de diseÃ±o..."></textarea>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
         <div class="field">
           <label>Requerimientos <span style="font-size:10px;color:var(--ink3)">(separados por coma)</span></label>
-          <textarea id="d-requerimientos" rows="2" placeholder="Ej: Logo en formato vectorial, Versión B/N, Manual de marca"></textarea>
+          <textarea id="d-requerimientos" rows="2" placeholder="Ej: Logo en formato vectorial, VersiÃ³n B/N, Manual de marca"></textarea>
         </div>
         <div class="field">
           <label>Entregables <span style="font-size:10px;color:var(--ink3)">(separados por coma)</span></label>
@@ -505,8 +506,8 @@
   <div class="modal" style="max-width:800px;width:95vw">
     <div class="modal-hd">
       <div>
-        <div class="modal-title" id="m-dis-det-title">Solicitud de Diseño</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="m-dis-det-sub">—</div>
+        <div class="modal-title" id="m-dis-det-title">Solicitud de DiseÃ±o</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="m-dis-det-sub">â</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-dis-detalle')"><i class="fa fa-times"></i></div>
     </div>
@@ -533,8 +534,8 @@
     </div>
     <div class="modal-bd" style="padding:20px">
       <div style="margin-bottom:14px">
-        <div style="font-size:14px;font-weight:700" id="dis-est-nombre">—</div>
-        <div style="font-size:12px;color:var(--ink3);margin-top:4px">Estado actual: <span id="dis-est-actual" class="badge b-gray" style="font-size:11px">—</span></div>
+        <div style="font-size:14px;font-weight:700" id="dis-est-nombre">â</div>
+        <div style="font-size:12px;color:var(--ink3);margin-top:4px">Estado actual: <span id="dis-est-actual" class="badge b-gray" style="font-size:11px">â</span></div>
       </div>
       <div class="field">
         <label>Nuevo Estado</label>
@@ -558,7 +559,7 @@
     <div class="modal-hd">
       <div>
         <div class="modal-title">Subir Archivos</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="dis-arch-sub">—</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px" id="dis-arch-sub">â</div>
       </div>
       <div class="modal-close" onclick="cerrar('m-dis-archivos')"><i class="fa fa-times"></i></div>
     </div>
@@ -571,8 +572,8 @@
         ondragleave="this.style.borderColor='var(--border)'"
         ondrop="disDrop(event)">
         <i class="fa fa-cloud-upload-alt" style="font-size:36px;color:var(--ink4);margin-bottom:12px;display:block"></i>
-        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">Arrastrá archivos aquí o hacé click para seleccionar</div>
-        <div style="font-size:11px;color:var(--ink4)">PDF, JPG, PNG, AI, PSD, DWG, SVG · Máx. 50MB por archivo</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">ArrastrÃ¡ archivos aquÃ­ o hacÃ© click para seleccionar</div>
+        <div style="font-size:11px;color:var(--ink4)">PDF, JPG, PNG, AI, PSD, DWG, SVG Â· MÃ¡x. 50MB por archivo</div>
         <button class="btn btn-secondary btn-sm" style="margin-top:14px" onclick="event.stopPropagation();document.getElementById('dis-file-input').click()">
           <i class="fa fa-folder-open"></i> Seleccionar Archivos
         </button>
@@ -583,10 +584,10 @@
       <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:10px" id="dis-arch-count">Archivos adjuntos (0)</div>
       <div id="dis-arch-lista" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:0"></div>
 
-      <!-- Banner 60 días -->
+      <!-- Banner 60 dÃ­as -->
       <div style="margin-top:16px;padding:10px 14px;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--r);display:flex;gap:10px;align-items:flex-start">
         <i class="fa fa-exclamation-triangle" style="color:#856404;margin-top:2px;flex-shrink:0"></i>
-        <span style="font-size:11px;color:#856404">Recordatorio: Los archivos se eliminan automáticamente del servidor a los 60 días para optimizar el espacio de almacenamiento.</span>
+        <span style="font-size:11px;color:#856404">Recordatorio: Los archivos se eliminan automÃ¡ticamente del servidor a los 60 dÃ­as para optimizar el espacio de almacenamiento.</span>
       </div>
     </div>
     <div class="modal-ft">
@@ -614,14 +615,14 @@
         <div class="field" style="margin-bottom:16px">
           <label>Etapa del pipeline</label>
           <select id="opp-etapa" style="font-weight:700">
-            <option value="prospecto">🔍 Prospecto</option>
-            <option value="contactado">📞 Contactado</option>
-            <option value="presentacion">📨 Presentación enviada</option>
-            <option value="visita">📅 Visita agendada</option>
-            <option value="relevamiento">📐 Relevamiento</option>
-            <option value="propuesta">📋 Propuesta enviada</option>
-            <option value="cerrado">🏆 Cerrado ✓</option>
-            <option value="perdido">❌ Perdido</option>
+            <option value="prospecto">ð Prospecto</option>
+            <option value="contactado">ð Contactado</option>
+            <option value="presentacion">ð¨ PresentaciÃ³n enviada</option>
+            <option value="visita">ð Visita agendada</option>
+            <option value="relevamiento">ð Relevamiento</option>
+            <option value="propuesta">ð Propuesta enviada</option>
+            <option value="cerrado">ð Cerrado â</option>
+            <option value="perdido">â Perdido</option>
           </select>
         </div>
 
@@ -635,18 +636,18 @@
           <div class="field"><label>Contacto</label><input id="opp-contacto" placeholder="Nombre del contacto"></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-          <div class="field"><label>Teléfono / WhatsApp</label><input id="opp-tel" placeholder="+54 9 388..."></div>
+          <div class="field"><label>TelÃ©fono / WhatsApp</label><input id="opp-tel" placeholder="+54 9 388..."></div>
           <div class="field"><label>Email</label><input type="email" id="opp-email" placeholder="email@empresa.com"></div>
         </div>
 
-        <!-- Valor y próxima acción -->
+        <!-- Valor y prÃ³xima acciÃ³n -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
           <div class="field">
             <label>Valor estimado ($)</label>
             <input type="number" id="opp-valor" placeholder="0" min="0">
           </div>
           <div class="field">
-            <label>Próxima acción</label>
+            <label>PrÃ³xima acciÃ³n</label>
             <input type="date" id="opp-prox-accion">
           </div>
         </div>
@@ -657,14 +658,14 @@
           <textarea id="opp-notas" rows="3" placeholder="Brief, intereses, detalles del proyecto..."></textarea>
         </div>
 
-        <!-- Accesos rápidos -->
+        <!-- Accesos rÃ¡pidos -->
         <div style="display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:var(--surface2);border-radius:var(--r);margin-bottom:0">
-          <div style="font-size:11px;font-weight:700;color:var(--ink3);width:100%;margin-bottom:4px">ACCIONES RÁPIDAS</div>
-          <button class="btn btn-secondary btn-sm" onclick="if(document.getElementById('opp-tel').value){window.open('https://wa.me/'+document.getElementById('opp-tel').value.replace(/\\D/g,''))}else{alert('Cargá el teléfono primero')}">
+          <div style="font-size:11px;font-weight:700;color:var(--ink3);width:100%;margin-bottom:4px">ACCIONES RÃPIDAS</div>
+          <button class="btn btn-secondary btn-sm" onclick="if(document.getElementById('opp-tel').value){window.open('https://wa.me/'+document.getElementById('opp-tel').value.replace(/\\D/g,''))}else{alert('CargÃ¡ el telÃ©fono primero')}">
             <i class="fa fa-whatsapp" style="color:#25d366"></i> Abrir WhatsApp
           </button>
           <button class="btn btn-secondary btn-sm" onclick="transferirAGestion(editOppId)" id="opp-btn-gestion" style="color:var(--accent)">
-            <i class="fa fa-arrow-right"></i> Transferir a Gestión
+            <i class="fa fa-arrow-right"></i> Transferir a GestiÃ³n
           </button>
         </div>
       </div>
@@ -679,16 +680,16 @@
         <div style="padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2)">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
             <select id="opp-act-tipo" style="font-size:12px;padding:6px 8px">
-              <option value="llamada">📞 Llamada</option>
-              <option value="whatsapp">💬 WhatsApp</option>
-              <option value="reunion">🤝 Reunión</option>
-              <option value="email">📧 Email</option>
-              <option value="visita">📍 Visita</option>
-              <option value="nota">📝 Nota</option>
+              <option value="llamada">ð Llamada</option>
+              <option value="whatsapp">ð¬ WhatsApp</option>
+              <option value="reunion">ð¤ ReuniÃ³n</option>
+              <option value="email">ð§ Email</option>
+              <option value="visita">ð Visita</option>
+              <option value="nota">ð Nota</option>
             </select>
             <input type="date" id="opp-act-fecha" style="font-size:12px">
           </div>
-          <textarea id="opp-act-nota" rows="2" placeholder="¿Qué pasó? ¿Qué se acordó?..." style="font-size:12px;width:100%;resize:none"></textarea>
+          <textarea id="opp-act-nota" rows="2" placeholder="Â¿QuÃ© pasÃ³? Â¿QuÃ© se acordÃ³?..." style="font-size:12px;width:100%;resize:none"></textarea>
           <button class="btn btn-primary btn-sm" onclick="guardarActividadOpp()" style="width:100%;margin-top:6px">
             <i class="fa fa-plus"></i> Registrar actividad
           </button>
@@ -696,7 +697,7 @@
 
         <!-- Lista de actividades -->
         <div id="opp-actividades-body" style="flex:1;overflow-y:auto;padding:8px 16px">
-          <div style="padding:12px;text-align:center;color:var(--ink4);font-size:12px">Sin actividades aún</div>
+          <div style="padding:12px;text-align:center;color:var(--ink4);font-size:12px">Sin actividades aÃºn</div>
         </div>
       </div>
 
@@ -715,7 +716,7 @@
 
 <!-- Modal Presupuesto -->
 
-<!-- Modal Detalle Presupuesto (tabs: Presentación / Análisis / Pagos) -->
+<!-- Modal Detalle Presupuesto (tabs: PresentaciÃ³n / AnÃ¡lisis / Pagos) -->
 <div id="m-ppto-detalle" class="overlay">
   <div class="modal" style="max-width:1300px;width:98vw;max-height:96vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
     <div id="ppto-detalle-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column"></div>
@@ -749,13 +750,13 @@
       <div style="padding:12px 20px;border-bottom:1px solid var(--border)">
         <div style="display:flex;gap:8px;margin-bottom:10px">
 
-          <button class="btn btn-primary btn-sm" onclick="agregarItem()"><i class="fa fa-plus"></i> Ítem</button>
+          <button class="btn btn-primary btn-sm" onclick="agregarItem()"><i class="fa fa-plus"></i> Ãtem</button>
         </div>
         <div class="tbl-wrap" style="border:none;overflow-x:auto">
           <table style="min-width:900px">
             <thead><tr style="background:#1c1c1a;color:#fff">
               <th style="width:32px;padding:10px 8px;font-size:11px">#</th>
-              <th style="padding:10px 8px;font-size:12px;min-width:200px">Descripción</th>
+              <th style="padding:10px 8px;font-size:12px;min-width:200px">DescripciÃ³n</th>
               <th style="padding:10px 8px;font-size:12px;min-width:120px;text-align:right">Costo unit.</th>
               <th style="padding:10px 8px;font-size:12px;text-align:center" title="El flete incluye IVA 10.5% (transporte de carga)">Flete% <i class="fa fa-info-circle" style="font-size:10px;color:var(--amber);opacity:.7"></i></th>
               <th style="padding:10px 8px;font-size:12px;text-align:center">Margen%</th>
@@ -765,7 +766,7 @@
               <th style="padding:10px 8px;font-size:12px;text-align:center">IVA%</th>
               <th style="padding:10px 8px;font-size:12px;text-align:center">IIBB%</th>
               <th style="padding:10px 8px;font-size:11px;text-align:right">P.Final</th>
-              <th style="padding:10px 8px;font-size:12px;text-align:right">Total línea</th>
+              <th style="padding:10px 8px;font-size:12px;text-align:right">Total lÃ­nea</th>
               <th style="width:36px"></th>
             </tr></thead>
             <tbody id="ppto-items-body"></tbody>
@@ -808,7 +809,7 @@
     <div class="modal-ft">
       <button id="ppto-delete-btn" class="btn btn-danger" onclick="eliminarPpto()" style="display:none"><i class="fa fa-trash"></i> Eliminar</button>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-secondary" onclick="if(editPptoId){pptoVistaTab='presentacion';abrirDetallePpto(editPptoId)}" title="Ver cómo lo ve el cliente"><i class="fa fa-eye"></i> Vista cliente</button>
+        <button class="btn btn-secondary" onclick="if(editPptoId){pptoVistaTab='presentacion';abrirDetallePpto(editPptoId)}" title="Ver cÃ³mo lo ve el cliente"><i class="fa fa-eye"></i> Vista cliente</button>
         <button class="btn btn-secondary" onclick="cerrar('m-presupuesto')">Cancelar</button>
         <button class="btn btn-primary" onclick="guardarPpto()"><i class="fa fa-check"></i> Guardar</button>
       </div>
@@ -844,7 +845,7 @@
 <div id="m-porcobrar" class="overlay">
   <div class="modal modal-lg">
     <div class="modal-hd">
-      <div class="modal-title">Detalle — Por cobrar</div>
+      <div class="modal-title">Detalle â Por cobrar</div>
       <div class="modal-close" onclick="cerrar('m-porcobrar')"><i class="fa fa-times"></i></div>
     </div>
     <div class="modal-bd" id="popup-porcobrar-body"></div>
@@ -859,10 +860,10 @@
       <div class="modal-close" onclick="cerrar('m-gasto')"><i class="fa fa-times"></i></div>
     </div>
     <div class="modal-bd">
-      <div class="field"><label>Concepto *</label><input id="g-concepto" placeholder="Descripción del gasto"></div>
+      <div class="field"><label>Concepto *</label><input id="g-concepto" placeholder="DescripciÃ³n del gasto"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field"><label>Categoría</label>
-          <select id="g-cat"><option value="salario">👤 Salario</option><option value="alquiler">🏢 Alquiler</option><option value="servicios">⚡ Servicios</option><option value="telefonia">📱 Telefonía</option><option value="materiales">📦 Materiales</option><option value="proveedor">🚚 Proveedor</option><option value="impuestos">🏛️ Impuestos</option><option value="bancario">🏦 Bancario</option><option value="marketing">📣 Marketing</option><option value="otros">📌 Otros</option></select></div>
+        <div class="field"><label>CategorÃ­a</label>
+          <select id="g-cat"><option value="salario">ð¤ Salario</option><option value="alquiler">ð¢ Alquiler</option><option value="servicios">â¡ Servicios</option><option value="telefonia">ð± TelefonÃ­a</option><option value="materiales">ð¦ Materiales</option><option value="proveedor">ð Proveedor</option><option value="impuestos">ðï¸ Impuestos</option><option value="bancario">ð¦ Bancario</option><option value="marketing">ð£ Marketing</option><option value="otros">ð Otros</option></select></div>
         <div class="field"><label>Tipo</label>
           <select id="g-tipo"><option value="fijo">Fijo mensual</option><option value="variable">Variable</option><option value="extraordinario">Extraordinario</option></select></div>
       </div>
@@ -871,11 +872,11 @@
         <div class="field"><label>Fecha</label><input type="date" id="g-fecha"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field"><label>Responsable</label><input id="g-resp" placeholder="Quién lo autorizó"></div>
+        <div class="field"><label>Responsable</label><input id="g-resp" placeholder="QuiÃ©n lo autorizÃ³"></div>
         <div class="field"><label>Medio de pago</label>
           <select id="g-medio"><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option><option value="tarjeta">Tarjeta</option><option value="cheque">Cheque</option></select></div>
       </div>
-      <div class="field"><label>Responsable</label><input id="g-responsable" placeholder="Quién genera el gasto"></div>
+      <div class="field"><label>Responsable</label><input id="g-responsable" placeholder="QuiÃ©n genera el gasto"></div>
       <div class="field"><label>Notas</label><textarea id="g-notas" rows="2" placeholder="Observaciones..."></textarea></div>
     </div>
     <div class="modal-ft">
@@ -906,7 +907,7 @@
         <div class="field"><label>Nota interna</label><input id="m-usr-nota" placeholder="Nota sobre este usuario"></div>
       </div>
       <div class="field">
-        <label>Módulos con acceso</label>
+        <label>MÃ³dulos con acceso</label>
         <div id="m-usr-modulos" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-top:8px"></div>
       </div>
     </div>
@@ -920,7 +921,7 @@
   </div>
 </div>
 
-<!-- Modal Vista Cliente (impresión de presupuesto) -->
+<!-- Modal Vista Cliente (impresiÃ³n de presupuesto) -->
 <div id="m-vista-cliente" class="overlay">
   <div class="modal" style="max-width:820px;width:95vw">
     <div class="modal-hd">
@@ -968,8 +969,8 @@
           ondragleave="this.style.borderColor='var(--border)'"
           ondrop="event.preventDefault();this.style.borderColor='var(--border)';importarPDFExtracto(event.dataTransfer.files[0])">
           <i class="fa fa-file-pdf" style="font-size:36px;color:var(--red);display:block;margin-bottom:12px"></i>
-          <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">Arrastrá el PDF del extracto aquí</div>
-          <div style="font-size:12px;color:var(--ink4);margin-bottom:14px">o hacé click para seleccionar</div>
+          <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:6px">ArrastrÃ¡ el PDF del extracto aquÃ­</div>
+          <div style="font-size:12px;color:var(--ink4);margin-bottom:14px">o hacÃ© click para seleccionar</div>
           <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();document.getElementById('ext-pdf-file').click()">
             <i class="fa fa-folder-open"></i> Seleccionar PDF
           </button>
@@ -991,8 +992,8 @@
                 <tr>
                   <th style="padding:6px 8px;text-align:left;color:var(--ink3)">Fecha</th>
                   <th style="padding:6px 8px;text-align:left;color:var(--ink3)">Concepto</th>
-                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">Débito</th>
-                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">Crédito</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">DÃ©bito</th>
+                  <th style="padding:6px 8px;text-align:right;color:var(--ink3)">CrÃ©dito</th>
                   <th style="padding:6px 8px;text-align:right;color:var(--ink3)">Saldo</th>
                 </tr>
               </thead>
@@ -1005,26 +1006,26 @@
       <!-- Panel Texto -->
       <div id="ext-panel-txt" style="display:none">
         <div style="background:var(--accent-lt);border-radius:var(--r);padding:11px 14px;margin-bottom:14px;font-size:12px;color:var(--accent)">
-          <strong>¿Cómo hacerlo?</strong> Abrí el homebanking → visualizá el extracto → Ctrl+A → Ctrl+C → pegalo abajo → Importar
+          <strong>Â¿CÃ³mo hacerlo?</strong> AbrÃ­ el homebanking â visualizÃ¡ el extracto â Ctrl+A â Ctrl+C â pegalo abajo â Importar
         </div>
         <div class="field" style="margin-bottom:14px">
           <label>Cuenta bancaria *</label>
           <select id="extracto-cuenta">
-            <option value="">— Seleccioná la cuenta —</option>
+            <option value="">â SeleccionÃ¡ la cuenta â</option>
             <optgroup label="MORADESIGN S.R.L">
-              <option value="0956091974-2">CC USD · 0956091974-2</option>
-              <option value="0956091975-5">CC ARS · 0956091975-5</option>
-              <option value="0942161811-5">CC ARS · 0942161811-5</option>
+              <option value="0956091974-2">CC USD Â· 0956091974-2</option>
+              <option value="0956091975-5">CC ARS Â· 0956091975-5</option>
+              <option value="0942161811-5">CC ARS Â· 0942161811-5</option>
             </optgroup>
             <optgroup label="CECILIA MORALES">
-              <option value="0940324325-6">CA ARS · 0940324325-6</option>
-              <option value="0940762212-7">CC ARS · 0940762212-7</option>
+              <option value="0940324325-6">CA ARS Â· 0940324325-6</option>
+              <option value="0940762212-7">CC ARS Â· 0940762212-7</option>
             </optgroup>
           </select>
         </div>
         <div class="field">
           <label>Texto del extracto</label>
-          <textarea id="extracto-texto" rows="10" placeholder="Pegá aquí el texto del extracto bancario..."
+          <textarea id="extracto-texto" rows="10" placeholder="PegÃ¡ aquÃ­ el texto del extracto bancario..."
             style="font-family:monospace;font-size:12px;resize:vertical"></textarea>
         </div>
       </div>
@@ -1048,7 +1049,7 @@
     </div>
     <div class="modal-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field"><label>Número *</label><input id="ch-numero" placeholder="N° de cheque"></div>
+        <div class="field"><label>NÃºmero *</label><input id="ch-numero" placeholder="NÂ° de cheque"></div>
         <div class="field"><label>Tipo</label>
           <select id="ch-tipo"><option value="recibido">Recibido</option><option value="emitido">Emitido</option></select></div>
       </div>
@@ -1058,7 +1059,7 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
         <div class="field"><label>Monto *</label><input type="number" id="ch-monto" placeholder="0"></div>
-        <div class="field"><label>Fecha emisión</label><input type="date" id="ch-emision"></div>
+        <div class="field"><label>Fecha emisiÃ³n</label><input type="date" id="ch-emision"></div>
         <div class="field"><label>Fecha cobro</label><input type="date" id="ch-cobro"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
@@ -1094,7 +1095,7 @@
     <div class="modal-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div class="field"><label>Cliente *</label><input id="cobro-cliente" placeholder="Nombre del cliente"></div>
-        <div class="field"><label>Concepto</label><input id="cobro-concepto" placeholder="Descripción del cobro"></div>
+        <div class="field"><label>Concepto</label><input id="cobro-concepto" placeholder="DescripciÃ³n del cobro"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
         <div class="field"><label>Monto base *</label><input type="number" id="cobro-monto" placeholder="0"></div>
@@ -1146,7 +1147,7 @@
     <div class="modal-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div class="field"><label>Proveedor *</label><input id="pago-proveedor" placeholder="Nombre del proveedor"></div>
-        <div class="field"><label>Concepto</label><input id="pago-concepto" placeholder="Descripción del pago"></div>
+        <div class="field"><label>Concepto</label><input id="pago-concepto" placeholder="DescripciÃ³n del pago"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
         <div class="field"><label>Monto base *</label><input type="number" id="pago-monto" placeholder="0"></div>
@@ -1162,7 +1163,7 @@
             <option value="tarjeta">Tarjeta</option>
           </select>
         </div>
-        <div class="field"><label>N° Comprobante / Factura</label><input id="pago-comprobante" placeholder="Ej: FA-0001-00001234"></div>
+        <div class="field"><label>NÂ° Comprobante / Factura</label><input id="pago-comprobante" placeholder="Ej: FA-0001-00001234"></div>
       </div>
       <div class="field"><label>Cuenta bancaria debitada</label><input id="pago-cuenta" placeholder="Cuenta desde donde se paga"></div>
     </div>
@@ -1186,16 +1187,16 @@
     <div class="modal-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div class="field"><label>Nombre completo *</label><input id="emp-nombre" placeholder="Nombre y apellido"></div>
-        <div class="field"><label>Puesto</label><input id="emp-puesto" placeholder="Cargo o posición"></div>
+        <div class="field"><label>Puesto</label><input id="emp-puesto" placeholder="Cargo o posiciÃ³n"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field"><label>Departamento</label><input id="emp-departamento" placeholder="Área de trabajo"></div>
+        <div class="field"><label>Departamento</label><input id="emp-departamento" placeholder="Ãrea de trabajo"></div>
         <div class="field"><label>Fecha de ingreso</label><input type="date" id="emp-ingreso"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
         <div class="field"><label>Salario mensual</label><input type="number" id="emp-salario" placeholder="0"></div>
         <div class="field"><label>Email</label><input type="email" id="emp-email" placeholder="email@empresa.com"></div>
-        <div class="field"><label>Teléfono</label><input id="emp-telefono" placeholder="+54 9 ..."></div>
+        <div class="field"><label>TelÃ©fono</label><input id="emp-telefono" placeholder="+54 9 ..."></div>
       </div>
       <div class="field"><label>Estado</label>
         <select id="emp-estado">
@@ -1218,16 +1219,16 @@
 <div id="m-sueldo" class="overlay">
   <div class="modal modal-lg">
     <div class="modal-hd">
-      <div class="modal-title" id="m-sueldo-title">Nueva liquidación</div>
+      <div class="modal-title" id="m-sueldo-title">Nueva liquidaciÃ³n</div>
       <div class="modal-close" onclick="cerrar('m-sueldo')"><i class="fa fa-times"></i></div>
     </div>
     <div class="modal-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field"><label>Empleado *</label><select id="sue-empleado"><option value="">— Seleccionar —</option></select></div>
-        <div class="field"><label>Período</label><input id="sue-periodo" placeholder="Ej: Marzo 2026"></div>
+        <div class="field"><label>Empleado *</label><select id="sue-empleado"><option value="">â Seleccionar â</option></select></div>
+        <div class="field"><label>PerÃ­odo</label><input id="sue-periodo" placeholder="Ej: Marzo 2026"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px">
-        <div class="field"><label>Básico *</label><input type="number" id="sue-basico" placeholder="0" oninput="calcularSueldo()"></div>
+        <div class="field"><label>BÃ¡sico *</label><input type="number" id="sue-basico" placeholder="0" oninput="calcularSueldo()"></div>
         <div class="field"><label>Bonos</label><input type="number" id="sue-bonos" placeholder="0" oninput="calcularSueldo()"></div>
         <div class="field"><label>Deducciones</label><input type="number" id="sue-deducciones" placeholder="0" oninput="calcularSueldo()"></div>
         <div class="field"><label>Aportes (17% auto)</label><input type="number" id="sue-aportes" placeholder="Auto 17%" oninput="calcularSueldo()"></div>
@@ -1270,7 +1271,7 @@
       <div class="modal-hd">
         <div>
           <div class="modal-title">Registrar llamada</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">Cargá el resultado de la llamada</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">CargÃ¡ el resultado de la llamada</div>
         </div>
         <div class="modal-close" onclick="cerrar('m-llamada')"><i class="fa fa-times"></i></div>
       </div>
@@ -1279,7 +1280,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
           <div class="field">
             <label>Nombre del contacto</label>
-            <input type="text" id="ll-contacto" placeholder="Ej: Dr. García">
+            <input type="text" id="ll-contacto" placeholder="Ej: Dr. GarcÃ­a">
           </div>
           <div class="field">
             <label>Empresa / Consultorio</label>
@@ -1328,7 +1329,7 @@
     </div>
   </div>
 
-<!-- Modal Retención AFIP -->
+<!-- Modal RetenciÃ³n AFIP -->
 <div id="m-retencion" class="overlay" onclick="if(event.target===this)cerrar('m-retencion')">
   <div class="modal" style="max-width:520px">
     <div id="m-retencion-body"></div>
@@ -1346,5 +1347,5 @@
       if (typeof verificarAuth === 'function') verificarAuth();
     });
   </script>
+  <script src="js/manual.js"></script>
 </body>
-</html>
