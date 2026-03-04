@@ -1338,12 +1338,33 @@
   <script src="js/app.js?v=2"></script>
   <script src="js/api.js?v=2"></script>
   <script>
-    // Arranque garantizado: cargarDB + verificarAuth siempre se ejecutan.
-    // Esto asegura que DB esté disponible para todos los módulos,
-    // y que el sistema de auth funcione aunque app.js haya tenido un bypass.
+    // Fix de auth definitivo: redefine verificarAuth con la lógica real
+    // después de que app.js la sobreescribió con un bypass temporal.
+    // Se ejecuta en DOMContentLoaded (último listener, gana el más reciente).
     document.addEventListener('DOMContentLoaded', function() {
+      // Paso 1: garantizar que DB esté cargada
       if (typeof cargarDB === 'function') cargarDB();
-      if (typeof verificarAuth === 'function') verificarAuth();
+
+      // Paso 2: verificar sesión real en localStorage
+      const AUTH_K = 'forma_auth';
+      const DB_K = 'forma_v3';
+      const authRaw = localStorage.getItem(AUTH_K);
+      if (authRaw) {
+        try {
+          const { userId } = JSON.parse(authRaw);
+          const db = JSON.parse(localStorage.getItem(DB_K) || '{}');
+          const user = (db.usuarios || []).find(function(u){ return u.id === userId; });
+          if (user && user.status === 'activo') {
+            // Sesión válida: dejar que mostrarApp() esté activo (ya lo hizo el bypass)
+            return;
+          }
+        } catch(e) {}
+      }
+      // Sin sesión válida: mostrar pantalla de login
+      var authEl = document.getElementById('auth-screen');
+      var appEl = document.querySelector('.app');
+      if (authEl) { authEl.style.display = 'flex'; authEl.classList.remove('hidden'); }
+      if (appEl) appEl.style.display = 'none';
     });
   </script>
 </body>
