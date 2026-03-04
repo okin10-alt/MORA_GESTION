@@ -2683,7 +2683,7 @@ function guardarPpto() {
       : []
   };
 
-  const pid = editPptoId || ppto.id;
+  const pid = editPptoId || data.id;
   if (editPptoId) {
     const idx = DB.presupuestos.findIndex(x => x.id === editPptoId);
     if (idx !== -1) DB.presupuestos[idx] = data;
@@ -2692,12 +2692,7 @@ function guardarPpto() {
   }
   guardar();
   cerrar('m-presupuesto');
-  // Abrir detalle inmediatamente con las 3 áreas visibles
-  if (pid) {
-    setTimeout(() => { abrirDetallePpto(pid); }, 80);
-  } else {
-    go(modulo);
-  }
+  go('presupuestos');
 }
 
 function eliminarPpto() {
