@@ -191,7 +191,9 @@ function verificarAuth() {
 }
 
 function mostrarAuth() {
-  document.getElementById('auth-screen').classList.remove('hidden');
+  const el = document.getElementById('auth-screen');
+  el.style.display = 'flex';
+  el.classList.remove('hidden');
   document.querySelector('.app').style.display = 'none';
 }
 
