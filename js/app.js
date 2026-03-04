@@ -2550,28 +2550,26 @@ function renderFiles() {}
 // ══════════════════════════════════════════════════════
 
 function nuevoPpto() {
-  editPptoId = null;
-  pptoItems = [];
-  document.getElementById('m-ppto-title').textContent = 'Nuevo Presupuesto';
   // Generar número
   if (!DB.pptoCounter) DB.pptoCounter = 3829;
   DB.pptoCounter++;
+  const hoy = new Date().toLocaleDateString('es-AR');
+  const nuevoId = nid();
+  const data = {
+    id: nuevoId,
+    numero: 'N° ' + String(DB.pptoCounter).padStart(4,'0'),
+    proyId: null, proyNom: '',
+    cliente: '', cuit: '',
+    fecha: hoy, status: 'borrador',
+    factura: 'Presupuesto', dto: '0',
+    notas: '', items: [],
+    totalFinal: 0, gananciaPct: 0,
+    pagosParciales: []
+  };
+  DB.presupuestos.push(data);
   guardar();
-  document.getElementById('m-ppto-num').textContent = 'N° ' + String(DB.pptoCounter).padStart(4,'0');
-  // Limpiar campos
-  const hoy = new Date().toISOString().split('T')[0];
-  document.getElementById('pp-fecha').value = hoy;
-  document.getElementById('pp-cliente').value = '';
-  document.getElementById('pp-cuit').value = '';
-  document.getElementById('pp-dto').value = '0';
-  document.getElementById('pp-status').value = 'borrador';
-  document.getElementById('pp-notas').value = '';
-  document.getElementById('ppto-delete-btn').style.display = 'none';
-  // Cargar select de proyectos
-  _cargarSelectProyectosPpto(null);
-  renderPptoItems();
-  recalcPpto();
-  abrir('m-presupuesto');
+  // Abrir directamente el detalle con 4 tabs
+  abrirDetallePpto(nuevoId);
 }
 
 function nuevoPptoParaProy(proyId) {
@@ -2725,13 +2723,13 @@ function renderPptoItems() {
     return `<tr style="vertical-align:middle">
       <td style="padding:10px 8px;color:var(--ink3);font-size:12px;text-align:center">${idx+1}</td>
       <td style="padding:10px 8px"><input value="${item.desc||''}" onchange="pptoItems[${idx}].desc=this.value" style="${inp};width:100%;min-width:180px"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.costo||0}" onchange="pptoItems[${idx}].costo=+this.value;renderPptoItems();recalcPpto()" style="${inp};width:110px;text-align:right"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.flete||20}" onchange="pptoItems[${idx}].flete=+this.value;renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.margen||35}" onchange="pptoItems[${idx}].margen=+this.value;renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
-      <td style="padding:10px 8px"><input type="number" value="${item.cant||1}" min="1" onchange="pptoItems[${idx}].cant=+this.value;renderPptoItems();recalcPpto()" style="${inp};width:58px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.costo||0}" oninput="pptoItems[${idx}].costo=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:110px;text-align:right"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.flete||20}" oninput="pptoItems[${idx}].flete=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.margen||35}" oninput="pptoItems[${idx}].margen=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.cant||1}" min="1" oninput="pptoItems[${idx}].cant=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:58px;text-align:center"></td>
       <td style="padding:10px 8px;text-align:right;font-size:13px;color:var(--ink3)">${pesos(c.subtotalFlete||0)}</td>
       <td style="padding:10px 8px;text-align:right;font-size:13px">${pesos(c.precioVentaNeto||0)}</td>
-      <td style="padding:10px 8px"><input type="number" value="${item.iva!=null?item.iva:21}" step="0.5" onchange="pptoItems[${idx}].iva=+this.value;renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
+      <td style="padding:10px 8px"><input type="number" value="${item.iva!=null?item.iva:21}" step="0.5" oninput="pptoItems[${idx}].iva=+this.value;recalcPpto()" onchange="renderPptoItems();recalcPpto()" style="${inp};width:62px;text-align:center"></td>
       <td style="padding:10px 8px;font-size:13px;text-align:center;color:var(--ink3)">3.5%</td>
       <td style="padding:10px 8px;text-align:right;font-size:13px;font-weight:600;color:var(--accent)">${pesos(c.precioFinalUnit||0)}</td>
       <td style="padding:10px 8px;text-align:right;font-size:14px;font-weight:700;color:var(--green)">${pesos(c.totalLinea||0)}</td>
@@ -2743,7 +2741,7 @@ function renderPptoItems() {
 }
 
 function agregarItem() {
-  pptoItems.push({ tipo:'item', desc:'', costo:0, flete:0.08, margen:0.30, cant:1, iva:0.21 });
+  pptoItems.push({ tipo:'item', desc:'', costo:0, flete:20, margen:35, cant:1, iva:21 });
   renderPptoItems();
   recalcPpto();
 }
