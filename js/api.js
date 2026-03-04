@@ -144,8 +144,9 @@ async function iniciarApp() {
     }
 
   } catch (e) {
-    // No hay sesión → mostrar login
+    console.log('catch iniciarApp:', e.message);
     mostrarAuth();
+    console.log('auth-screen display:', document.getElementById('auth-screen')?.style.display);
   }
 }
 
