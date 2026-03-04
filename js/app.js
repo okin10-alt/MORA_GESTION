@@ -26,7 +26,8 @@ const MODULOS_ALL = [
   { id: 'diseno', label: 'Diseño', icon: 'fa-pen-nib' },
   { id: 'presupuestos', label: 'Presupuestos', icon: 'fa-file-invoice-dollar' },
   { id: 'contable', label: 'Contable', icon: 'fa-coins' },
-  { id: 'financiero', label: 'Financiero', icon: 'fa-chart-line' }
+  { id: 'financiero', label: 'Financiero', icon: 'fa-chart-line' },
+    { id: 'manual', label: 'Manual de Usuario', icon: 'fa-book' }
 ];
 
 // ══════════════════════════════════════════════
