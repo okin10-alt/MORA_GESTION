@@ -2580,13 +2580,22 @@ function nuevoPptoParaProy(proyId) {
   const hoy = new Date().toLocaleDateString('es-AR');
   const nuevoId = nid();
   const proy = DB.proyectos.find(x => x.id === proyId);
+  const clienteNom = proy ? (proy.cli || '') : '';
+  // Buscar CUIT y email del lead asociado al proyecto
+  const lead = (DB.leads||[]).find(l => {
+    const nom = (l.nombreCompleto || ((l.nom||'') + ' ' + (l.ape||''))).trim().toLowerCase();
+    return nom === clienteNom.toLowerCase() || (l.empresa||'').toLowerCase() === clienteNom.toLowerCase();
+  });
   const data = {
     id: nuevoId,
     numero: 'N° ' + String(DB.pptoCounter).padStart(4,'0'),
     proyId: proyId || null,
     proyNom: proy ? proy.nom : '',
-    cliente: proy ? (proy.cli || '') : '',
-    cuit: '', fecha: hoy, status: 'borrador',
+    cliente: clienteNom,
+    cuit:    lead ? (lead.cuit || '') : '',
+    email:   lead ? (lead.email || '') : '',
+    tel:     lead ? (lead.tel || '') : '',
+    fecha: hoy, status: 'borrador',
     factura: 'Presupuesto', dto: '0',
     notas: '', items: [],
     totalFinal: 0, gananciaPct: 0,
@@ -3061,27 +3070,28 @@ function renderItemsEditorCliente(p) {
   if (!items.length) return '<div style="text-align:center;padding:20px;color:var(--ink4);font-size:13px">Sin ítems. Agregá el primero.</div>';
 
   let html = '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">';
-  items.forEach((item, idx) => {
+  items.forEach((item) => {
+    const ri = items.indexOf(item); // índice real — items es el array completo (con secciones) acá
     const isSec = item.tipo === 'seccion';
     if (isSec) {
       html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#1c1c1a">' +
-        '<input value="' + esc(item.desc||'') + '" placeholder="Nombre de sección" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="flex:1;background:transparent;border:none;color:#fff;font-weight:700;font-size:13px">' +
-        '<button onclick="moverItemDetalle(' + idx + ',-1)" style="background:none;border:none;cursor:pointer;color:#9a9a96;padding:2px 5px" title="Subir"><i class="fa fa-chevron-up"></i></button>' +
-        '<button onclick="moverItemDetalle(' + idx + ',1)" style="background:none;border:none;cursor:pointer;color:#9a9a96;padding:2px 5px" title="Bajar"><i class="fa fa-chevron-down"></i></button>' +
-        '<button onclick="eliminarItemDetalle(' + idx + ')" style="background:none;border:none;cursor:pointer;color:#e87171;padding:2px 5px"><i class="fa fa-times"></i></button>' +
+        '<input value="' + esc(item.desc||'') + '" placeholder="Nombre de sección" oninput="pptoAnalisisItems[' + ri + '].desc=this.value" style="flex:1;background:transparent;border:none;color:#fff;font-weight:700;font-size:13px">' +
+        '<button onclick="moverItemDetalle(' + ri + ',-1)" style="background:none;border:none;cursor:pointer;color:#9a9a96;padding:2px 5px" title="Subir"><i class="fa fa-chevron-up"></i></button>' +
+        '<button onclick="moverItemDetalle(' + ri + ',1)" style="background:none;border:none;cursor:pointer;color:#9a9a96;padding:2px 5px" title="Bajar"><i class="fa fa-chevron-down"></i></button>' +
+        '<button onclick="eliminarItemDetalle(' + ri + ')" style="background:none;border:none;cursor:pointer;color:#e87171;padding:2px 5px"><i class="fa fa-times"></i></button>' +
         '</div>';
     } else {
       const c = calcItemNew(item);
       html += '<div style="display:grid;grid-template-columns:1fr 60px 120px 90px 70px 40px;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface)">' +
-        '<input value="' + esc(item.desc||'') + '" placeholder="Descripción del ítem" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value;recalcDetalle()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" placeholder="P. unitario" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value;recalcDetalle()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
-        '<div style="font-size:12px;font-weight:700;color:var(--green);text-align:right;padding-right:4px">' + pesos(c.totalFinal) + '</div>' +
+        '<input value="' + esc(item.desc||'') + '" placeholder="Descripción del ítem" oninput="pptoAnalisisItems[' + ri + '].desc=this.value" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input type="number" value="' + (item.cant||'') + '" min="1" step="1" placeholder="1" oninput="pptoAnalisisItems[' + ri + '].cant=+this.value;recalcDetalle()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input type="number" value="' + (item.costo||'') + '" min="0" step="100" placeholder="0" oninput="pptoAnalisisItems[' + ri + '].costo=+this.value;recalcDetalle()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<div style="font-size:12px;font-weight:700;color:var(--green);text-align:right;padding-right:4px" id="ri-total-' + ri + '">' + pesos(c.totalFinal) + '</div>' +
         '<div style="display:flex;flex-direction:column;align-items:center;gap:2px">' +
-          '<button onclick="moverItemDetalle(' + idx + ',-1)" style="background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px 4px;font-size:11px"><i class="fa fa-chevron-up"></i></button>' +
-          '<button onclick="moverItemDetalle(' + idx + ',1)" style="background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px 4px;font-size:11px"><i class="fa fa-chevron-down"></i></button>' +
+          '<button onclick="moverItemDetalle(' + ri + ',-1)" style="background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px 4px;font-size:11px"><i class="fa fa-chevron-up"></i></button>' +
+          '<button onclick="moverItemDetalle(' + ri + ',1)" style="background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px 4px;font-size:11px"><i class="fa fa-chevron-down"></i></button>' +
         '</div>' +
-        '<button onclick="eliminarItemDetalle(' + idx + ')" style="background:none;border:none;cursor:pointer;color:var(--red);padding:4px"><i class="fa fa-trash"></i></button>' +
+        '<button onclick="eliminarItemDetalle(' + ri + ')" style="background:none;border:none;cursor:pointer;color:var(--red);padding:4px"><i class="fa fa-trash"></i></button>' +
         '</div>';
     }
   });
@@ -3223,34 +3233,38 @@ function renderVistaAnalisis(p) {
   const pctGanancia = costoTotal > 0 ? ((ganancia / costoTotal) * 100).toFixed(1) : '0.0';
   const roi         = costoTotal > 0 ? (ganancia / costoTotal).toFixed(2) : '0.00';
 
-  const rowsHTML = items.map((item, idx) => {
+  const rowsHTML = items.map((item) => {
+    const ri = pptoAnalisisItems.indexOf(item); // índice real en el array completo (con secciones)
     const c = calcItemNew(item);
     return '<tr>' +
       '<td style="padding:7px 10px;border-bottom:1px solid #e8e8e4;font-size:13px;min-width:160px">' +
-        '<input value="' + esc(item.desc||'') + '" oninput="pptoAnalisisItems.find((x,i)=>i===' + idx + '&&(x.desc=this.value))" style="width:100%;border:none;background:transparent;font-size:13px;padding:0">' +
+        '<input value="' + esc(item.desc||'') + '" oninput="pptoAnalisisItems[' + ri + '].desc=this.value" style="width:100%;border:none;background:transparent;font-size:13px;padding:0">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center">' +
-        '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value;recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.cant||'') + '" min="1" step="1" placeholder="1" oninput="pptoAnalisisItems[' + ri + '].cant=+this.value;recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right">' +
-        '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value;recalcDetalle()" style="width:90px;text-align:right;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.costo||'') + '" min="0" step="100" placeholder="0" oninput="pptoAnalisisItems[' + ri + '].costo=+this.value;recalcDetalle()" style="width:90px;text-align:right;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px">' + pesos(c.totalCompra) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px" id="ri-compra-' + ri + '">' + pesos(c.totalCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#eef3fb">' +
-        '<input type="number" value="' + (item.iva||21) + '" min="0" max="105" oninput="pptoAnalisisItems[' + idx + '].iva=+this.value;recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.iva||'') + '" min="0" max="105" placeholder="21" oninput="pptoAnalisisItems[' + ri + '].iva=+this.value;recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px">' + pesos(c.ivaCompra) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#eef3fb;font-size:13px" id="ri-ivac-' + ri + '">' + pesos(c.ivaCompra) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#fef6e4">' +
-        '<input type="number" value="' + (item.flete||20) + '" min="0" max="100" oninput="pptoAnalisisItems[' + idx + '].flete=+this.value;recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.flete||'') + '" min="0" max="100" placeholder="20" oninput="pptoAnalisisItems[' + ri + '].flete=+this.value;recalcDetalle()" style="width:46px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px">' + pesos(c.flete) + '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px">' + pesos(c.seguroCompra) + '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px">' + pesos(c.ivaFlete) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px" id="ri-flete-' + ri + '">' + pesos(c.flete) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px" id="ri-segc-' + ri + '">' + pesos(c.seguroCompra) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#fef6e4;font-size:13px" id="ri-ivaf-' + ri + '">' + pesos(c.ivaFlete) + '</td>' +
       '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center;background:#edfaf1">' +
-        '<input type="number" value="' + (item.margen||35) + '" min="0" max="1000" oninput="pptoAnalisisItems[' + idx + '].margen=+this.value;recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
+        '<input type="number" value="' + (item.margen||'') + '" min="0" max="1000" placeholder="35" oninput="pptoAnalisisItems[' + ri + '].margen=+this.value;recalcDetalle()" style="width:52px;text-align:center;background:#fffbea;border:1px solid #d1c95e;border-radius:4px;padding:4px;font-size:13px">' +
       '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:13px;font-weight:700;color:#1a7a4a">' + pesos(c.margen) + '</td>' +
-      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:12px;font-weight:700;color:#2952d9">' + pesos(c.totalFinal) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:13px;font-weight:700;color:#1a7a4a" id="ri-margen-' + ri + '">' + pesos(c.margen) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:right;background:#edfaf1;font-size:12px;font-weight:700;color:#2952d9" id="ri-total-' + ri + '">' + pesos(c.totalFinal) + '</td>' +
+      '<td style="padding:7px 6px;border-bottom:1px solid #e8e8e4;text-align:center">' +
+        '<button onclick="eliminarItemDetalle(' + ri + ')" style="background:none;border:none;cursor:pointer;color:#c0281e;font-size:16px;padding:2px 6px" title="Eliminar"><i class="fa fa-times"></i></button>' +
+      '</td>' +
       '</tr>';
   }).join('');
 
@@ -3318,6 +3332,7 @@ function renderVistaAnalisis(p) {
           '<th style="padding:10px 6px;text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;color:#1a7a4a;border-bottom:2px solid #e0e0da;background:#edfaf1">Margen%</th>' +
           '<th style="padding:10px 6px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;color:#1a7a4a;border-bottom:2px solid #e0e0da;background:#edfaf1">Margen $</th>' +
           '<th style="padding:10px 6px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;color:#2952d9;border-bottom:2px solid #e0e0da;background:#edfaf1">Total<br>Final</th>' +
+          '<th style="padding:10px 6px;border-bottom:2px solid #e0e0da;width:36px"></th>' +
         '</tr></thead>' +
         '<tbody>' + rowsHTML + '</tbody>' +
         '<tfoot>' + totalesRow + '</tfoot>' +
@@ -3608,9 +3623,16 @@ function recalcDetalle() {
     tMargen += c.margen; tPVN += c.precioVentaNeto;
     tIvaV += c.ivaVenta; tIibb += c.iibb; tSegV += c.seguroVenta;
     tFinal += c.totalFinal;
-    // Actualizar total de línea en la fila
-    const cell = document.getElementById('linea-total-' + (pptoAnalisisItems.indexOf(i)));
-    if (cell) cell.textContent = pesos(c.totalFinal);
+    // Actualizar celdas calculadas por fila
+    const ri = pptoAnalisisItems.indexOf(i);
+    const upd = (id, v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+    upd('ri-total-'+ri,  pesos(c.totalFinal));
+    upd('ri-compra-'+ri, pesos(c.totalCompra));
+    upd('ri-ivac-'+ri,   pesos(c.ivaCompra));
+    upd('ri-flete-'+ri,  pesos(c.flete));
+    upd('ri-segc-'+ri,   pesos(c.seguroCompra));
+    upd('ri-ivaf-'+ri,   pesos(c.ivaFlete));
+    upd('ri-margen-'+ri, pesos(c.margen));
   });
   const costoTotal = tCompra + tIvaC + tFlete + tSegC + tIvaFlete;
   const pctGanancia = costoTotal > 0 ? ((tMargen / costoTotal) * 100).toFixed(1) : '0.0';
