@@ -169,11 +169,12 @@ function pesos(n) {
 // ══════════════════════════════════════════════
 // INICIALIZACIÓN AL CARGAR
 // ══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', function() {
-  cargarDB();
-  verificarAuth();
-  setTimeout(actualizarBadgeGestion, 500);
-});
+// DOMContentLoaded manejado por api.js (iniciarApp)
+// document.addEventListener('DOMContentLoaded', function() {
+//   cargarDB();
+//   verificarAuth();
+//   setTimeout(actualizarBadgeGestion, 500);
+// });
 
 /* ══════════════════════════════════════════════
    FORMA — Sistema de Autenticación
