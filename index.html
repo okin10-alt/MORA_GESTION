@@ -1338,33 +1338,43 @@
   <script src="js/app.js?v=2"></script>
   <script src="js/api.js?v=2"></script>
   <script>
-    // Fix de auth definitivo: redefine verificarAuth con la lógica real
-    // después de que app.js la sobreescribió con un bypass temporal.
-    // Se ejecuta en DOMContentLoaded (último listener, gana el más reciente).
-    document.addEventListener('DOMContentLoaded', function() {
-      // Paso 1: garantizar que DB esté cargada
+    // Arranque y autenticación definitivos.
+    // Sobreescribe verificarAuth del app.js (que podría tener bypass)
+    // con la lógica real que verifica localStorage.
+    window.addEventListener('load', function() {
+      // Garantizar DB disponible
       if (typeof cargarDB === 'function') cargarDB();
 
-      // Paso 2: verificar sesión real en localStorage
-      const AUTH_K = 'forma_auth';
-      const DB_K = 'forma_v3';
-      const authRaw = localStorage.getItem(AUTH_K);
+      // Lógica real de auth
+      var authRaw = localStorage.getItem('forma_auth');
+      var autenticado = false;
       if (authRaw) {
         try {
-          const { userId } = JSON.parse(authRaw);
-          const db = JSON.parse(localStorage.getItem(DB_K) || '{}');
-          const user = (db.usuarios || []).find(function(u){ return u.id === userId; });
+          var userId = JSON.parse(authRaw).userId;
+          var user = (typeof DB !== 'undefined' && DB.usuarios || []).find(function(u){ return u.id === userId; });
           if (user && user.status === 'activo') {
-            // Sesión válida: dejar que mostrarApp() esté activo (ya lo hizo el bypass)
-            return;
+            window.CURRENT_USER = user;
+            autenticado = true;
           }
         } catch(e) {}
       }
-      // Sin sesión válida: mostrar pantalla de login
-      var authEl = document.getElementById('auth-screen');
-      var appEl = document.querySelector('.app');
-      if (authEl) { authEl.style.display = 'flex'; authEl.classList.remove('hidden'); }
-      if (appEl) appEl.style.display = 'none';
+
+      if (autenticado) {
+        // Mostrar app
+        var authEl = document.getElementById('auth-screen');
+        var appEl = document.querySelector('.app');
+        if (authEl) { authEl.style.display = 'none'; authEl.classList.add('hidden'); }
+        if (appEl) appEl.style.display = 'flex';
+        if (typeof actualizarSidebarUser === 'function') actualizarSidebarUser();
+        if (typeof actualizarModulosVisibles === 'function') actualizarModulosVisibles();
+        if (typeof go === 'function') go('dashboard');
+      } else {
+        // Mostrar login
+        var authEl2 = document.getElementById('auth-screen');
+        var appEl2 = document.querySelector('.app');
+        if (authEl2) { authEl2.style.display = 'flex'; authEl2.classList.remove('hidden'); }
+        if (appEl2) appEl2.style.display = 'none';
+      }
     });
   </script>
 </body>
