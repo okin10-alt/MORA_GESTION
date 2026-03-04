@@ -153,10 +153,10 @@ async function iniciarApp() {
 // ── Override de doLogin para usar API ─────────────────────
 // (reemplaza la función del core.js que usaba localStorage)
 async function doLogin() {
-  const email = document.getElementById('login-email')?.value?.trim();
-  const pass  = document.getElementById('login-pass')?.value;
-  const btn   = document.getElementById('login-btn');
-  const err   = document.getElementById('login-error');
+  const email = document.getElementById('au-email')?.value?.trim();
+  const pass  = document.getElementById('au-pass')?.value;
+  const btn   = document.querySelector('.auth-btn');
+  const err   = document.getElementById('au-error');
 
   if (!email || !pass) {
     if (err) err.textContent = 'Completá email y contraseña';
