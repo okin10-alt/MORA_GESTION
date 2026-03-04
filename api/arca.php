@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 // ── Configuracion ──────────────────────────────────────────
 define('ARCA_CUIT',       '27282502149');
 define('ARCA_PV',         7);
-define('ARCA_CERT',       dirname(dirname(__DIR__)) . '/arca/wallybot_3f85b71a325c1c4f.crt');
-define('ARCA_KEY',        dirname(dirname(__DIR__)) . '/arca/privada.key');
+define('ARCA_CERT',       '/home/c2610699/arca/wallybot_3f85b71a325c1c4f.crt');
+define('ARCA_KEY',        '/home/c2610699/arca/privada.key');
 
 // AMBIENTE: 'homo' = homologacion | 'prod' = produccion
 define('ARCA_AMBIENTE',   'homo');
