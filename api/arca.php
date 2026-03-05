@@ -25,7 +25,7 @@ define('ARCA_CERT', '/home/c2610699/arca/wallybot_3f85b71a325c1c4f.crt');
 define('ARCA_KEY',  '/home/c2610699/arca/privada.key');
 
 // AMBIENTE: 'homo' = homologacion | 'prod' = produccion
-define('ARCA_AMBIENTE', 'homo');
+define('ARCA_AMBIENTE', 'prod');
 
 if (ARCA_AMBIENTE === 'homo') {
           define('WSAA_URL', 'https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl');
