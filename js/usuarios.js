@@ -11,7 +11,7 @@
     ${pendientes.length ? `
     <div style="background:var(--amber-lt);border:1px solid var(--amber);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:18px">
       <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:10px">
-        <i class="fa fa-clock"></i> ${pendientes.length} usuario(s) esperando aprobación
+        <i class="fa fa-clock"></i> ${pendientes.length} usuario(s) esperando aprobacióhn
       </div>
       ${pendientes.map(u => usrCard(u)).join('')}
     </div>` : ''}
@@ -105,8 +105,6 @@ function guardarUsuario() {
     const el = document.getElementById('tog-' + id);
     return el && el.classList.contains('on');
   });
-  // dashboard siempre incluido si está activo
-  if (u.status === 'activo' && !u.modulos.includes('dashboard')) u.modulos.unshift('dashboard');
   guardar();
   cerrar('m-usuario');
   go('usuarios');
