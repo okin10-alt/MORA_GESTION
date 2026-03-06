@@ -1,0 +1,18 @@
+# Archivos del modulo ARCA/AFIP (no se suben al repo - son locales en el servidor)
+# El hosting compartido de Donweb no soporta IP fija requerida por AFIP
+api/arca.php
+js/arca.js
+
+# Archivos temporales y de sistema
+*.log
+*.bak
+~$*
+.DS_Store
+Thumbs.db
+
+# Certificados y claves privadas (nunca deben subirse al repo)
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
