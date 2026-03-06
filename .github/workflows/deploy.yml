@@ -1,0 +1,23 @@
+name: Auto-deploy en Donweb (git pull via SSH)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: SSH git pull en servidor
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ejecutar git pull en el servidor via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.APP_PATH }}
+            git pull origin main
