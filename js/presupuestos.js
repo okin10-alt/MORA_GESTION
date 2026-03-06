@@ -1010,3 +1010,57 @@ function calcItemNew(item) {
   const porcMargen = parseFloat(item.margen) || 0;
 
   // 1. COMPRA
+  // Fórmulas exactas según Excel P-FB EN LIMPIO
+  // Porcentajes guardados como enteros (21, 20, 35) → dividir /100
+  const ivaPorc    = porcIva > 1 ? porcIva / 100 : porcIva;
+    const fletePorc  = porcFlete > 1 ? porcFlete / 100 : porcFlete;
+    const margenPorc = porcMargen > 1 ? porcMargen / 100 : porcMargen;
+    const segPct     = parseFloat(item.seguro) > 0
+      ? (parseFloat(item.seguro) > 1 ? parseFloat(item.seguro)/100 : parseFloat(item.seguro))
+          : 0.009;
+
+  // COMPRA: D = C*V, E = D*IVA%
+  const totalCompra  = precioUnitario * cantidad;
+    const ivaCompra    = totalCompra * ivaPorc;
+
+  // FLETE: G=D*Flete%, I=D*Seg%, J=(G+I)*21%, K=G+I+J
+  const flete         = totalCompra * fletePorc;
+    const seguroCompra  = totalCompra * segPct;
+    const ivaFlete      = (flete + seguroCompra) * 0.21;
+    const subtotalFlete = flete + seguroCompra + ivaFlete;
+
+  // SUB TOTAL: L = D (solo precio de compra)
+  const subTotal = totalCompra;
+
+  // UTILIDAD: N = L * Margen%
+  const margen = subTotal * margenPorc;
+
+  // VENTA: O = L+N (Precio Neto Fact A)
+  const precioNetoFactA = subTotal + margen;
+    const precioVentaNeto = precioNetoFactA;
+
+  // MORA/IVA: S = O*3.5%, R = (O+S+K)*21%
+  const iibb     = precioNetoFactA * 0.035;
+    const ivaVenta = (precioNetoFactA + iibb + subtotalFlete) * 0.21;
+
+  // PRECIO NETO Fact B: P = O+R+S
+  const precioNetoFactB = precioNetoFactA + ivaVenta + iibb;
+
+  // TOTAL UNIT: U = (P+S+K)/cant  → precio unit al cliente
+  const precioFinalUnit = (precioNetoFactB + iibb + subtotalFlete) / cantidad;
+    const totalFinal      = precioNetoFactB + iibb + subtotalFlete;
+
+  return {
+        cantidad, totalCompra, ivaCompra,
+        flete, seguroCompra, ivaFlete, subtotalFlete,
+        subTotal, margen,
+        precioNetoFactA, precioNetoFactB,
+        precioVentaNeto, ivaVenta, iibb,
+        seguroVenta: 0, precioFinalUnit, totalFinal,
+        // aliases compatibilidad
+        precioNetoUnit: precioNetoFactA,
+        ivaVentasTotal: ivaVenta,
+        iibbTotal: iibb,
+        totalLinea: totalFinal,
+  };
+}
