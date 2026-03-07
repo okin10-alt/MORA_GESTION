@@ -1,12 +1,12 @@
-// FORMA â mÃ³dulo: presupuestos
+// FORMA Ã¢ÂÂ mÃÂ³dulo: presupuestos
 
   pptoItems = [];
   document.getElementById('m-ppto-title').textContent = 'Nuevo Presupuesto';
-  // Generar nÃºmero
+  // Generar nÃÂºmero
   if (!DB.pptoCounter) DB.pptoCounter = 3829;
   DB.pptoCounter++;
   guardar();
-  document.getElementById('m-ppto-num').textContent = 'NÂ° ' + String(DB.pptoCounter).padStart(4,'0');
+  document.getElementById('m-ppto-num').textContent = 'NÃÂ° ' + String(DB.pptoCounter).padStart(4,'0');
   // Limpiar campos
   const hoy = new Date().toISOString().split('T')[0];
   document.getElementById('pp-fecha').value = hoy;
@@ -24,7 +24,7 @@
 }
 
 function nuevoPptoParaProy(proyId) {
-  // Navegar al mÃ³dulo presupuestos primero, luego abrir modal con proyecto referenciado
+  // Navegar al mÃÂ³dulo presupuestos primero, luego abrir modal con proyecto referenciado
   cerrar('m-detalle');
   go('presupuestos');
   setTimeout(() => {
@@ -68,9 +68,9 @@ function editarPpto(id) {
 function _cargarSelectProyectosPpto(selectedId) {
   const sel = document.getElementById('pp-proyecto');
   if (!sel) return;
-  sel.innerHTML = '<option value="">â Sin proyecto â</option>' +
+  sel.innerHTML = '<option value="">Ã¢ÂÂ Sin proyecto Ã¢ÂÂ</option>' +
     DB.proyectos.filter(p => p.status !== 'cancelado').map(p =>
-      `<option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.nom}${p.cli ? ' â ' + p.cli : ''}</option>`
+      `<option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.nom}${p.cli ? ' Ã¢ÂÂ ' + p.cli : ''}</option>`
     ).join('');
 }
 
@@ -88,7 +88,7 @@ function autoFillClientePpto() {
 }
 
 function guardarPpto() {
-  const numero = document.getElementById('m-ppto-num').textContent.replace('NÂ° ','').trim();
+  const numero = document.getElementById('m-ppto-num').textContent.replace('NÃÂ° ','').trim();
   const proyId  = document.getElementById('pp-proyecto').value;
   const proy    = DB.proyectos.find(x => x.id === proyId);
   const fechaRaw = document.getElementById('pp-fecha').value;
@@ -141,7 +141,7 @@ function guardarPpto() {
   }
   guardar();
   cerrar('m-presupuesto');
-  // Abrir detalle inmediatamente con las 3 Ã¡reas visibles
+  // Abrir detalle inmediatamente con las 3 ÃÂ¡reas visibles
   if (pid) {
     setTimeout(() => { abrirDetallePpto(pid); }, 80);
   } else {
@@ -151,7 +151,7 @@ function guardarPpto() {
 
 function eliminarPpto() {
   if (!editPptoId) return;
-  if (!confirm('Â¿Eliminar este presupuesto? Esta acciÃ³n no se puede deshacer.')) return;
+  if (!confirm('ÃÂ¿Eliminar este presupuesto? Esta acciÃÂ³n no se puede deshacer.')) return;
   DB.presupuestos = DB.presupuestos.filter(x => x.id !== editPptoId);
   guardar();
   cerrar('m-presupuesto');
@@ -162,13 +162,13 @@ function renderPptoItems() {
   const tbody = document.getElementById('ppto-items-body');
   if (!tbody) return;
   if (!pptoItems.length) {
-    tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:20px;color:var(--ink4)">Sin Ã­tems. AgregÃ¡ una secciÃ³n o un Ã­tem.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:20px;color:var(--ink4)">Sin ÃÂ­tems. AgregÃÂ¡ una secciÃÂ³n o un ÃÂ­tem.</td></tr>';
     return;
   }
   tbody.innerHTML = pptoItems.map((item, idx) => {
     if (item.tipo === 'seccion') {
       return `<tr style="background:var(--ink);color:#fff">
-        <td style="padding:8px 10px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px" colspan="12">â¸ ${item.nombre||'SecciÃ³n'}</td>
+        <td style="padding:8px 10px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px" colspan="12">Ã¢ÂÂ¸ ${item.nombre||'SecciÃÂ³n'}</td>
         <td style="padding:8px 10px;text-align:center">
           <button onclick="pptoItems.splice(${idx},1);renderPptoItems();recalcPpto()" style="background:none;border:none;color:#fff;cursor:pointer;opacity:.6"><i class="fa fa-trash"></i></button>
         </td>
@@ -203,7 +203,7 @@ function agregarItem() {
 }
 
 function agregarSeccion() {
-  pptoItems.push({ tipo:'seccion', nombre:'Nueva secciÃ³n' });
+  pptoItems.push({ tipo:'seccion', nombre:'Nueva secciÃÂ³n' });
   renderPptoItems();
 }
 
@@ -249,9 +249,9 @@ function recalcPpto() {
   set('r-iva-arca-val', 'IVA ventas - IVA compras');
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
 // PRESUPUESTOS
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
 function presupuestos() {
   titulo('Presupuestos');
   actions(`<button class="btn btn-primary" onclick="nuevoPpto()"><i class="fa fa-plus"></i> Nuevo Presupuesto</button>`);
@@ -283,7 +283,7 @@ function presupuestos() {
           onmouseout="this.style.transform='';this.style.boxShadow=''">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
             <div>
-              <div style="font-size:11px;font-weight:700;font-family:monospace;color:var(--ink3);letter-spacing:.5px">${p.numero||'â'}</div>
+              <div style="font-size:11px;font-weight:700;font-family:monospace;color:var(--ink3);letter-spacing:.5px">${p.numero||'Ã¢ÂÂ'}</div>
               <div style="font-size:15px;font-weight:700;color:var(--ink);margin-top:3px">${p.cliente||'Sin cliente'}</div>
               ${p.proyNom?`<div style="font-size:11px;color:var(--ink3);margin-top:1px">${p.proyNom}</div>`:''}
             </div>
@@ -301,7 +301,7 @@ function presupuestos() {
           </div>` : ''}
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
             <div style="font-size:11px;color:var(--ink3)">
-              <i class="fa fa-calendar" style="margin-right:4px"></i>${p.fecha||'â'}
+              <i class="fa fa-calendar" style="margin-right:4px"></i>${p.fecha||'Ã¢ÂÂ'}
               ${p.gananciaPct!=null?`<span style="margin-left:10px;color:var(--green);font-weight:600">${pct2((p.gananciaPct||0))} margen</span>`:''}
             </div>
             <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
@@ -367,8 +367,8 @@ function pct2(val) {
   return (val*100).toFixed(1) + '%';
 }
 
-// ââ MODAL DETALLE CON TABS PRESENTACIÃN / ANÃLISIS / PAGOS ââ
-// ââ MODAL DETALLE CON TABS PRESENTACIÃN / ANÃLISIS / PAGOS ââ
+// Ã¢ÂÂÃ¢ÂÂ MODAL DETALLE CON TABS PRESENTACIÃÂN / ANÃÂLISIS / PAGOS Ã¢ÂÂÃ¢ÂÂ
+// Ã¢ÂÂÃ¢ÂÂ MODAL DETALLE CON TABS PRESENTACIÃÂN / ANÃÂLISIS / PAGOS Ã¢ÂÂÃ¢ÂÂ
 let pptoDetalle = null;
 let pptoVistaTab = 'cliente';
 let pptoAnalisisItems = [];
@@ -397,10 +397,10 @@ function renderDetallePpto() {
   const pctPago = p.totalFinal > 0 ? Math.min(100,(montoPagado/p.totalFinal)*100) : 0;
 
   const tabs = [
-    { id:'cliente',      label:'ð Datos del Cliente' },
-    { id:'presentacion', label:'ð PresentaciÃ³n' },
-    { id:'analisis',     label:'ð Cotizador' },
-    { id:'pagos',        label:`ð° Pagos (${(p.pagosParciales||[]).length})` },
+    { id:'cliente',      label:'Ã°ÂÂÂ Datos del Cliente' },
+    { id:'presentacion', label:'Ã°ÂÂÂ PresentaciÃÂ³n' },
+    { id:'analisis',     label:'Ã°ÂÂÂ Cotizador' },
+    { id:'pagos',        label:`Ã°ÂÂÂ° Pagos (${(p.pagosParciales||[]).length})` },
   ];
 
   const tabsHTML = tabs.map(t =>
@@ -427,9 +427,9 @@ function renderDetallePpto() {
     '<!-- HEADER -->' +
     '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--surface2);border-bottom:1px solid var(--border);flex-shrink:0">' +
       '<div style="display:flex;align-items:center;gap:12px">' +
-        '<div style="font-size:17px;font-weight:800;font-family:monospace;color:var(--ink)">Presupuesto ' + (p.numero||'â') + '</div>' +
+        '<div style="font-size:17px;font-weight:800;font-family:monospace;color:var(--ink)">Presupuesto ' + (p.numero||'Ã¢ÂÂ') + '</div>' +
         '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:' + badgeBg + ';color:' + badgeClr + '">' + labelSt + '</span>' +
-        (p.cliente ? '<span style="font-size:12px;color:var(--ink3)">' + p.cliente + (p.proyNom?' Â· '+p.proyNom:'') + '</span>' : '') +
+        (p.cliente ? '<span style="font-size:12px;color:var(--ink3)">' + p.cliente + (p.proyNom?' ÃÂ· '+p.proyNom:'') + '</span>' : '') +
       '</div>' +
       '<div style="display:flex;align-items:center;gap:8px">' +
         '<select onchange="cambiarEstadoPpto(\'' + p.id + '\',this.value)" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--surface)">' +
@@ -463,7 +463,7 @@ function renderDetallePpto() {
         '<button class="btn btn-primary" onclick="guardarTodosPpto()" style="gap:6px">' +
           '<i class="fa fa-save"></i> Guardar cambios' +
         '</button>' +
-        '<button class="btn btn-danger" onclick="if(confirm(\'Â¿Eliminar este presupuesto?\')){eliminarPptoId(\'' + p.id + '\');cerrar(\'m-ppto-detalle\')}">' +
+        '<button class="btn btn-danger" onclick="if(confirm(\'ÃÂ¿Eliminar este presupuesto?\')){eliminarPptoId(\'' + p.id + '\');cerrar(\'m-ppto-detalle\')}">' +
           '<i class="fa fa-trash"></i>' +
         '</button>' +
         '<button class="btn btn-secondary" onclick="cerrar(\'m-ppto-detalle\')">Cerrar</button>' +
@@ -473,10 +473,10 @@ function renderDetallePpto() {
     '</div>';
 }
 
-// ââ NUEVA: Vista Datos del Cliente (editable inline) ââ
+// Ã¢ÂÂÃ¢ÂÂ NUEVA: Vista Datos del Cliente (editable inline) Ã¢ÂÂÃ¢ÂÂ
 function renderVistaCliente(p) {
   const proyOpts = DB.proyectos.map(pr =>
-    '<option value="' + pr.id + '"' + (p.proyId===pr.id?' selected':'') + '>' + pr.nom + (pr.cli?' â '+pr.cli:'') + '</option>'
+    '<option value="' + pr.id + '"' + (p.proyId===pr.id?' selected':'') + '>' + pr.nom + (pr.cli?' Ã¢ÂÂ '+pr.cli:'') + '</option>'
   ).join('');
 
   return '<div style="max-width:680px;margin:0 auto;padding:28px 24px">' +
@@ -491,7 +491,7 @@ function renderVistaCliente(p) {
       '<input id="pd-cuit" value="' + esc(p.cuit||'') + '" placeholder="30-00000000-0" oninput="pptoDetalle.cuit=this.value"></div>' +
 
       '<div class="field"><label>Proyecto vinculado</label>' +
-      '<select id="pd-proyecto" onchange="pptoDetalle.proyId=this.value;const pr=DB.proyectos.find(x=>x.id===this.value);pptoDetalle.proyNom=pr?pr.nom:\'\'"><option value="">â Sin proyecto â</option>' + proyOpts + '</select></div>' +
+      '<select id="pd-proyecto" onchange="pptoDetalle.proyId=this.value;const pr=DB.proyectos.find(x=>x.id===this.value);pptoDetalle.proyNom=pr?pr.nom:\'\'"><option value="">Ã¢ÂÂ Sin proyecto Ã¢ÂÂ</option>' + proyOpts + '</select></div>' +
 
       '<div class="field"><label>Fecha</label>' +
       '<input id="pd-fecha" type="date" value="' + (p.fecha ? p.fecha.split('/').reverse().join('-') : '') + '" oninput="pptoDetalle.fecha=this.value.split(\'-\').reverse().join(\'/\')"></div>' +
@@ -528,14 +528,14 @@ function esc(s) { return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;
 
 function renderItemsEditorCliente(p) {
   const items = pptoAnalisisItems || p.items || [];
-  if (!items.length) return '<div style="text-align:center;padding:20px;color:var(--ink4);font-size:13px">Sin Ã­tems. AgregÃ¡ el primero.</div>';
+  if (!items.length) return '<div style="text-align:center;padding:20px;color:var(--ink4);font-size:13px">Sin ÃÂ­tems. AgregÃÂ¡ el primero.</div>';
 
   let html = '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">';
   items.forEach((item, idx) => {
     const isSec = item.tipo === 'seccion';
     if (isSec) {
       html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#1c1c1a">' +
-        '<input value="' + esc(item.desc||'') + '" placeholder="Nombre de secciÃ³n" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="flex:1;background:transparent;border:none;color:#fff;font-weight:700;font-size:13px">' +
+        '<input value="' + esc(item.desc||'') + '" placeholder="Nombre de secciÃÂ³n" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="flex:1;background:transparent;border:none;color:#fff;font-weight:700;font-size:13px">' +
         '<button onclick="moverItemDetalle(' + idx + ',-1)" style="background:none;border:none;cursor:pointer;color:#9a9a96;padding:2px 5px" title="Subir"><i class="fa fa-chevron-up"></i></button>' +
         '<button onclick="moverItemDetalle(' + idx + ',1)" style="background:none;border:none;cursor:pointer;color:#9a9a96;padding:2px 5px" title="Bajar"><i class="fa fa-chevron-down"></i></button>' +
         '<button onclick="eliminarItemDetalle(' + idx + ')" style="background:none;border:none;cursor:pointer;color:#e87171;padding:2px 5px"><i class="fa fa-times"></i></button>' +
@@ -543,7 +543,7 @@ function renderItemsEditorCliente(p) {
     } else {
       const c = calcItemNew(item);
       html += '<div style="display:grid;grid-template-columns:1fr 60px 120px 90px 70px 40px;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface)">' +
-        '<input value="' + esc(item.desc||'') + '" placeholder="DescripciÃ³n del Ã­tem" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
+        '<input value="' + esc(item.desc||'') + '" placeholder="DescripciÃÂ³n del ÃÂ­tem" oninput="pptoAnalisisItems[' + idx + '].desc=this.value" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
         '<input type="number" value="' + (item.cant||1) + '" min="1" step="1" oninput="pptoAnalisisItems[' + idx + '].cant=+this.value;renderDetallePpto()" style="font-size:13px;padding:5px;text-align:center;border:1px solid var(--border);border-radius:5px;width:100%">' +
         '<input type="number" value="' + (item.costo||0) + '" min="0" step="100" placeholder="P. unitario" oninput="pptoAnalisisItems[' + idx + '].costo=+this.value;renderDetallePpto()" style="font-size:13px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;width:100%">' +
         '<div style="font-size:12px;font-weight:700;color:var(--green);text-align:right;padding-right:4px">' + pesos(c.totalFinal) + '</div>' +
@@ -559,13 +559,13 @@ function renderItemsEditorCliente(p) {
 
   // Encabezado de columnas
   const header = '<div style="display:grid;grid-template-columns:1fr 60px 120px 90px 70px 40px;gap:6px;padding:6px 12px;background:var(--surface2);font-size:10px;font-weight:700;text-transform:uppercase;color:var(--ink3);letter-spacing:.5px">' +
-    '<span>DescripciÃ³n</span><span style="text-align:center">Cant.</span><span>P.Unit.</span><span style="text-align:right">Total</span><span></span><span></span>' +
+    '<span>DescripciÃÂ³n</span><span style="text-align:center">Cant.</span><span>P.Unit.</span><span style="text-align:right">Total</span><span></span><span></span>' +
     '</div>';
 
   return header + html +
     '<div style="display:flex;gap:8px;margin-top:10px">' +
-      '<button class="btn btn-secondary btn-sm" onclick="agregarItemDetalle()"><i class="fa fa-plus"></i> Ãtem</button>' +
-      '<button class="btn btn-secondary btn-sm" onclick="agregarSeccionDetalle()"><i class="fa fa-minus"></i> SecciÃ³n</button>' +
+      '<button class="btn btn-secondary btn-sm" onclick="agregarItemDetalle()"><i class="fa fa-plus"></i> ÃÂtem</button>' +
+      '<button class="btn btn-secondary btn-sm" onclick="agregarSeccionDetalle()"><i class="fa fa-minus"></i> SecciÃÂ³n</button>' +
     '</div>';
 }
 
@@ -575,7 +575,7 @@ function agregarItemDetalle() {
 }
 
 function agregarSeccionDetalle() {
-  pptoAnalisisItems.push({ id: nid(), tipo:'seccion', desc:'Nueva secciÃ³n' });
+  pptoAnalisisItems.push({ id: nid(), tipo:'seccion', desc:'Nueva secciÃÂ³n' });
   renderDetallePpto();
 }
 
@@ -592,7 +592,7 @@ function moverItemDetalle(idx, dir) {
   renderDetallePpto();
 }
 
-// ââ VISTA FACTURA (PresentaciÃ³n para cliente) ââ
+// Ã¢ÂÂÃ¢ÂÂ VISTA FACTURA (PresentaciÃÂ³n para cliente) Ã¢ÂÂÃ¢ÂÂ
 function renderVistaFactura(p) {
   const items = (pptoAnalisisItems||p.items||[]).filter(i => i.tipo === 'item');
   let itemsHTML = '';
@@ -602,7 +602,7 @@ function renderVistaFactura(p) {
     } else {
       const c = calcItemNew(item);
       itemsHTML += '<tr>' +
-        '<td style="padding:10px 14px;border-bottom:1px solid #e8e8e4;font-size:13px">' + esc(item.desc||'â') + '</td>' +
+        '<td style="padding:10px 14px;border-bottom:1px solid #e8e8e4;font-size:13px">' + esc(item.desc||'Ã¢ÂÂ') + '</td>' +
         '<td style="padding:10px 14px;border-bottom:1px solid #e8e8e4;text-align:center;font-size:13px">' + (item.cant||1) + '</td>' +
         '<td style="padding:10px 14px;border-bottom:1px solid #e8e8e4;text-align:right;font-size:13px">' + pesos(c.totalFinal/(item.cant||1)) + '</td>' +
         '<td style="padding:10px 14px;border-bottom:1px solid #e8e8e4;text-align:right;font-size:13px;font-weight:700">' + pesos(c.totalFinal) + '</td>' +
@@ -625,13 +625,13 @@ function renderVistaFactura(p) {
     '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px">' +
       '<div>' +
         '<div style="font-size:32px;font-weight:900;letter-spacing:-2px;color:#1c1c1a">' + empNom + '</div>' +
-        '<div style="font-size:10px;color:#9a9a96;letter-spacing:3px;text-transform:uppercase;margin-top:4px">DISEÃO DE INTERIORES</div>' +
+        '<div style="font-size:10px;color:#9a9a96;letter-spacing:3px;text-transform:uppercase;margin-top:4px">DISEÃÂO DE INTERIORES</div>' +
         '<div style="margin-top:10px;font-size:11px;color:#6b6b67;line-height:1.6">' + empNom + '<br>CUIT: ' + empCuit + '<br>' + empDir + '</div>' +
       '</div>' +
       '<div style="text-align:right">' +
         '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#9a9a96">' + (p.factura||'PRESUPUESTO') + '</div>' +
         '<div style="font-size:28px;font-weight:900;color:#2952d9;margin-top:4px;letter-spacing:-1px">' + (p.numero||'001') + '</div>' +
-        '<div style="font-size:12px;color:#6b6b67;margin-top:6px">Fecha: ' + (p.fecha||'â') + '</div>' +
+        '<div style="font-size:12px;color:#6b6b67;margin-top:6px">Fecha: ' + (p.fecha||'Ã¢ÂÂ') + '</div>' +
         (p.vencimiento ? '<div style="font-size:11px;color:#c0281e;margin-top:2px">Vence: ' + p.vencimiento + '</div>' : '') +
       '</div>' +
     '</div>' +
@@ -645,7 +645,7 @@ function renderVistaFactura(p) {
 
     '<table style="width:100%;border-collapse:collapse;margin-bottom:24px">' +
       '<thead><tr style="border-bottom:2px solid #1c1c1a">' +
-        '<th style="padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b6b67">DescripciÃ³n</th>' +
+        '<th style="padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b6b67">DescripciÃÂ³n</th>' +
         '<th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b6b67">Cant.</th>' +
         '<th style="padding:10px 14px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b6b67">P. Unit.</th>' +
         '<th style="padding:10px 14px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b6b67">Total</th>' +
@@ -668,7 +668,7 @@ function renderVistaFactura(p) {
     '</div>';
 }
 
-// ââ VISTA ANÃLISIS (Cotizador interno) ââ
+// Ã¢ÂÂÃ¢ÂÂ VISTA ANÃÂLISIS (Cotizador interno) Ã¢ÂÂÃ¢ÂÂ
 function renderVistaAnalisis(p) {
   const items = (pptoAnalisisItems||p.items||[]).filter(i => i.tipo === 'item');
 
@@ -763,19 +763,19 @@ function renderVistaAnalisis(p) {
         '<span style="font-size:28px;font-weight:900;color:#2952d9">TOTAL:</span>' +
         '<span style="font-size:32px;font-weight:900;color:#1a7a4a">' + pesos(tFinal) + '</span>' +
       '</div>' +
-      '<div style="margin-top:12px;font-size:12px;color:var(--ink3)">Ganancia: ' + pctGanancia + '% Â· ROI: ' + roi + '</div>' +
+      '<div style="margin-top:12px;font-size:12px;color:var(--ink3)">Ganancia: ' + pctGanancia + '% ÃÂ· ROI: ' + roi + '</div>' +
     '</div>' +
   '</div>';
 
   return '<div style="padding:20px 24px">' +
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
-      '<div style="font-size:14px;font-weight:700;color:#2952d9">ð Cotizador â todos los campos son editables en tiempo real</div>' +
-      '<button class="btn btn-secondary btn-sm" onclick="agregarItemDetalle()"><i class="fa fa-plus"></i> Agregar Ã­tem</button>' +
+      '<div style="font-size:14px;font-weight:700;color:#2952d9">Ã°ÂÂÂ Cotizador Ã¢ÂÂ todos los campos son editables en tiempo real</div>' +
+      '<button class="btn btn-secondary btn-sm" onclick="agregarItemDetalle()"><i class="fa fa-plus"></i> Agregar ÃÂ­tem</button>' +
     '</div>' +
     '<div style="overflow-x:auto;border:1px solid #e0e0da;border-radius:8px">' +
       '<table style="width:100%;border-collapse:collapse;min-width:1000px;background:#fff">' +
         '<thead><tr style="background:#f0f0ec">' +
-          '<th style="padding:10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;color:#6b6b67;border-bottom:2px solid #e0e0da;min-width:160px">DescripciÃ³n</th>' +
+          '<th style="padding:10px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;color:#6b6b67;border-bottom:2px solid #e0e0da;min-width:160px">DescripciÃÂ³n</th>' +
           '<th style="padding:10px 6px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;color:#6b6b67;border-bottom:2px solid #e0e0da">Cant.</th>' +
           '<th style="padding:10px 6px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;color:#6b6b67;border-bottom:2px solid #e0e0da">P. Unit.</th>' +
           '<th style="padding:10px 6px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;color:#2952d9;border-bottom:2px solid #e0e0da;background:#eef3fb">Total<br>Compra</th>' +
@@ -802,10 +802,10 @@ function renderVistaPagos(p, montoPagado, saldoPend, pct) {
   const pagos = p.pagosParciales || [];
   const rowsHTML = pagos.length
     ? pagos.map(pg => `<tr>
-        <td style=\"padding:10px 14px;font-size:12px\">${pg.fecha||'â'}</td>
+        <td style=\"padding:10px 14px;font-size:12px\">${pg.fecha||'Ã¢ÂÂ'}</td>
         <td style=\"padding:10px 14px;font-size:13px;font-weight:700;color:var(--green)\">${pesos(pg.monto)}</td>
-        <td style=\"padding:10px 14px\"><span class=\"badge b-gray\">${pg.medio||'â'}</span></td>
-        <td style=\"padding:10px 14px;font-size:12px;color:var(--ink3)\">${pg.notas||'â'}</td>
+        <td style=\"padding:10px 14px\"><span class=\"badge b-gray\">${pg.medio||'Ã¢ÂÂ'}</span></td>
+        <td style=\"padding:10px 14px;font-size:12px;color:var(--ink3)\">${pg.notas||'Ã¢ÂÂ'}</td>
         <td style=\"padding:10px 14px\">
           <button class=\"btn btn-sm\" style=\"color:var(--red)\" onclick=\"eliminarPagoParcial('${p.id}','${pg.id}')\"><i class=\"fa fa-trash\"></i></button>
         </td>
@@ -880,7 +880,7 @@ function registrarPagoParcial(pptoId) {
   const medioEl = document.getElementById('pago-medio-nuevo');
   const notasEl = document.getElementById('pago-notas-nuevo');
   const montoNum = parseFloat(montoEl?.value)||0;
-  if (!montoNum || montoNum <= 0) { alert('IngresÃ¡ un monto vÃ¡lido'); return; }
+  if (!montoNum || montoNum <= 0) { alert('IngresÃÂ¡ un monto vÃÂ¡lido'); return; }
 
   const p = DB.presupuestos.find(x => x.id === pptoId);
   if (!p) return;
@@ -900,13 +900,13 @@ function registrarPagoParcial(pptoId) {
   p.pagosParciales.push(nuevoPago);
   p.montoPagado = montoPagadoActual + montoNum;
 
-  // IntegraciÃ³n con Contabilidad: agregar cobro en DB.cobros
+  // IntegraciÃÂ³n con Contabilidad: agregar cobro en DB.cobros
   if (!DB.cobros) DB.cobros = [];
   const esPagoTotal = p.montoPagado >= (p.totalFinal||0) - 0.01;
   DB.cobros.push({
     id: 'co'+Date.now(),
     pptoId: pptoId,
-    cliente: p.cliente || 'â',
+    cliente: p.cliente || 'Ã¢ÂÂ',
     concepto: `Presupuesto ${p.numero||''}`,
     monto: montoNum,
     iva: 0,
@@ -926,7 +926,7 @@ function registrarPagoParcial(pptoId) {
 }
 
 function eliminarPagoParcial(pptoId, pagoId) {
-  if (!confirm('Â¿Eliminar este pago del historial?')) return;
+  if (!confirm('ÃÂ¿Eliminar este pago del historial?')) return;
   const p = DB.presupuestos.find(x => x.id === pptoId);
   if (!p) return;
   const pago = (p.pagosParciales||[]).find(x=>x.id===pagoId);
@@ -955,7 +955,7 @@ function cambiarEstadoPpto(id, nuevoEstado) {
   renderDetallePpto();
 }
 
-// ââ Guardar TODOS los cambios del presupuesto ââ
+// Ã¢ÂÂÃ¢ÂÂ Guardar TODOS los cambios del presupuesto Ã¢ÂÂÃ¢ÂÂ
 function guardarTodosPpto() {
   if (!pptoDetalle) return;
 
@@ -1001,7 +1001,7 @@ function guardarTodosPpto() {
 
 
 
-// ââ calcItemNew: fÃ³rmulas exactas del mapa ââ
+// Ã¢ÂÂÃ¢ÂÂ calcItemNew: fÃÂ³rmulas exactas del mapa Ã¢ÂÂÃ¢ÂÂ
 function calcItemNew(item) {
   // Si el campo es '' o null, usar default para el cálculo (pero mostrarlo vacío en el input)
   const cantidad = (item.cant === '' || item.cant == null) ? 1 : (parseInt(item.cant) || 1);
@@ -1015,56 +1015,43 @@ function calcItemNew(item) {
   const porcFlete  = rawFlete  > 1 ? rawFlete  / 100 : rawFlete;
   const porcMargen = rawMargen > 1 ? rawMargen / 100 : rawMargen;
 
-  // ── COMPRA ──────────────────────────────────────────────
-  // D = TOTAL PNG = precio unitario × cantidad
-  const totalCompra = precioUnitario * cantidad;
-  // E = IVA compra = D × IVA%
-  const ivaCompra = totalCompra * porcIva;
+  // ── COMPRA (columna D = TOTAL PNG) ───────────────────────────────────────────
+  const totalCompra = precioUnitario * cantidad;    // D = precio × cantidad
+  const ivaCompra   = totalCompra * porcIva;        // E = D × IVA%
 
-  // ── FLETE ────────────────────────────────────────────────
-  // H = Flete $ = D × Flete%
-  const flete = totalCompra * porcFlete;
-  // J = Seguro $ = D × 0.9% (fijo)
-  const seguroCompra = totalCompra * 0.009;
-  // K = IVA Flete = (H + J) × 21%  (IVA general, no 10.5%)
-  const ivaFlete = (flete + seguroCompra) * 0.21;
-  // L = Total Flete = H + J + K
-  const subtotalFlete = flete + seguroCompra + ivaFlete;
+  // ── FLETE (IVA del flete = 21%, no 10.5%) ───────────────────────────────────
+  const flete         = totalCompra * porcFlete;    // H = D × Flete%
+  const seguroCompra  = totalCompra * 0.009;        // J = D × 0.9%
+  const ivaFlete      = (flete + seguroCompra) * 0.21;  // K = (H+J) × 21%
+  const subtotalFlete = flete + seguroCompra + ivaFlete; // L = H+J+K
 
-  // ── SUB TOTAL ────────────────────────────────────────────
-  // M = Sub Total = D  (solo precio de compra, sin IVA ni flete)
-  const subTotal = totalCompra;
+  // ── SUB TOTAL = solo precio de compra (SIN IVA, SIN flete) ──────────────────
+  const subTotal = totalCompra;                     // M = D  (no incluye IVA ni flete)
 
-  // ── UTILIDAD ─────────────────────────────────────────────
-  // N = Margen $ = M × Margen%
-  const margen = subTotal * porcMargen;
+  // ── UTILIDAD ─────────────────────────────────────────────────────────────────
+  const margen = subTotal * porcMargen;             // N = M × Margen%
 
-  // ── VENTA — PRECIO NETO ──────────────────────────────────
-  // O = FACT A = M + N  (precio neto de venta, sin impuestos)
-  const factA = subTotal + margen;
-  const precioVentaNeto = factA;
+  // ── VENTA — PRECIO NETO (FACT A) ─────────────────────────────────────────────
+  const factA         = subTotal + margen;          // O = M + N  (precio neto sin impuestos)
+  const precioVentaNeto  = factA;
+  const precioNetoFactA  = factA;
 
-  // ── IVA VENTAS ───────────────────────────────────────────
-  // R = IVA Ventas = O × IVA%  (solo sobre FACT A, no sobre flete)
-  const ivaVenta = factA * porcIva;
+  // ── IVA VENTAS (sobre FACT A únicamente) ────────────────────────────────────
+  const ivaVenta = factA * porcIva;                 // R = O × IVA%
 
-  // ── IIBB ─────────────────────────────────────────────────
-  // S = IIBB (MORA)     = O × 3.5%
-  // T = IIBB (INFORMAT) = O × 3.5%
-  const iibbMora   = factA * 0.035;
-  const iibbInform = factA * 0.035;
-  const iibb = iibbMora;  // alias principal (MORA)
+  // ── IIBB (3.5% sobre FACT A) ─────────────────────────────────────────────────
+  // Columna MORA: IIBB que paga la empresa (se suma al precio)
+  // Columna INFORMAT: informativo para declaración ARCA/AFIP (mismo valor, NO se suma al total)
+  const iibb       = factA * 0.035;                 // S = O × 3.5%
+  const iibbMora   = iibb;
+  const iibbInform = iibb;   // solo informativo para ARCA, no suma al precio final
 
-  // ── FACT B ───────────────────────────────────────────────
-  // P = FACT B = O + R + S  (precio con IVA e IIBB, sin flete)
-  const factB = factA + ivaVenta + iibbMora;
-  const precioNetoFactA = factA;
+  // ── FACT B = FACT A + IVA venta + IIBB ───────────────────────────────────────
+  const factB           = factA + ivaVenta + iibb;  // P = O + R + S
   const precioNetoFactB = factB;
 
-  // ── TOTAL FINAL AL CLIENTE ───────────────────────────────
-  // Total = FACT B + IIBB Informat + Total Flete
-  const totalFinal = factB + iibbInform + subtotalFlete;
-
+  // ── TOTAL FINAL AL CLIENTE = FACT B + Total Flete ────────────────────────────
+  const totalFinal    = factB + subtotalFlete;      // = P + L
   const totalUnitario = cantidad > 0 ? totalFinal / cantidad : 0;
 
   return {
@@ -1076,7 +1063,7 @@ function calcItemNew(item) {
     ivaVenta, iibb, iibbMora, iibbInform,
     seguroVenta: 0,
     totalFinal, totalUnitario,
-    // aliases compatibilidad
+    // aliases compatibilidad con código anterior
     costoConFlete: subTotal,
     precioNetoUnit: factA / (cantidad||1),
     ivaUnit: ivaVenta / (cantidad||1),
