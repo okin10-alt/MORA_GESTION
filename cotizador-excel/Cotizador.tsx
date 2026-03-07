@@ -58,7 +58,8 @@ export default function Cotizador() {
     seguroPct: number,
     margenPct: number,
     ivaPct: number,
-    producto: string = ''
+    producto: string = '',
+    acCant: number = 1
   ): ItemCotizacion => {
     const C = compra;
     const V = cantidad;
@@ -111,7 +112,7 @@ export default function Cotizador() {
     const Z = C * SEGVD_PCT; // seg xVD (compra * 0.8%)
     const AA = (Y + Z) * 1.21; // (m3x2780 + segXVD) * 1.21
     const AB = U * 1.03; // Total Unit * 1.03
-    const AC = 1; // Cantidad adicional (editable)
+    const AC = acCant; // Cantidad adicional (editable - pasada como parámetro)
     const AD = AB * AC; // Total Unit+IB * acCant
     const AE = N * V; // Margen * cantidad
     const AF = K * V; // Total Flete * cantidad
@@ -157,7 +158,7 @@ export default function Cotizador() {
 
   const agregarItem = () => {
     // Valores por defecto del Excel: Flete 20%, Seguro 0.9%, Margen 30%, IVA 21%
-    const nuevoItem = calcularItem(0, 1, 0.21, 0.20, 0.009, 0.30, 0.21, '');
+    const nuevoItem = calcularItem(0, 1, 0.21, 0.20, 0.009, 0.30, 0.21, '', 1);
     setItems([...items, nuevoItem]);
   };
 
@@ -173,7 +174,7 @@ export default function Cotizador() {
     nuevosItems[index] = { ...itemActual, [field]: value };
     
     // Si el campo afecta cálculos, recalcular todo el item
-    if (['compra', 'cantidad', 'ivaCompraPct', 'fletePct', 'seguroPct', 'margenPct', 'ivaPct'].includes(field)) {
+    if (['compra', 'cantidad', 'ivaCompraPct', 'fletePct', 'seguroPct', 'margenPct', 'ivaPct', 'acCant'].includes(field)) {
       const itemRecalculado = calcularItem(
         field === 'compra' ? value : itemActual.compra,
         field === 'cantidad' ? value : itemActual.cantidad,
@@ -182,7 +183,8 @@ export default function Cotizador() {
         field === 'seguroPct' ? value : itemActual.seguroPct,
         field === 'margenPct' ? value : itemActual.margenPct,
         field === 'ivaPct' ? value : itemActual.ivaPct,
-        itemActual.producto
+        itemActual.producto,
+        field === 'acCant' ? value : itemActual.acCant
       );
       nuevosItems[index] = itemRecalculado;
     }
@@ -306,7 +308,7 @@ export default function Cotizador() {
           <tbody>
             {items.length === 0 ? (
               <tr>
-                <td colSpan={22} className="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                <td colSpan={34} className="border border-gray-300 px-4 py-8 text-center text-gray-500">
                   No hay items. Haz clic en "Agregar Item" para comenzar.
                 </td>
               </tr>
@@ -388,7 +390,7 @@ export default function Cotizador() {
                   
                   {/* VENTA */}
                   <td className="border border-black px-2 py-2 text-right">{pesos(item.precioNeto)}</td>
-                  <td className="border border-black px-2 py-2 text-right">{pesos(item.precioNeto)}</td>
+                  <td className="border border-black px-2 py-2 text-right">{pesos(item.precioConIva)}</td>
                   
                   {/* IVA */}
                   <td className="border border-black px-2 py-2 bg-green-50">
@@ -424,7 +426,16 @@ export default function Cotizador() {
                   <td className="border border-black px-2 py-2 text-right bg-blue-200 font-bold">{item.segXVD.toFixed(2)}</td>
                   <td className="border border-black px-2 py-2 text-right bg-red-500 text-white font-bold">{item.totalFleteConIva.toFixed(2)}</td>
                   <td className="border border-black px-2 py-2 text-right bg-yellow-100 font-bold">{item.totalUnitIB.toFixed(2)}</td>
-                  <td className="border border-black px-2 py-2 text-right bg-yellow-100 font-bold">{item.acCant.toFixed(2)}</td>
+                  <td className="border border-black px-2 py-2 bg-yellow-100">
+                    <input
+                      type="number"
+                      value={item.acCant}
+                      onChange={(e) => actualizarItem(index, 'acCant', parseFloat(e.target.value) || 1)}
+                      className="w-20 px-2 py-1 border border-gray-300 rounded text-center"
+                      min="0"
+                      step="0.01"
+                    />
+                  </td>
                   <td className="border border-black px-2 py-2 text-right bg-yellow-100 font-bold">{item.total.toFixed(2)}</td>
                   <td className="border border-black px-2 py-2 text-right bg-orange-200 font-bold">{item.margenTotal.toFixed(2)}</td>
                   <td className="border border-black px-2 py-2 text-right bg-orange-200 font-bold">{item.costosGralesVD.toFixed(2)}</td>
