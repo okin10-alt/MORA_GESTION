@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODELO FACTURA B</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --yellow: #FFFF00;
+    --orange: #FFC000;
+    --red: #FF0000;
+    --green-header: #A9D18E;
+    --blue-light: #BDD7EE;
+    --blue-mid: #9BC2E6;
+    --blue-cell: #DAEEF3;
+    --border: #999;
+    --bg: #f4f5f7;
+    --header-text: #1a1a2e;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Outfit', Calibri, sans-serif;
+    font-size: 11px;
+    background: var(--bg);
+    color: #222;
+    padding: 16px;
+  }
+
+  .sheet-wrapper {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    padding: 18px 12px 24px;
+  }
+
+  .top-header {
+    margin-bottom: 8px;
+    padding: 0 4px;
+  }
+  .top-header h1 { font-size: 15px; font-weight: 700; color: var(--header-text); }
+  .top-header p { font-size: 11px; color: #555; margin-top: 2px; }
+
+  table {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 3px 5px;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 11px;
+    height: 22px;
+  }
+
+  /* Editable input cells */
+  td input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: right;
+    font-size: 11px;
+    font-family: inherit;
+    padding: 0;
+    outline: none;
+  }
+  td input:focus {
+    background: #fffde7;
+    outline: 1px solid #4fc3f7;
+  }
+  td input.input-text {
+    text-align: left;
+  }
+
+  /* Computed (formula) cells */
+  td.calc {
+    background: #f9f9f9;
+    text-align: right;
+    color: #333;
+  }
+
+  /* Color classes */
+  .bg-yellow { background: var(--yellow) !important; }
+  .bg-orange { background: var(--orange) !important; }
+  .bg-red { background: var(--red) !important; color: #fff !important; }
+  .bg-green { background: var(--green-header) !important; }
+  .bg-blue-light { background: var(--blue-light) !important; }
+  .bg-blue-mid { background: var(--blue-mid) !important; }
+  .bg-blue-cell { background: var(--blue-cell) !important; }
+  .bg-white { background: #fff !important; }
+
+  .bold { font-weight: 700; }
+  .text-left { text-align: left !important; }
+  .text-right { text-align: right !important; }
+
+  /* Header rows */
+  tr.header-row th {
+    background: var(--green-header);
+    color: var(--header-text);
+    font-weight: 600;
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  /* Totals row */
+  tr.totals-row td {
+    background: #e8f5e9;
+    font-weight: 700;
+    border-top: 2px solid #333;
+  }
+
+  /* Summary section */
+  .summary-section td {
+    font-size: 11px;
+  }
+  .summary-section .label {
+    font-weight: 600;
+    text-align: left;
+    background: #fafafa;
+  }
+
+  tr.spacer-row td { border: none; height: 6px; background: transparent; }
+
+  .pct-input { width: 50px !important; }
+  .amt-input { width: 80px; }
+
+  /* Responsive scroll hint */
+  .scroll-hint {
+    text-align: center;
+    font-size: 10px;
+    color: #999;
+    padding: 4px;
+  }
+
+  /* Print */
+  @media print {
+    body { padding: 0; background: #fff; }
+    .sheet-wrapper { box-shadow: none; border-radius: 0; }
+    .scroll-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet-wrapper">
+  <div class="top-header">
+    <h1>MODELO FACTURA B</h1>
+    <p>C.U.I.T 30-00000000-0 &nbsp;|&nbsp; Contacto: &nbsp;|&nbsp; Fecha: 02/02/2026</p>
+    <p>N° Presupuesto: <input id="presupuesto" value="P-4279" style="border:none;border-bottom:1px solid #ccc;font-size:11px;width:80px;font-family:inherit;"></p>
+  </div>
+  <p class="scroll-hint">← Desplazar horizontalmente →</p>
+
+  <table id="facturaTable">
+    <thead>
+      <!-- Row 7: Main group headers -->
+      <tr class="header-row">
+        <th class="bg-yellow" rowspan="3" style="min-width:35px">ITEMS</th>
+        <th class="bg-yellow" rowspan="3" style="min-width:180px">Producto</th>
+        <th class="bg-green" colspan="3">COMPRA</th>
+        <th class="bg-green" colspan="6">FLETE</th>
+        <th class="bg-green">Sub Total</th>
+        <th class="bg-green" colspan="2">UTILIDAD</th>
+        <th class="bg-green" colspan="2">VENTA</th>
+        <th class="bg-green" colspan="2">IVA</th>
+        <th class="bg-green" colspan="2">MORA / INFORMAT</th>
+        <th class="bg-yellow" rowspan="3">Total Unit</th>
+        <th class="bg-yellow" rowspan="3">Cantidad</th>
+        <th class="bg-yellow" rowspan="3">Precio de Venta</th>
+        <th class="bg-blue-mid" rowspan="3">m3</th>
+        <th class="bg-blue-mid" rowspan="3">m3x2780</th>
+        <th class="bg-blue-mid" rowspan="2">seg xVD</th>
+        <th class="bg-red" rowspan="3">total flete con iva</th>
+        <th class="bg-yellow" rowspan="3">total Unit+IB</th>
+        <th class="bg-yellow" rowspan="3">cantidad</th>
+        <th class="bg-yellow" rowspan="3">total</th>
+        <th class="bg-orange" rowspan="3">margen total</th>
+        <th class="bg-orange" rowspan="3">costos grales vd</th>
+        <th class="bg-orange" rowspan="3">costos grales m3</th>
+        <th class="bg-orange" rowspan="3">costos gral compra</th>
+      </tr>
+      <!-- Row 8 -->
+      <tr class="header-row">
+        <th class="bg-green" rowspan="2">Precio Unit</th>
+        <th class="bg-green" rowspan="2">TOTAL PNG</th>
+        <th class="bg-green" rowspan="2">IVA</th>
+        <th class="bg-green" rowspan="2">Flete %</th>
+        <th class="bg-green" rowspan="2">Flete</th>
+        <th class="bg-green" rowspan="2">Seguro %</th>
+        <th class="bg-green" rowspan="2">seguro</th>
+        <th class="bg-green" rowspan="2">IVA</th>
+        <th class="bg-green" rowspan="2">Total flete</th>
+        <th class="bg-green" rowspan="2">&nbsp;</th>
+        <th class="bg-green" rowspan="2">Margen %</th>
+        <th class="bg-green" rowspan="2">Margen</th>
+        <th class="bg-green">PRECIO NETO</th>
+        <th class="bg-green">&nbsp;</th>
+        <th class="bg-green" rowspan="2">IVA %</th>
+        <th class="bg-green" rowspan="2">VTAS</th>
+        <th class="bg-green">IIBB</th>
+        <th class="bg-green">&nbsp;</th>
+      </tr>
+      <!-- Row 9 -->
+      <tr class="header-row">
+        <th class="bg-green">FACT A</th>
+        <th class="bg-green">FACT B</th>
+        <th class="bg-green"><input id="iibb_mora" value="3.5" style="width:35px;border:none;background:transparent;text-align:right;font-size:10px;font-weight:600;font-family:inherit;">%</th>
+        <th class="bg-green"><input id="iibb_informat" value="3.5" style="width:35px;border:none;background:transparent;text-align:right;font-size:10px;font-weight:600;font-family:inherit;">%</th>
+        <th class="bg-blue-mid">0.008</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody">
+      <!-- Data rows generated by JS -->
+    </tbody>
+  </table>
+
+  <!-- Collapse toggle -->
+  <div style="margin-top:12px;">
+    <button id="toggleSummary" onclick="toggleSummary()" style="
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      color: #444;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s;
+    " onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='#fff'">
+      <span id="toggleIcon" style="transition:transform .3s;display:inline-block;">▼</span>
+      <span id="toggleText">Ocultar resumen</span>
+    </button>
+  </div>
+
+  <!-- Summary Section -->
+  <div id="summarySection" style="margin-top:8px; display:flex; gap:24px; flex-wrap:wrap; overflow:hidden; transition: max-height 0.4s ease, opacity 0.3s ease; max-height:600px; opacity:1;">
+    <!-- Left summary: COMPRA breakdown -->
+    <table style="border-collapse:collapse; width:auto;" class="summary-section">
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">COMPRA</td><td id="sum_compra" class="calc" style="border:1px solid var(--border);padding:3px 8px;min-width:90px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">MARGEN</td><td id="sum_margen" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">FLETE</td><td id="sum_flete" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IIBB</td><td id="sum_iibb" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;border-top:2px solid #333;">SUBTOTAL</td><td id="sum_subtotal" class="calc" style="border:1px solid var(--border);padding:3px 8px;border-top:2px solid #333;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA VENTAS</td><td id="sum_ivaventas2" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;border-top:2px solid #333;">PRECIO FINAL</td><td id="sum_preciofinal" class="calc" style="border:1px solid var(--border);padding:3px 8px;border-top:2px solid #333;">0.00</td></tr>
+    </table>
+
+    <!-- Middle summary: IVA -->
+    <table style="border-collapse:collapse; width:auto;" class="summary-section">
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA VENTAS</td><td id="sum_iva_ventas" class="calc" style="border:1px solid var(--border);padding:3px 8px;min-width:90px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA COMPRAS</td><td id="sum_iva_compras" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA A PAGAR</td><td id="sum_iva_pagar" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+    </table>
+
+    <!-- VENTA / COSTO / GCIA -->
+    <table style="border-collapse:collapse; width:auto;" class="summary-section">
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">VENTA</td><td id="sum_venta_k" class="calc" style="border:1px solid var(--border);padding:3px 8px;min-width:90px;">0.00</td>
+          <td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">VENTA</td><td id="sum_venta_n" class="calc" style="border:1px solid var(--border);padding:3px 8px;min-width:90px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">COSTO</td><td id="sum_costo_k" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td>
+          <td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">COSTO</td><td id="sum_costo_n" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">GCIA</td><td id="sum_gcia_k" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td>
+          <td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">GCIA</td><td id="sum_gcia_n" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">EN %</td><td id="sum_pct_k" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00%</td>
+          <td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">EN %</td><td id="sum_pct_n" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00%</td></tr>
+      <tr><td colspan="4" style="border:none; height:4px;"></td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">ROI</td><td id="sum_roi" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00%</td>
+          <td colspan="2" style="border:none;"></td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">RAE</td><td id="sum_rae" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00%</td>
+          <td colspan="2" style="border:none;"></td></tr>
+    </table>
+
+    <!-- Right: Descuento / IVA venta -->
+    <table style="border-collapse:collapse; width:auto;" class="summary-section">
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">Dto IVA %:</td><td id="dto_r" class="calc" style="border:1px solid var(--border);padding:3px 8px;min-width:70px;">0.00</td>
+          <td id="dto_s" class="calc" style="border:1px solid var(--border);padding:3px 8px;min-width:70px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">Importe Total:</td><td colspan="2" id="imp_total" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">DESCUENTO:</td>
+          <td style="border:1px solid var(--border);padding:3px 8px;"><input id="descuento_pct" value="10" style="width:40px;border:none;text-align:right;font-size:11px;font-family:inherit;" >%</td>
+          <td id="descuento_val" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">Con Descuento:</td><td colspan="2" id="con_descuento" class="calc bold" style="border:1px solid var(--border);padding:3px 8px;background:#e8f5e9;">0.00</td></tr>
+      <tr><td colspan="3" style="border:none; height:4px;"></td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">iva</td><td colspan="2" id="iva_cd" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">iibb</td><td colspan="2" id="iibb_cd" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td colspan="3" style="border:none; height:4px;"></td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA VENTAS</td><td colspan="2" id="p_ivaventas" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA COMPRAS</td><td colspan="2" id="p_ivacompras" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+      <tr><td class="label bold" style="border:1px solid var(--border);padding:3px 8px;">IVA A PAGAR</td><td colspan="2" id="p_ivapagar" class="calc" style="border:1px solid var(--border);padding:3px 8px;">0.00</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+const NUM_ROWS = 21;
+const IVA_RATE = 0.21;
+const Z9 = 0.008;
+
+// Column indices matching Excel: A=0, B=1, C=2, ..., AH=33
+// Editable per row: B(product name), C(precio unit), F(flete%), H(seguro%), M(margen%), Q(iva%), V(cantidad), X(m3)
+// Also AC(cantidad2) is editable
+
+function createDataRows() {
+  const tbody = document.getElementById('dataBody');
+  for (let i = 0; i < NUM_ROWS; i++) {
+    const row = i + 1; // Item number
+    const tr = document.createElement('tr');
+    tr.id = `row_${i}`;
+
+    // A: ITEMS (item number)
+    tr.innerHTML = `
+      <td class="bold">${row}</td>
+      <td><input class="input-text" data-r="${i}" data-c="B" value="" placeholder="Producto..."></td>
+      <td class="bg-blue-cell"><input data-r="${i}" data-c="C" value="0" class="amt-input"></td>
+      <td class="calc" id="D_${i}">0.00</td>
+      <td class="calc" id="E_${i}">0.00</td>
+      <td><input data-r="${i}" data-c="F" value="20" class="pct-input" style="text-align:right;">%</td>
+      <td class="calc" id="G_${i}">0.00</td>
+      <td><input data-r="${i}" data-c="H" value="0.9" class="pct-input" style="text-align:right;">%</td>
+      <td class="calc" id="I_${i}">0.00</td>
+      <td class="calc" id="J_${i}">0.00</td>
+      <td class="calc" id="K_${i}">0.00</td>
+      <td class="calc" id="L_${i}">0.00</td>
+      <td class="bg-blue-cell"><input data-r="${i}" data-c="M" value="30" class="pct-input" style="text-align:right;">%</td>
+      <td class="calc" id="N_${i}">0.00</td>
+      <td class="calc" id="O_${i}">0.00</td>
+      <td class="calc" id="P_${i}">0.00</td>
+      <td><input data-r="${i}" data-c="Q" value="21" class="pct-input" style="text-align:right;">%</td>
+      <td class="calc" id="R_${i}">0.00</td>
+      <td class="calc bg-white" id="S_${i}" colspan="2">0.00</td>
+      <td class="calc" id="U_${i}">0.00</td>
+      <td class="bg-blue-cell"><input data-r="${i}" data-c="V" value="1" style="width:50px;border:none;background:transparent;text-align:right;font-size:11px;font-family:inherit;"></td>
+      <td class="calc bg-white" id="W_${i}">0.00</td>
+      <td class="calc bg-blue-mid" id="X_${i}">0.42</td>
+      <td class="calc bg-blue-mid" id="Y_${i}">0.00</td>
+      <td class="calc bg-blue-mid" id="Z_${i}">0.00</td>
+      <td class="calc bg-red" id="AA_${i}">0.00</td>
+      <td class="calc bg-yellow" id="AB_${i}">0.00</td>
+      <td class="bg-yellow"><input data-r="${i}" data-c="AC" value="1" style="width:40px;border:none;background:transparent;text-align:right;font-size:11px;font-family:inherit;"></td>
+      <td class="calc bg-yellow" id="AD_${i}">0.00</td>
+      <td class="calc bg-orange" id="AE_${i}">0.00</td>
+      <td class="calc bg-orange" id="AF_${i}">0.00</td>
+      <td class="calc bg-orange" id="AG_${i}">0.00</td>
+      <td class="calc bg-orange" id="AH_${i}">0.00</td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  // Totals row
+  const totalsRow = document.createElement('tr');
+  totalsRow.className = 'totals-row';
+  totalsRow.innerHTML = `
+    <td colspan="2" class="bold text-right">TOTALES</td>
+    <td class="calc bold" id="T_C">0.00</td>
+    <td class="calc bold" id="T_D">0.00</td>
+    <td class="calc bold" id="T_E">0.00</td>
+    <td></td><td></td><td></td><td></td>
+    <td class="calc bold" id="T_J">0.00</td>
+    <td class="calc bold" id="T_K">0.00</td>
+    <td class="calc bold" id="T_L">0.00</td>
+    <td></td>
+    <td class="calc bold" id="T_N">0.00</td>
+    <td class="calc bold" id="T_O">0.00</td>
+    <td class="calc bold" id="T_P">0.00</td>
+    <td></td>
+    <td class="calc bold" id="T_R">0.00</td>
+    <td class="calc bold" id="T_S" colspan="2">0.00</td>
+    <td class="calc bold" id="T_U">0.00</td>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    <td class="calc bold bg-orange" id="T_AE">0.00</td>
+    <td></td><td></td><td></td>
+  `;
+  tbody.appendChild(totalsRow);
+}
+
+function getVal(r, col) {
+  const inp = document.querySelector(`input[data-r="${r}"][data-c="${col}"]`);
+  if (!inp) return 0;
+  return parseFloat(inp.value) || 0;
+}
+
+function fmt(v) {
+  if (!isFinite(v)) return '#DIV/0!';
+  return v.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtPct(v) {
+  if (!isFinite(v)) return '#DIV/0!';
+  return (v * 100).toFixed(2) + '%';
+}
+
+function setCell(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = fmt(val);
+}
+
+function recalc() {
+  let totals = { C:0, D:0, E:0, J:0, K:0, L:0, N:0, O:0, P:0, R:0, U:0, W:0, AE:0 };
+  const IIBB_MORA = (parseFloat(document.getElementById('iibb_mora').value) || 0) / 100;
+  const IIBB_INFORMAT = (parseFloat(document.getElementById('iibb_informat').value) || 0) / 100;
+  const IIBB_RATE = IIBB_MORA; // S column uses MORA rate
+
+  for (let i = 0; i < NUM_ROWS; i++) {
+    const C = getVal(i, 'C');          // Precio unitario
+    const V = getVal(i, 'V');          // Cantidad
+    const F_pct = getVal(i, 'F') / 100; // Flete %
+    const H_pct = getVal(i, 'H') / 100; // Seguro %
+    const M_pct = getVal(i, 'M') / 100; // Margen %
+    const Q_pct = getVal(i, 'Q') / 100; // IVA %
+    const AC = getVal(i, 'AC');        // cantidad2
+
+    // Formulas (matching Excel exactly)
+    const D = C * V;                     // TOTAL PNG = PrecioUnit * Cantidad
+    const E = D * IVA_RATE;              // IVA compra
+    const G = D * F_pct;                 // Flete
+    const I = D * H_pct;                 // Seguro
+    const J = (G + I) * IVA_RATE;        // IVA flete
+    const K = G + I + J;                 // Total flete
+    const L = D;                         // Sub Total = D
+    const N = L * M_pct;                 // Margen
+    const O = L + N;                     // Precio Neto FACT A
+    const S = O * IIBB_RATE;             // IIBB
+    const R = (O + S + K) * Q_pct;       // IVA ventas
+    const P = O + R + S;                 // FACT B
+    const U = V !== 0 ? (P + S + K) / V : 0; // Total Unit
+    const W = U * V;                     // Precio de Venta
+
+    // m3 columns
+    const X = 0.6 * 0.7 * 1;            // = 0.42 fixed
+    const Y = X * 2780;
+    const Z = C * Z9;
+    const AA = (Y + Z) * 1.21;
+    const AB = U * 1.03;
+    const AD = AB * AC;
+    const AE = N * V;
+    const AF = K * V;
+    const AG = AA * AC;
+    const AH = (C + R) * V;
+
+    setCell(`D_${i}`, D);
+    setCell(`E_${i}`, E);
+    setCell(`G_${i}`, G);
+    setCell(`I_${i}`, I);
+    setCell(`J_${i}`, J);
+    setCell(`K_${i}`, K);
+    setCell(`L_${i}`, L);
+    setCell(`N_${i}`, N);
+    setCell(`O_${i}`, O);
+    setCell(`P_${i}`, P);
+    setCell(`R_${i}`, R);
+    setCell(`S_${i}`, S);
+    setCell(`U_${i}`, U);
+    setCell(`W_${i}`, W);
+    document.getElementById(`X_${i}`).textContent = fmt(X);
+    setCell(`Y_${i}`, Y);
+    setCell(`Z_${i}`, Z);
+    setCell(`AA_${i}`, AA);
+    setCell(`AB_${i}`, AB);
+    setCell(`AD_${i}`, AD);
+    setCell(`AE_${i}`, AE);
+    setCell(`AF_${i}`, AF);
+    setCell(`AG_${i}`, AG);
+    setCell(`AH_${i}`, AH);
+
+    totals.C += C; totals.D += D; totals.E += E; totals.J += J;
+    totals.K += K; totals.L += L; totals.N += N; totals.O += O;
+    totals.P += P; totals.R += R; totals.U += U; totals.W += W;
+    totals.AE += AE;
+  }
+
+  // Totals row
+  setCell('T_C', totals.C);
+  setCell('T_D', totals.D);
+  setCell('T_E', totals.E);
+  setCell('T_J', totals.J);
+  setCell('T_K', totals.K);
+  setCell('T_L', totals.L);
+  setCell('T_N', totals.N);
+  setCell('T_O', totals.O);
+  setCell('T_P', totals.P);
+  setCell('T_R', totals.R);
+  setCell('T_U', totals.U);
+  setCell('T_AE', totals.AE);
+
+  // S31 = W32 * 0.035
+  const W32 = totals.W;
+  const S31 = W32 * IIBB_RATE;
+  setCell('T_S', S31);
+
+  // Summary calculations
+  const dtoPct = (parseFloat(document.getElementById('descuento_pct').value) || 0) / 100;
+  const W33 = W32 * dtoPct;
+  const W34 = W32 - W33;
+  const R31 = totals.R;
+  const E31 = totals.E;
+  const J31 = totals.J;
+  const K31 = totals.K;
+  const N31 = totals.N;
+  const D31 = totals.D;
+  const H34_iva_ventas = R31;
+  const H35_iva_compras = E31 + J31;
+  const H36_iva_pagar = H34_iva_ventas - H35_iva_compras;
+  const R32 = R31 * dtoPct;
+  const S32_val = S31 * dtoPct;
+
+  // VENTA / COSTO / GCIA (K column in Excel)
+  const K34_venta = W32;
+  const K35_costo = D31 + E31 + S31 + K31 + H36_iva_pagar;
+  const K36_gcia = K34_venta - K35_costo;
+  const K37_pct = K35_costo !== 0 ? K36_gcia / K35_costo : Infinity;
+
+  // VENTA / COSTO / GCIA (N column - con descuento)
+  const N34_venta = W34;
+  const N35_costo = K35_costo - R32 - S32_val;
+  const N36_gcia = N34_venta - N35_costo;
+  const N37_pct = N35_costo !== 0 ? N36_gcia / N35_costo : Infinity;
+
+  // D column summary
+  const D34 = D31;
+  const D35 = N31;
+  const D36 = K31;
+  const D37 = S31;
+  const D38 = D34 + D35 + D36 + D37;
+  const D39 = R31;
+  const D40 = D38 + D39;
+
+  const ROI_val = D38 !== 0 ? (K34_venta - D38) / D38 : Infinity;
+  const RAE_val = K35_costo !== 0 ? K36_gcia / K35_costo : Infinity;
+
+  // P column: iva/iibb sobre con descuento
+  const Q34_iva = W34 * 0.21;
+  const Q35_iibb = W34 * 0.035;
+  const Q37_ivaventas = Q34_iva;
+  const Q38_ivacompras = H35_iva_compras;
+  const Q39_ivapagar = Q37_ivaventas - Q38_ivacompras;
+
+  // Update summary DOM
+  document.getElementById('sum_compra').textContent = fmt(D34);
+  document.getElementById('sum_margen').textContent = fmt(D35);
+  document.getElementById('sum_flete').textContent = fmt(D36);
+  document.getElementById('sum_iibb').textContent = fmt(D37);
+  document.getElementById('sum_subtotal').textContent = fmt(D38);
+  document.getElementById('sum_ivaventas2').textContent = fmt(D39);
+  document.getElementById('sum_preciofinal').textContent = fmt(D40);
+
+  document.getElementById('sum_iva_ventas').textContent = fmt(H34_iva_ventas);
+  document.getElementById('sum_iva_compras').textContent = fmt(H35_iva_compras);
+  document.getElementById('sum_iva_pagar').textContent = fmt(H36_iva_pagar);
+
+  document.getElementById('sum_venta_k').textContent = fmt(K34_venta);
+  document.getElementById('sum_costo_k').textContent = fmt(K35_costo);
+  document.getElementById('sum_gcia_k').textContent = fmt(K36_gcia);
+  document.getElementById('sum_pct_k').textContent = fmtPct(K37_pct);
+
+  document.getElementById('sum_venta_n').textContent = fmt(N34_venta);
+  document.getElementById('sum_costo_n').textContent = fmt(N35_costo);
+  document.getElementById('sum_gcia_n').textContent = fmt(N36_gcia);
+  document.getElementById('sum_pct_n').textContent = fmtPct(N37_pct);
+
+  document.getElementById('sum_roi').textContent = fmtPct(ROI_val);
+  document.getElementById('sum_rae').textContent = fmtPct(RAE_val);
+
+  document.getElementById('dto_r').textContent = fmt(R32);
+  document.getElementById('dto_s').textContent = fmt(S32_val);
+  document.getElementById('imp_total').textContent = fmt(W32);
+  document.getElementById('descuento_val').textContent = fmt(W33);
+  document.getElementById('con_descuento').textContent = fmt(W34);
+
+  document.getElementById('iva_cd').textContent = fmt(Q34_iva);
+  document.getElementById('iibb_cd').textContent = fmt(Q35_iibb);
+  document.getElementById('p_ivaventas').textContent = fmt(Q37_ivaventas);
+  document.getElementById('p_ivacompras').textContent = fmt(Q38_ivacompras);
+  document.getElementById('p_ivapagar').textContent = fmt(Q39_ivapagar);
+}
+
+// Init
+createDataRows();
+recalc();
+
+// Auto-recalc on any input change
+document.addEventListener('input', recalc);
+
+// Collapsible summary
+let summaryVisible = true;
+function toggleSummary() {
+  const section = document.getElementById('summarySection');
+  const icon = document.getElementById('toggleIcon');
+  const text = document.getElementById('toggleText');
+  summaryVisible = !summaryVisible;
+  if (summaryVisible) {
+    section.style.maxHeight = '600px';
+    section.style.opacity = '1';
+    icon.style.transform = 'rotate(0deg)';
+    text.textContent = 'Ocultar resumen';
+  } else {
+    section.style.maxHeight = '0';
+    section.style.opacity = '0';
+    icon.style.transform = 'rotate(-90deg)';
+    text.textContent = 'Mostrar resumen';
+  }
+}
+</script>
+</body>
+</html>
